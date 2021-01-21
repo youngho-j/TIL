@@ -44,3 +44,24 @@
    
 <hr/>   
    
+깃허브 저장소를 로컬에 내려받기
+-----------------------------
+    
+<p align="center"> <img src="/img/github/downloadRepository_1.png" width="90%" height="60%" title="저장소다운로드사진1"> </img> </p>    
+    
+1. Quick setup HTTPS 코드 복사 (처음 만들었을경우) or Code 버튼 클릭 HTTPS 코드 복사(기존 만들어진 폴더인경우)
+   - 코드 예시 : https:// github.com / 이름 / 저장소 .git
+   
+<p align="center"> <img src="/img/github/downloadRepository_2.png" width="90%" height="60%" title="저장소다운로드사진2"> </img> </p>    
+    
+1. 저장소를 내려받을 폴더에서 마우스 우클릭   
+2. Git Bash Here 클릭   
+   
+<p align="center"> <img src="/img/github/downloadRepository_3.png" width="90%" height="60%" title="저장소다운로드사진3"> </img> </p>    
+    
+1. Git Bash 창에서 git clone 복사한 https 코드 붙여넣기(우클릭 Paste)후 엔터   
+   - 명령어 : git clone 복사한 저장소 주소
+   
+<p align="center"> <img src="/img/github/downloadRepository_4.png" width="90%" height="60%" title="저장소다운로드사진4"> </img> </p> 
+    
+- 복사 완료!
