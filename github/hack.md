@@ -36,10 +36,10 @@
 1. 저장소 이름 작성   
 2. 저장소 설명 작성    
    - 아래에 Public, Private 선택 -> Public으로 설정(기본값) / Private는 비공개 저장소 : 유료 서비스    
-   - Initialize this repository with a README -> 저장소 생성과 동시에 README.md 파일 생성     
+   - Add a README file -> 저장소 생성과 동시에 README.md 파일 생성     
    / README.md : 저장소 대표 문서(소개, 설명 등)    
    - Add .gitignore : 깃에 업로드시 제외할 파일/디렉토리를 명시하는 파일     
-   - Add a license : 해당 프로그램/자료의 라이센스를 지정
+   - Chaoose a license : 해당 프로그램/자료의 라이센스를 지정   
 3. Create repository 버튼 클릭    
    
 <hr/>   
