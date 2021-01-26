@@ -217,6 +217,8 @@
    - 참고
      * String constant pool은 Heap area에 포함된 공간!
      * String class의 .intern() 메소드를 사용시 heap area에 할당된 값을 String constant pool에 등록 가능
+     * 사진
+       <p align="center"><img src="/img/Java/String_differ_newString.png" width="60%" height="40%" title="String str = new String(" ") / String str = " " 차이"> </img> </p> 
    - Reference   
      * https://www.journaldev.com/797/what-is-java-string-pool
      * https://qssdev.tistory.com/38
