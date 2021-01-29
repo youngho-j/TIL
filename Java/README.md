@@ -261,14 +261,14 @@
       <table>
    - 예제
      * 클래스변수와 인스턴스변수
-       <p align="center"><img src="/img/Java/static_ variable.png" width="60%" height="40%" title="클래스변수와 인스턴스변수"></img></p>
+       <p align="center"><img src="/img/Java/static_ variable.png" width="100%" height="60%" title="클래스변수와 인스턴스변수"></img></p>
      * 클래스메서드와 인스턴스메서드
-       <p align="center"><img src="/img/Java/static_ method.png" width="60%" height="40%" title="클래스 메서드와 인스턴스 메서드"></img></p>
+       <p align="center"><img src="/img/Java/static_ method.png" width="100%" height="110%" title="클래스 메서드와 인스턴스 메서드"></img></p>
    - 클래스 멤버와 인스턴스 멤버 참조, 호출
      ```
      * 같은 클래스에 속한 멤버들간에는 별도의 인스턴스 생성하지 않고 서로 참조 또는 호출 가능
        - 단, 클래스 멤버가 인스턴스멤버를 참조 또는 호출 시 인스턴스 생성 필요!! 
-         왜? 클래스 멤버 존재 시 인스턴스멤버가 항상 존재한다는 것을 보장할 수 없어서)
+         왜? 클래스 멤버 존재 시 인스턴스멤버가 항상 존재한다는 것을 보장할 수 없어서
          
      * 클래스 멤버(클래스 변수와 클래스 메서드)는 언제나 참조 또는 호출 가능
        - 인스턴스 멤버가 클래스 멤버를 참조, 호출 가능
