@@ -55,3 +55,32 @@
   - https://ko.wikipedia.org/wiki/%EB%B9%84%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C_%EA%B8%B0%ED%95%98%ED%95%99
   - https://st-lab.tistory.com/89?category=844846
   - https://m.blog.naver.com/alwaysneoi/100172516753
+
+# 두 원의 위치 관계
+  - D = 두 원의 중심 사이의 거리 => D(T₁, T₂)² = (𝑥₁ - 𝑥₂)² + (y₁ - y₂)²
+  - 만나지 않는 경우
+    * 외부에서 만나지 않는 경우
+      ```
+      - d > r + r¹
+    * 내부에 포함되는 경우
+      ```
+      - d < r - r¹
+    * 동심원(두원의 중심이 같은 원)인 경우
+      ```
+      - d = 0
+  - 한 점에서만 만나는 경우
+    * 외접
+      ```
+      - d = r + r¹
+    * 내접
+      ```
+      - d = r - r¹
+  - 두 점에서 만나는 경우
+    ```
+    - r - r¹ < d < r + r¹
+ 
+## Reference
+  - https://st-lab.tistory.com/90?category=844846#recentComments
+  - https://namu.wiki/w/%EC%9B%90(%EB%8F%84%ED%98%95)#s-5
+  - https://iseunghan.tistory.com/186
+  
