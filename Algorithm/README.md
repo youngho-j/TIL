@@ -6,14 +6,14 @@
   - stack overflow를 방지하기 위해 종료조건이 꼭 포함 되어어야함 
   
   - 실행 예제(팩토리얼)
-    ~~~j
+    ~~~ java
 	  public static void main(String[] args) throws IOException {
 		  BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		  int num = Integer.parseInt(br.readLine());
 		  System.out.println(recursive(num));
 	  }
     ~~~
-    ~~~j
+    ~~~ java
     public static int recursive(int n) {
       if(n <= 1) {
         return 1;
