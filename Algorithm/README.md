@@ -62,3 +62,17 @@
 ## Reference
   - https://namu.wiki/w/%EB%B6%84%ED%95%A0%20%EC%A0%95%EB%B3%B5%EB%B2%95
   - https://kimch3617.tistory.com/entry/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EB%B6%84%ED%95%A0%EC%A0%95%EB%B3%B5%EB%B2%95-Divide-and-Conquer
+
+# 하노이의 탑 
+  - 1883년 프랑스 수학자 에두아르 뤼카가 소개한 문제
+    <이미지 추가 Tower_of_Hanoi.jpeg>
+  - 재귀 호출을 이용하여 풀 수 있는 가장 유명한 예제 중 하나
+  - 아래 두 가지 조건을 만족시키면서, 한 기둥에 꽂힌 원판들을 그 순서 그대로 다른 기둥으로 옮겨서 다시 쌓는 것
+    1. 한 번에 하나의 원판만 옮길 수 있으며, 막대에서 막대로만 움직일 수 있다.
+    2. 큰 원판이 작은 원판 위에 있어서는 안 된다.
+  - 이동 횟수 구하기
+    
+    
+## Reference
+  - https://ko.wikipedia.org/wiki/%ED%95%98%EB%85%B8%EC%9D%B4%EC%9D%98_%ED%83%91
+  - https://kimch3617.tistory.com/entry/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EB%B6%84%ED%95%A0%EC%A0%95%EB%B3%B5%EB%B2%95-Divide-and-Conquer
