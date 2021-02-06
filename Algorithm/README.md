@@ -139,3 +139,36 @@
   - http://blog.naver.com/PostView.nhn?blogId=2gumin14&logNo=221060149259
   - https://st-lab.tistory.com/96?category=852877
   - https://shoark7.github.io/programming/algorithm/tower-of-hanoi
+  
+# 브루트 포스(Brute Force) 알고리즘
+
+  - 문제를 해결하기 위해 **가능한 모든 경우**에 대해 모두 직접 해보는 방법
+    → 완전 탐색 알고리즘
+  - 설계 시, '답이 하나 이상 존재한다' 라는 가정을 세우고 모든 경우 탐색
+  - 종류
+    * 선형 구조 (자료를 구성하는 데이터를 순차적으로 나열 시킨 형태)
+      1. 순차 탐색
+      ```
+      - 데이터가 모인 데이터 배열의 처음부터 끝까지 차례대로 비교하여 원하는 데이터를 찾아내는 것
+      
+      - 단방향으로 탐색을 진행 → '선형 탐색'  
+      
+      - 데이터를 따로 조작 할 필요가 없음 → 단순하며, 구현이 쉬움  
+      
+      - 데이터가 많은 경우 비교해야할 대상이 많아 짐 → 비효율적임  
+      
+      - 시간 복잡도(탐색 대상 요소 n개로 가정)
+        → 최선의 경우 (비교 연산 횟수 1) → 대부분 긍정적인 결과가 나옴 
+        → 평균의 경우 (비교 연산 횟수 1) → 광범위한 자료를 수집해야 하기 때문에 최악의 경우를 많이 따짐 
+        → 최악의 경우 (비교 연산 횟수 n) → 데이터 수가 n개 일 때, 연산 횟수는 n이라고 볼 수 있음
+        즉, T(n) = n
+      ```
+    * 비선형 구조 (하나의 자료 뒤에 여러개의 자료가 존재 할 수 잇는 것)
+      1. BFS(넓이 우선 탐색)
+      2. DFS(깊이 우선 탐색)
+## Reference
+  - https://steemit.com/kr-dev/@gyeryak/easyalgo-2-bruteforce
+  - https://allg.tistory.com/29
+  - https://bite-sized-learning.tistory.com/225
+  - https://blog.hexabrain.net/245
+
