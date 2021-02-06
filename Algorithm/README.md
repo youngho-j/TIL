@@ -1,3 +1,10 @@
+# 목차
+  - [재귀 알고리즘](#재귀-알고리즘)
+  - [분할 정복법](#분할-정복법)
+  - [하노이의 탑](#하노이의-탑)
+  - [브루트 포스 알고리즘](#브루트-포스-알고리즘)
+  - [삽입정렬](#삽입정렬)
+***
 # 재귀 알고리즘 
   - 재귀 함수 : 어떤 함수 내에서 자기 자신(함수)을 다시 호출하여 작업을 수행하는 방식의 함수   
     → 함수를 연이어 호출 시 스택처럼 메모리에 쌓임(push)   
@@ -34,7 +41,7 @@
 ## Reference
   - https://gomguard.tistory.com/111
   - https://smile2x.tistory.com/entry/%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EC%9D%98-%EC%9B%90%EB%A6%AC-%EB%B0%8F-%EB%8F%99%EC%9E%91
-   
+***
 # 분할 정복법
   - 여러 알고리즘의 기본이 되는 해결 방법
   - 엄청나게 크고 방대한 문제를 조금씩 나눠가면서 용이하게 풀 수 있는 문제 단위로 나눈 뒤 그것들을 다시 합하여 해결   
@@ -62,7 +69,7 @@
 ## Reference
   - https://namu.wiki/w/%EB%B6%84%ED%95%A0%20%EC%A0%95%EB%B3%B5%EB%B2%95
   - https://kimch3617.tistory.com/entry/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EB%B6%84%ED%95%A0%EC%A0%95%EB%B3%B5%EB%B2%95-Divide-and-Conquer
-
+***
 # 하노이의 탑 
   - 1883년 프랑스 수학자 에두아르 뤼카가 소개한 문제
     <p align="center"><img src="/img/Algorithm/Tower_of_Hanoi.jpeg" width="50%" height="60%" title="하노이탑"></img></p>
@@ -139,8 +146,8 @@
   - http://blog.naver.com/PostView.nhn?blogId=2gumin14&logNo=221060149259
   - https://st-lab.tistory.com/96?category=852877
   - https://shoark7.github.io/programming/algorithm/tower-of-hanoi
-  
-# 브루트 포스(Brute Force) 알고리즘
+*** 
+# 브루트 포스 알고리즘
 
   - 문제를 해결하기 위해 **가능한 모든 경우**에 대해 모두 직접 해보는 방법
     → 완전 탐색 알고리즘
@@ -171,11 +178,11 @@
   - https://allg.tistory.com/29
   - https://bite-sized-learning.tistory.com/225
   - https://blog.hexabrain.net/245
-
+***
 # 삽입정렬
 
   - **손안의 카드를 정렬하는 방법과 유사**    
-    <p align="center"><img src="/img/Algorithm/Insertion_Sort.gif" width="100%" height="100%" title="삽입정렬 이미지"></img></p>  
+    <p align="center"><img src="/img/Algorithm/Insertion_Sort.gif" width="40%" height="50%" title="삽입정렬 이미지"></img></p>  
   
   - 자료 배열의 모든 요소를 앞에서부터 차례대로 이미 정렬된 배열부분과 비교하여  
     자신의 위치를 찾아 삽입하여 정렬 완성하는 알고리즘
@@ -206,3 +213,4 @@
   - https://zeddios.tistory.com/20
   - https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html
   - http://blog.naver.com/PostView.nhn?blogId=redwave102&logNo=80073417047
+***
