@@ -145,7 +145,7 @@
   - 문제를 해결하기 위해 **가능한 모든 경우**에 대해 모두 직접 해보는 방법
     → 완전 탐색 알고리즘
   - 설계 시, '답이 하나 이상 존재한다' 라는 가정을 세우고 모든 경우 탐색
-  - 종류
+  - 구조에 따른 종류
     * 선형 구조 (자료를 구성하는 데이터를 순차적으로 나열 시킨 형태)
       1. 순차 탐색
       ```
@@ -172,3 +172,37 @@
   - https://bite-sized-learning.tistory.com/225
   - https://blog.hexabrain.net/245
 
+# 삽입정렬
+
+  - **손안의 카드를 정렬하는 방법과 유사**    
+    <p align="center"><img src="/img/Algorithm/Insertion_Sort.gif" width="100%" height="100%" title="삽입정렬 이미지"></img></p>  
+  
+  - 자료 배열의 모든 요소를 앞에서부터 차례대로 이미 정렬된 배열부분과 비교하여  
+    자신의 위치를 찾아 삽입하여 정렬 완성하는 알고리즘
+    ```
+    즉, 두 번째 자료부터 시작하여 그 앞(왼쪽)의 자료들과 비교하여 삽입할 위치를 지정한 후   
+    자료를 뒤로 옮기고 지정한 자리에 자료를 삽입하여 정렬하는 알고리즘
+    
+    Point
+      1. 처음 정렬 시작 시 두번째 인덱스부터 시작(첫 번째 인덱스는 정렬된 것으로 본다.)
+      2. 선택한 원소를 key에 저장
+      3. key와 선택한 원소의 이전 원소들과 비교하면서 삽입
+      4. 선택한 원소의 다음 원소를 선택하여 3번 반복
+    ```  
+  - 장점
+    * 구현이 간단함
+    * 선택 정렬이나 버블 정렬과 같은 O(n²) 알고리즘에 비교하여 빠르고, 안정 정렬이고 in-place 알고리즘이다.  
+    
+  - 단점
+    * 배열이 길어질수록 효율 ↓
+  
+  - 시간 복잡도(탐색 대상 요소 n개로 가정)  
+    → 최선의 경우 (비교 연산 횟수 = 이미 정렬되어 이동 없이 1번 비교) →  O(n)  
+    → 최악의 경우 (비교 연산 횟수 = 역으로 정렬되어 있는 경우) →  O(n²)
+  
+## Reference
+  - https://ko.wikipedia.org/wiki/%EC%82%BD%EC%9E%85_%EC%A0%95%EB%A0%AC
+  - https://devjin-blog.com/sort-algorithm-1/
+  - https://zeddios.tistory.com/20
+  - https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html
+  - http://blog.naver.com/PostView.nhn?blogId=redwave102&logNo=80073417047
