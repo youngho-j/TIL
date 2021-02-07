@@ -1,4 +1,5 @@
 # 목차
+  - [알고리즘](#알고리즘)
   - [재귀 알고리즘](#재귀-알고리즘)
   - [분할 정복법](#분할-정복법)
   - [하노이의 탑](#하노이의-탑)
@@ -33,6 +34,18 @@
         2. 평균의 경우 (Big-θ Notation) : 점근적 하한과 점근적 상한의 교집합
         3. 최악의 경우 (Big-O Notation) : 점근적 상한(최악의 상황에서도 이 성능 이상을 보장한다.)
         ```
+    * Big-O 표기법  
+      ```
+      불필요한 연산을 제거하여 알고리즘분석을 쉽게 할 목적으로 사용  
+      
+      알고리즘의 효율성을 나타내는 지표
+      
+      최악의 상항만을 염두해 두기에 상수나, 영향력이 없는 항은 철저하게 무시  
+      
+      Big-O로 측정되는 복잡성에는 시간과 공간 복잡도가 있음
+      ```
+      <p align="center"><img src="/img/Algorithm/Big-O Complexity chart.png" width="40%" height="50%" title="Big-O 복잡도 이미지"></img></p>
+      
     * 공간 복잡도(Space Complexity)
       ```
       알고리즘 실행 후 완료하는데 필요한 **메모리의 양**  
@@ -56,13 +69,43 @@
       |1|O(1)|→ 상수|
       |2n+20|O(n)|→ n이 가장 큰 영향을 미침|
       |3n²|O(n²)|→ n²이 가장 큰 영향을 미침|
+      |(3^N)M|O((3^N)M)|→ (3^N)M이 가장 큰 영향을 미침|
       
-    * Big-O 표기법
-      불필요한 연산을 제거하여 알고리즘분석을 쉽게 할 목적으로 사용
-      <p align="center"><img src="/img/Algorithm/Big-O Complexity chart.png" width="40%" height="50%" title="Big-O 복잡도 이미지"></img></p>  
+      문제 해결 단계
+      ```
+      O(1) – 상수 시간 : 문제를 해결하는데 오직 한 단계만 처리
       
+      O(log n) – 로그 시간 : 문제를 해결하는데 필요한 단계들이 연산마다 특정 요인에 의해 줄어듬
       
-   
+      O(n) – 직선적 시간 : 문제를 해결하기 위한 단계의 수와 입력값 n이 1:1 관계를 가짐
+      
+      O(n log n) - 로그 선형 시간: 문제를 해결하기 위한 단계의 수가 N*(log2N) 번만큼의 수행시간을 가짐
+      
+      O(n²) – 2차 시간 : 문제를 해결하기 위한 단계의 수는 입력값 n의 제곱
+      
+      O(C^n) – 지수 시간 : 문제를 해결하기 위한 단계의 수는 주어진 상수값 C 의 n 제곱
+      ```
+      <p align="center"><img src="/img/Algorithm/Big-O function ranking.png" width="40%" height="50%" title="Big-O 시간복잡도 랭킹"></img></p>
+      
+      구하는 요령(유형 파악 예시)
+      ```
+      하나의 루프를 사용하여 단일 요소 집합을 반복 하는 경우 : O (n)
+      
+      컬렉션의 절반 이상 을 반복 하는 경우 : O (n / 2) -> O (n)
+      
+      두 개의 다른 루프를 사용하여 두 개의 개별 콜렉션을 반복 할 경우 : O (n + m) -> O (n)
+      
+      두 개의 중첩 루프를 사용하여 단일 컬렉션을 반복하는 경우 : O (n²)
+      
+      두 개의 중첩 루프를 사용하여 두 개의 다른 콜렉션을 반복 할 경우 : O (n * m) -> O (n²)
+      
+      컬렉션 정렬을 사용하는 경우 : O(n*log(n))
+      ```
+      정렬 알고리즘 시간복잡도 비교
+      <p align="center"><img src="/img/Algorithm/Array Sorting.png" width="40%" height="50%" title="정렬 알고리즘 시간복잡도 비교"></img></p>  
+      
+      자료구조 시간복잡도 비교
+      <p align="center"><img src="/img/Algorithm/Data Structure image.png" width="40%" height="50%" title="자료구조 시간복잡도 비교"></img></p>
 ## Reference
   - [Yena Choi 알고리즘 공부 시작 방법 및 순서](https://blog.yena.io/studynote/2018/11/14/Algorithm-Basic.html)
   - [알고리즘과 성능 척도 #1](https://godgod732.tistory.com/9?category=659135)
@@ -71,6 +114,7 @@
   - [견우와 직녀 점근적 표기법](https://ledgku.tistory.com/31)
   - [Chulgil.Lee 알고리즘의 시간 복잡도와 Big-O 쉽게 이해하기](https://blog.chulgil.me/algorithm/)
   - [Big-O Complexity Chart](https://www.bigocheatsheet.com/)
+  - [까스활명문.log 시간복잡도와 Big_O-표기법](https://velog.io/@jeongho3786/Time-Complexity-%EC%8B%9C%EA%B0%84-%EB%B3%B5%EC%9E%A1%EB%8F%84%EC%99%80-Big-O-%ED%91%9C%EA%B8%B0%EB%B2%95)
 ***
 # 재귀 알고리즘 
   - 재귀 함수 : 어떤 함수 내에서 자기 자신(함수)을 다시 호출하여 작업을 수행하는 방식의 함수   
