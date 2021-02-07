@@ -13,7 +13,7 @@
     * 따라서 시간 복잡도가 가장 낮은 알고리즘을 선택하여 사용하여야 한다!
   - 알고리즘 실행시간
     * 컴퓨터가 알고리즘 코드를 실행하는 속도에 의존
-    * 코드 실행 속도는 컴퓨터의 처리속도, 언어종류, 컴파일러의 속도에 달려있음
+    * 코드 실행 속도는 '컴퓨터의 처리속도, 언어종류, 컴파일러의 속도에 달려있음'
       
   - 알고리즘에 필요한 기본 개념
      * 점근적 분석
@@ -44,7 +44,7 @@
       
       Big-O로 측정되는 복잡성에는 시간과 공간 복잡도가 있음
       ```
-      <p align="center"><img src="/img/Algorithm/Big-O Complexity chart.png" width="40%" height="50%" title="Big-O 복잡도 이미지"></img></p>
+      <p align="center"><img src="/img/Algorithm/Big-O Complexity chart.png" width="70%" height="60%" title="Big-O 복잡도 이미지"></img></p>
       
     * 공간 복잡도(Space Complexity)
       ```
@@ -102,10 +102,10 @@
       컬렉션 정렬을 사용하는 경우 : O(n*log(n))
       ```
       정렬 알고리즘 시간복잡도 비교
-      <p align="center"><img src="/img/Algorithm/Array Sorting.png" width="40%" height="50%" title="정렬 알고리즘 시간복잡도 비교"></img></p>  
+      <p align="center"><img src="/img/Algorithm/Array Sorting.png" width="70%" height="60%" title="정렬 알고리즘 시간복잡도 비교"></img></p>  
       
       자료구조 시간복잡도 비교
-      <p align="center"><img src="/img/Algorithm/Data Structure image.png" width="40%" height="50%" title="자료구조 시간복잡도 비교"></img></p>
+      <p align="center"><img src="/img/Algorithm/Data Structure image.png" width="80%" height="70%" title="자료구조 시간복잡도 비교"></img></p>
 ## Reference
   - [Yena Choi 알고리즘 공부 시작 방법 및 순서](https://blog.yena.io/studynote/2018/11/14/Algorithm-Basic.html)
   - [알고리즘과 성능 척도 #1](https://godgod732.tistory.com/9?category=659135)
