@@ -8,6 +8,7 @@
 - [java static](#java-static)
 - [List와 ArrayList 차이](#list와-arraylist-차이)
 --------------
+
 # 프로그래밍 언어?  
   - 사람과 컴퓨터가 대화하기 위해 필요한 언어(중간다리 역할)   
   
@@ -415,9 +416,11 @@
        →  도형 list = new 직사각형();
       ArrayList list = new ArrayList();
        → 정사각형 list = new 정사각형();
-       위의 코드(↑)처럼 도형 타입으로 생성시 도형인터페이스를 구현한 클래스에서 사용 가능
+       위의 코드(↑)처럼 도형 타입으로 생성시 도형 인터페이스를 구현한 클래스에서 사용 가능
        그러나 정사각형 클래스로 생성시 해당 클래스 외에는 사용 불가
       ```
+  - 결론
+    * List를 상속받은 클래스를 사용할 경우 'List<Object> list = new 상속받은 클래스()' 를 사용하여 유연성을 높이자
   
 ## Reference
   - [개인주의 List와 ArrayList 차이](https://galgum.tistory.com/18)
