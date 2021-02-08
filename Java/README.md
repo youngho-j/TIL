@@ -1,3 +1,13 @@
+# 목차
+- [프로그래밍 언어?](#프로그래밍-언어)
+- [자바](#자바)
+- [자바 가상 기계(JVM)](#자바-가상-기계jvm)
+- [변수](#변수)
+- [데이터 타입](#데이터-타입)
+- [String str = new String(" ") / String str = " " 차이](#string-str--new-string---string-str----차이)
+- [java static](#java-static)
+- [List와 ArrayList 차이](#list와-arraylist-차이)
+--------------
 # 프로그래밍 언어?  
   - 사람과 컴퓨터가 대화하기 위해 필요한 언어(중간다리 역할)   
   
@@ -394,7 +404,7 @@
     ```
   - 자바의 다형성
     * 다형성?
-      : 하나의 메소드나 클래스가 있을 때 이것들이 다양한 방법으로 동작하는 것을 의미
+      : 하나의 메소드나 클래스가 있을 때 이것들이 다양한 방법으로 동작하는 것을 의미  
         즉, 동일한 조작방법으로 동작시키지만 동작방법은 다른 것  
     
     * 도형에 비유한 코드
@@ -415,3 +425,4 @@
   - [심플. List와 ArrayList 차이](http://be-simple-and-kind.blogspot.com/2017/07/list-arraylist.html)
   - [Opentutorials.org 다형성](https://opentutorials.org/module/516/6127)
 ----------
+
