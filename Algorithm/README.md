@@ -254,10 +254,10 @@
     }
     ```
 ## Reference
-  - https://ko.wikipedia.org/wiki/%ED%95%98%EB%85%B8%EC%9D%B4%EC%9D%98_%ED%83%91
-  - http://blog.naver.com/PostView.nhn?blogId=2gumin14&logNo=221060149259
-  - https://st-lab.tistory.com/96?category=852877
-  - https://shoark7.github.io/programming/algorithm/tower-of-hanoi
+  - [위키백과 하노이의 탑](https://ko.wikipedia.org/wiki/%ED%95%98%EB%85%B8%EC%9D%B4%EC%9D%98_%ED%83%91)
+  - [수학하는 블로그 하노이의 탑과 점화식](http://blog.naver.com/PostView.nhn?blogId=2gumin14&logNo=221060149259)
+  - [Stranger's LAB 하노이 탑 이동 순서](https://st-lab.tistory.com/96?category=852877)
+  - [Parkito's on the way! 하노이의 탑 이해하기](https://shoark7.github.io/programming/algorithm/tower-of-hanoi)
 *** 
 # 브루트 포스 알고리즘
 
@@ -286,10 +286,10 @@
       1. BFS(넓이 우선 탐색)
       2. DFS(깊이 우선 탐색)
 ## Reference
-  - https://steemit.com/kr-dev/@gyeryak/easyalgo-2-bruteforce
-  - https://allg.tistory.com/29
-  - https://bite-sized-learning.tistory.com/225
-  - https://blog.hexabrain.net/245
+  - [steemit 브루트 포스](https://steemit.com/kr-dev/@gyeryak/easyalgo-2-bruteforce)
+  - [Allg 자료구조란?](https://allg.tistory.com/29)
+  - [bite-sized-learning 순차탐색이란?](https://bite-sized-learning.tistory.com/225)
+  - [끝나지 않는 프로그래밍 일기 탐색 알고리즘 - 순차탐색](https://blog.hexabrain.net/245)
 ***
 # 삽입 정렬
   - Insertion Sort
@@ -320,11 +320,11 @@
     → 최악의 경우 (비교 연산 횟수 = 역으로 정렬되어 있는 경우) →  O(n²)
   
 ## Reference
-  - https://ko.wikipedia.org/wiki/%EC%82%BD%EC%9E%85_%EC%A0%95%EB%A0%AC
-  - https://devjin-blog.com/sort-algorithm-1/
-  - https://zeddios.tistory.com/20
-  - https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html
-  - http://blog.naver.com/PostView.nhn?blogId=redwave102&logNo=80073417047
+  - [위키백과 삽입정렬](https://ko.wikipedia.org/wiki/%EC%82%BD%EC%9E%85_%EC%A0%95%EB%A0%AC)
+  - [DevJin-Blog Stable Sort, inplace algorithm이란?](https://devjin-blog.com/sort-algorithm-1/)
+  - [ZeddiOS 정렬 알고리즘 정리1](https://zeddios.tistory.com/20)
+  - [Heee's Development Blog 삽입정렬이란?](https://gmlwjd9405.github.io/2018/05/06/algorithm-insertion-sort.html)
+  - [열쓰 삽입정렬](http://blog.naver.com/PostView.nhn?blogId=redwave102&logNo=80073417047)
 ***
 # 계수 정렬
 
