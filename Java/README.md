@@ -7,6 +7,8 @@
 - [String str = new String(" ") / String str = " " 차이](#string-str--new-string---string-str----차이)
 - [java static](#java-static)
 - [List와 ArrayList 차이](#list와-arraylist-차이)
+- [익명 클래스(Anonymous class)](#익명-클래스anonymous-class)
+                               
 --------------
 
 # 프로그래밍 언어?  
@@ -440,7 +442,7 @@
     ```java
     // Thread 익명 클래스 구현
     Thread t = new Thread(new Runnable() {
-			@Override
+		  @Override
 			public void run() {
 				System.out.println("Child");
 			}
@@ -454,7 +456,7 @@
     Arrays.sort(list, new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
-        // 문자열 길이가 짧은 순으로 정렬(오름차순), 같은 길이일 경우 사전 순서대로 오름차순
+    // 문자열 길이가 짧은 순으로 정렬(오름차순), 같은 길이일 경우 사전 순서대로 오름차순
 				if(o1.length() == o2.length()) {
 					return o1.compareTo(o2);
 				} else {
@@ -479,7 +481,6 @@
   - 알아두면 좋을수도?
     * 클래스 파일명 → '(외부 클래스명)$(숫자).class' 형식으로 결정
     * Ex) 익명 클래스 사용 후 class sortList 컴파일시 → 'sortList.java', 'sortList.class', 'sortList$1.class' 파일 생성  
-    
 ## Reference
   - [Daniel 익명 클래스](https://dduddublog.tistory.com/169)
   - [syundev 익명 클래스](https://syundev.tistory.com/)
