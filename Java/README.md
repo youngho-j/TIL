@@ -8,7 +8,7 @@
 - [java static](#java-static)
 - [List와 ArrayList 차이](#list와-arraylist-차이)
 - [익명 클래스(Anonymous class)](#익명-클래스anonymous-class)
-                               
+
 --------------
 
 # 프로그래밍 언어?  
@@ -26,8 +26,10 @@
   - 프로그램?
     * 컴퓨터에서 특정 목적을 수행하기 위해 프로그래밍 언어로 작성된 소스를 기계어로 변역한 것
     * 소스(Source) : 프로그래밍 언어들로 작성된 내용
+
 ## Reference   
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
+
 -----
 
 # 자바
@@ -70,8 +72,10 @@
       + 객체가 필요한 시점에 클래스를 동적 로딩해서 객체 생성 -> 유지보수를 쉽고 빠르게 진행 가능  
       
     * 오픈 소스 라이브러리 풍부   
+
 ## Reference   
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
+
 -----
 
 # 자바 가상 기계(JVM)
@@ -84,9 +88,11 @@
   2. 컴파일러(javac.exe)로 컴파일
   3. .class 파일(바이트 코드 파일) 생성
   4. JVM 구동 명령어(java.exe)에 의해 해석, 운영체제에 맞는 기계어로 번역   
-  ``` 
+  ```
+  
 ## Reference   
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
+
 -----    
 
 # 변수
@@ -165,8 +171,10 @@
     중괄호 {}블록 내에서 선언되고 사용 -> 선언된 블록 내에서만 사용가능 -> 즉, 변수 선언시 "사용될 범위와 선언 위치 결정" 필요!
     * 참고 : 메소드 블록 내에서 선언된 변수 -> 로컬 변수(local variable) : 메소드 실행이 끝나면 메모리에서 자동으로 없어짐.
     ```
+
 ## Reference   
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
+
 -----    
     
 # 데이터 타입
@@ -259,6 +267,7 @@
     
 ## Reference   
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
+
 -----    
   
 # String str = new String(" ") / String str = " " 차이   
@@ -292,6 +301,7 @@
   - [journaldev What is Java String pool?](https://www.journaldev.com/797/what-is-java-string-pool)
   - [기록은 기억을 이긴다 String 리터럴과 객체생성의 차이](https://qssdev.tistory.com/38)
   - [마이너의 일상 Java에서 String과 new String()의 차이는?](https://tomining.tistory.com/195)
+
 -----
      
 # java static
@@ -333,6 +343,7 @@
   - 예제
     * 클래스변수와 인스턴스변수
       <p align="center"><img src="/img/Java/static_ variable.png" width="100%" height="60%" title="클래스변수와 인스턴스변수"></img></p>
+    
     * 클래스메서드와 인스턴스메서드
       <p align="center"><img src="/img/Java/static_ method.png" width="100%" height="110%" title="클래스 메서드와 인스턴스 메서드"></img></p>
   
@@ -387,6 +398,7 @@
   - [Heee's Development Blog java static 멤버와 static 메서드](https://gmlwjd9405.github.io/2018/08/04/java-static.html)
   - [Vaert Street Static 키워드 바로 알고 사용하자](https://vaert.tistory.com/101)
   - [wikidocs 점프 투 자바 07-3 정적 변수와 메소드 static](https://wikidocs.net/228)
+
 -----
 
 # List와 ArrayList 차이
@@ -406,7 +418,7 @@
     List<Object> list = new LinkedList<>(); // 삽입,삭제를 위함
     위의 코드(↑)처럼 구현함으로써 내부 디테일과 메모리 함축에서 이점과 성능을 개선 가능
     ```
-    
+
   - 자바의 다형성
     * 다형성?
       : 하나의 메소드나 클래스가 있을 때 이것들이 다양한 방법으로 동작하는 것을 의미  
@@ -423,21 +435,22 @@
        위의 코드(↑)처럼 도형 타입으로 생성시 도형 인터페이스를 구현한 클래스에서 사용 가능
        그러나 정사각형 클래스로 생성시 해당 클래스 외에는 사용 불가
       ```
-      
+
   - 결론
     * List를 상속받은 클래스를 사용할 경우 'List<Object> list = new 상속받은 클래스()' 를 사용하여 유연성을 높이자
-  
+
 ## Reference
   - [개인주의 List와 ArrayList 차이](https://galgum.tistory.com/18)
   - [알면 쓸모있는 개발 지식 List와 ArrayList 차이](https://yoon-dailylife.tistory.com/7)
   - [심플. List와 ArrayList 차이](http://be-simple-and-kind.blogspot.com/2017/07/list-arraylist.html)
   - [Opentutorials.org 다형성](https://opentutorials.org/module/516/6127)
+
 -----
 
 # 익명 클래스(Anonymous class)
   - 클래스의 선언과 객체의 생성을 동시에 함  
     따라서, **단 한 번만 사용될 수 있고 오직 하나의 객체만을 생성**할 수 있는 **일회용 클래스**이다.  
-  
+
   - 이름이 없다
     즉, 생성자를 가질 수 없다. 만들어진 클래스의 생성자와 동일하게 객체를 생성할 뿐이다.  
     그럼 어떻게 생성하는가? 부모 클래스의 이름이나 구현하고자 하는 인터페이스의 이름을 사용해서 정의  
@@ -469,22 +482,24 @@
     
     → 클래스 선언과 동시에 힙에 인스턴스가 생성된 후 선언한 변수에 생성된 인스턴스의 주소값을 저장
     ```
+
   - 단 하나의 인터페이스/클래스만을 구현 할 수 있음 
-  
+
   - 사용 목적
     * 부모 클래스를 상속 받는 서브 클래스를 생성하지 않고도,  
       단일 객체를 만들어서 부모 클래스에 정의된 동작에서 행위를 추가 할 수 있음  
       → 상속한 것으로 처리가 된다고 보면 됨  
     * 단, 한번 밖에 쓰이지 않을 클래스를 익명 클래스를 사용하여 처리
-  
+
   - 단점 
     * 코드가 지저분해질 수 있음
-  
+
   - 알아두면 좋을수도?
     * 클래스 파일명 → '(외부 클래스명)$(숫자).class' 형식으로 결정
     * Ex) 익명 클래스 사용 후 class sortList 컴파일시 → 'sortList.java', 'sortList.class', 'sortList$1.class' 파일 생성
-    
+
 ## Reference
   - [Daniel 익명 클래스](https://dduddublog.tistory.com/169)
   - [syundev 익명 클래스](https://syundev.tistory.com/)
+
 -----
