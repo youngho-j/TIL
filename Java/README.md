@@ -303,9 +303,11 @@
   - [마이너의 일상 Java에서 String과 new String()의 차이는?](https://tomining.tistory.com/195)
 
 -----
-     
+  
 # java static
+
   - non-static / static 
+
     <table>
       <tr>
         <td></td>
@@ -339,15 +341,19 @@
         </td>
       </tr>
     <table>
-  
+
   - 예제
+
     * 클래스변수와 인스턴스변수
+
       <p align="center"><img src="/img/Java/static_ variable.png" width="100%" height="60%" title="클래스변수와 인스턴스변수"></img></p>
-    
+
     * 클래스메서드와 인스턴스메서드
+
       <p align="center"><img src="/img/Java/static_ method.png" width="100%" height="110%" title="클래스 메서드와 인스턴스 메서드"></img></p>
-  
+
   - 클래스 멤버와 인스턴스 멤버 참조, 호출
+
     ```
     * 같은 클래스에 속한 멤버들간에는 별도의 인스턴스 생성하지 않고 서로 참조 또는 호출 가능
       - 단, 클래스 멤버가 인스턴스멤버를 참조 또는 호출 시 인스턴스 생성 필요!! 
@@ -363,8 +369,9 @@
       
       - 인스턴스 멤버간의 호출 가능! 왜? 이미 인스턴스가 생성되었다는 것을 의미 => 다른 인스턴스 멤버들 모두 존재함
     ```
-    
+
   - 정리
+
     ```
     * 클래스 설계시, 멤버변수 중 모든 인스턴스에 공통적으로 사용해야 하는 것에 static을 사용
       - 인스턴스 생성시 각 인스턴스들은 서로 독립적이기 때문에 서로 다른 값을 유지
@@ -392,16 +399,18 @@
     * 일반 적으로 
       - 인스턴스 변수와 관련된 작업을 하는 메서드 => 인스턴스 메서드(static 안붙은 메서드)
       - 클래스 변수(static [타입] [변수명])와 관련된 작업을 하는 메서드 => 클래스 메서드(static [리턴타입] [메서드명])
-      
-    ```  
-  
-## Reference
-  - [Heee's Development Blog java static 멤버와 static 메서드](https://gmlwjd9405.github.io/2018/08/04/java-static.html)
-  - [Vaert Street Static 키워드 바로 알고 사용하자](https://vaert.tistory.com/101)
-  - [wikidocs 점프 투 자바 07-3 정적 변수와 메소드 static](https://wikidocs.net/228)
-  
------
+    ```
 
+
+
+## Reference
+
+  - [Heee's Development Blog java static 멤버와 static 메서드](https://gmlwjd9405.github.io/2018/08/04/java-static.html)
+  - Vaert Street Static 키워드 바로 알고 사용하자](https://vaert.tistory.com/101)
+  - [wikidocs 점프 투 자바 07-3 정적 변수와 메소드 static](https://wikidocs.net/228)
+
+
+  
 # List와 ArrayList 차이
   - List list = new ArrayList(); 와 ArrayList list = new ArrayList(); 의 차이?
     ```java
