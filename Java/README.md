@@ -294,7 +294,7 @@
   - [마이너의 일상 Java에서 String과 new String()의 차이는?](https://tomining.tistory.com/195)
 -----
      
-# java static   
+# java static
   - non-static / static 
     <table>
       <tr>
@@ -351,7 +351,7 @@
         => 반드시 객체 생성한 뒤에 가능!! (경우가 드물고, 이러한 경우 어떤 메서드로 해야하는 것인지 다시 생각 필요!)
       
       - 인스턴스 멤버간의 호출 가능! 왜? 이미 인스턴스가 생성되었다는 것을 의미 => 다른 인스턴스 멤버들 모두 존재함
-      ```
+    ```
   - 정리
     ```
     * 클래스 설계시, 멤버변수 중 모든 인스턴스에 공통적으로 사용해야 하는 것에 static을 사용
@@ -382,12 +382,11 @@
       - 클래스 변수(static [타입] [변수명])와 관련된 작업을 하는 메서드 => 클래스 메서드(static [리턴타입] [메서드명])
     ```
     
-## Reference
+## Reference 
   - [Heee's Development Blog java static 멤버와 static 메서드](https://gmlwjd9405.github.io/2018/08/04/java-static.html)
   - [Vaert Street Static 키워드 바로 알고 사용하자](https://vaert.tistory.com/101)
-  - [WikiDocs 점프 투 자바 07-3 정적 변수와 메소드 static](https://wikidocs.net/228)
-
-------
+  - [wikidocs 점프 투 자바 07-3 정적 변수와 메소드 static](https://wikidocs.net/228)
+--------
 
 # List와 ArrayList 차이
   - List list = new ArrayList(); 와 ArrayList list = new ArrayList(); 의 차이?
@@ -429,7 +428,6 @@
   - [알면 쓸모있는 개발 지식 List와 ArrayList 차이](https://yoon-dailylife.tistory.com/7)
   - [심플. List와 ArrayList 차이](http://be-simple-and-kind.blogspot.com/2017/07/list-arraylist.html)
   - [Opentutorials.org 다형성](https://opentutorials.org/module/516/6127)
-  
 ----------
 
 # 익명 클래스(Anonymous class)
