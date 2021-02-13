@@ -401,10 +401,11 @@
       - 클래스 변수(static [타입] [변수명])와 관련된 작업을 하는 메서드 => 클래스 메서드(static [리턴타입] [메서드명])
     ```
 </br>
+  
 ## Reference
 
   - [Heee's Development Blog java static 멤버와 static 메서드](https://gmlwjd9405.github.io/2018/08/04/java-static.html)
-  - Vaert Street Static 키워드 바로 알고 사용하자](https://vaert.tistory.com/101)
+  - [Vaert Street Static 키워드 바로 알고 사용하자](https://vaert.tistory.com/101)
   - [wikidocs 점프 투 자바 07-3 정적 변수와 메소드 static](https://wikidocs.net/228)
 
 
