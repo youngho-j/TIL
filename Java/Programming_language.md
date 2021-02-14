@@ -18,5 +18,5 @@
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
   
 ***
-[목차로 이동](https://github.com/youngho-j/TIL/new/main/Java/README.md "Go README.md")  
+[목차로 이동](https://github.com/youngho-j/TIL/blob/main/Java/README.md "Go README.md")  
   
