@@ -55,34 +55,23 @@
     
   - 대표 예제
     * N-Queen 
-      + N×N 크기의 체스판에서 최대한 많은 수의 퀸을   
+      + N×N 크기의 체스판에서 N개의 퀸을   
         서로 공격하지 않도록 두는 경우의 수를 구하는 문제  
-      + 수행방법  
+      + 수행 조건  
         ```
         조건(CSP)   
-        : 퀸을 k컬럼에 두기 위해 왼쪽, 왼쪽 위, 아래 대각선에 퀸이 없어야함  
-        
-        1. 한 컬럼에 퀸 위치
-        
-        2. 오른쪽 컬럼 가능한 자리에 퀸 두기
-        
-        3. 2번 계속 반복 수행 후 N개의 퀸이 모두 놓일 경우 count 증가
-        
-        4. 성공 직전의 상태로 되돌림(back) Point!
-        
-        5. N번째 컬럼 중 다른 칸 시도
-        
-        6. 없을 경우 N-1번째 컬럼에 있는 Queen을 들어 가능한 칸으로 시도
-        
-        7. 다시 N번째 컬럼에 둘 수 있는 곳 찾음
-       
-        8. 각 컬럼별로 모든 경우의 시도를 했으면 되돌아가 가능한 위치 탐색
-        ```  
+        퀸을 k컬럼에 두기 위해 상하좌우 및 대각선에 퀸이 없어야함  
+        즉, 각 행 또는 열에는 오직 하나의 퀸만 있을 수 있다.   
+	      ```  
+
+      + 수행 과정
+        <p align="center"><img src="/img/Algorithm/n-queen.png" width="70%" height="60%" title="n-queen 이미지"></img></p>
   
 ## Reference
   - [백준 N과 M(1)](https://st-lab.tistory.com/114?category=862595)
   - [오뚝이 개발자 백트래킹](https://otugi.tistory.com/88)
   - [Jeong Dowon Backtraking 이해하기](https://jeongdowon.medium.com/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-backtracking-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-13492b18bfa1)
   - [나무위키 백트래킹](https://namu.wiki/w/%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9)
+  - [마이구미 n-Queen](https://mygumi.tistory.com/199)
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/Algorithm/README.md "Go README.md")
