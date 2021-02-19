@@ -4,5 +4,4 @@
 
 ## 목차
 
--  [생활코딩 GIT1](https://github.com/youngho-j/TIL/blob/main/Git/git1.md)
--  [Git 에러 모음](https://github.com/youngho-j/TIL/blob/main/Git/error.md)  
+-  [생활코딩 GIT1](https://github.com/youngho-j/TIL/blob/main/Git/git1.md) 
