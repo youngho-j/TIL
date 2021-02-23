@@ -13,6 +13,8 @@
   4. [checkout과 시간 여행](#4-checkout과-시간-여행)  
   4-1. [checkout](#4-1-checkout)  
   4-2. [명령어](#4-2-명령어)  
+  5. [보충수업](#5-보충수업)  
+  5-1. [사소하지만 모르면 불편한 명령어](#5-1-사소하지만-모르면-불편한-명령어)  
 ***
 ### 1. 버전관리의 시작
   - #### 1-1. 저장소 만드는 법
@@ -213,6 +215,52 @@
       해당 커밋 아이디를 만든 시점으로 돌아가게 됨
       git checkout master
       가장 최신이었던 상태로 돌아가게 됨
+      ```
+### 5. 보충수업
+  - #### 5-1. 사소하지만 모르면 불편한 명령어
+    * 버전을 만들때 사소한 팁  
+      ```
+      지금까지 사용한 방법
+      
+      1. nano hello1.txt
+         → nano text editor를 사용하여 해당 파일을 만들거나 수정
+      
+      2. git add hello1.txt
+         → working directory에서 작업한 파일을 버전으로 만들기 위해 staging area에 추가
+      
+      3. git commit -m "3"
+         → 3이라는 이름을 가진 버전으로 만듦
+      
+      팁
+      1. git add .을 사용
+         → 현재 directory에 밑에 있는 모든 파일을 staging area에 추가하는 명령어
+         즉, add를 파일명 하나하나 지정할 필요가 없음
+      
+      2. git commit -am "메세지" 를 사용
+         →  add와 commit을 한번에 할 수 있음
+         
+         참고
+         -a : add의 약자로 add 옵션
+         -m : 커맨드 라인에서 Message를 입력하겠다는 옵션
+         
+         주의사항
+         
+         새롭게 추가된 파일(Untracked files)은 자동으로 추가되지 않음
+         
+         최초 한번은 add가 되어서 tracked 상태가 되어야지만 자동으로 추가해준다. 
+         
+         즉, 위 주의사항을 통해서 
+         추적하고 싶지 않은 파일을 실수로 추적하는 사고를 미연에 방지할 수 있다는 것을 알 수 있음.
+      
+      3. git commit 명령어만 실행할 경우
+         → 기본 text editor가 실행됨, 여러줄의 커밋 메세지를 좀 더 편리하게 작성 가능
+         
+         참고 
+         기본 에디터 변경하기
+         git config --global core.editor "vim"
+         
+         --global : 로그인한 사용자 전체의 범위
+         core.editor "vim(or 에디터의 경로를 넣어줘도 됨)"
       ```
 
 ## Reference   
