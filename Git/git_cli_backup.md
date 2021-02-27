@@ -9,6 +9,9 @@
   3-1. [정리](#3-1-정리)  
   4. [공부 방향](#4-공부-방향)  
   4-1. [정리](#4-1-정리)  
+  5. [원격 저장소와 연결](#5-원격-저장소와-연결)  
+  5-1. [정리](#5-1-정리)  
+  5-2. [명령어](#5-2-명령어)  
 ***
 ### 1. 수업의 목표와 용어정리
   - #### 1-1. 목표  
@@ -72,15 +75,14 @@
   - #### 3-1. 정리
     * 진행과정
       1. GitHub, GitLab 홈페이지 들어가기  
-        [GitHub](https://github.com/)  
-        [GitLab](https://about.gitlab.com/)  
+          [GitHub](https://github.com/) / [GitLab](https://about.gitlab.com/)    
        
       2. 회원 가입 후 저장소 생성  
-        GitHub  
-        New repository로 생성    
-        
-        GitLab  
-        New project로 생성(Blank project)  
+          GitHub    
+          `New repository로 생성`      
+          
+          GitLab  
+          `New project로 생성(Blank project)`  
       
 ### 4. 공부 방향
   - #### 4-1. 정리
@@ -98,7 +100,43 @@
             
           SSH 
           - 보안적으로 훨씬 강력하고 훨씬 편리함 근데 배울 내용이 많음  
-  
+   
+### 5. 원격 저장소와 연결
+  - #### 5-1. 정리
+    * 진행과정
+      1. 연결하고자하는 지역저장소로 이동  
+        
+      2. GitHub 또는 GitLab 원격저장소에 접속  
+          GitHub / GitLab  
+          ```
+          ... or push an exostong repository from the command line  
+          이미 존재하고 있는 저장소를 CLI를 사용하여 업로드 하는 방법  
+          ```  
+      3. 원격저장소와 지역저장소 연결  
+          `git remote add [https 주소에 해당되는 원격저장소 별명] [https 주소 복사]`  
+            
+          참고  
+          ```
+          원격 저장소 별명은 보통 기본적인 원격저장소는 origin(관습적으로 정해짐)  
+          하나의 지역저장소에는 여러개의 원격저장소가 연결될 수 있음  
+          각각의 원격저장소마다 별명을 붙여 쉽게 접근할 수 있도록 함, 알리아스 너낌  
+          ```    
+      4. 원격 저장소 연결확인  
+          `git remote`  
+          : 등록된 원격저장소 별명 출력  
+            
+          `git remote -v`  
+          : 등록된 원격저장소 별명, https 주소 출력  
+        
+  - #### 5-2. 명령어
+    * git remote
+      ```
+      프로젝트의 리모트(원격) 저장소를 관리하는 명령어
+      
+      git remote add [https 주소에 해당되는 원격저장소 별명] [https 주소 복사] : 지역 저장소와 원격 저장소 연결 
+      git remote : 등록된 원격저장소 별명 출력  
+      git remote -v : 등록된 원격저장소 별명, https 주소 출력  
+      ```  
 ## Reference   
   - [생활코딩 GIT CLI](https://opentutorials.org/course/3841)
   - [kbss27-wiki git workflow](https://kbss27.github.io/2017/09/15/gitworkflow/) 
