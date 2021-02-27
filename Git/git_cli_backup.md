@@ -5,6 +5,8 @@
   1-2. [용어](#1-2-용어)  
   2. [Git hosting](#2-Git-hosting)  
   2-1. [정리](#2-1-정리)  
+  3. [저장소 생성](#3-저장소-생성)  
+  3-1. [정리](#3-1-정리)  
 
 ***
 ### 1. 수업의 목표와 용어정리
@@ -31,33 +33,54 @@
 
     * GitHub
       ```
-      Framework is open-source (서비스 자체가 오픈소스라서 서버에 직접설치가 가능한가?)
+      Framework is open-source 
+      [서비스 자체가 오픈소스라서 서버에 직접설치가 가능한가?]
       No
       
-      Open-source repositories (오픈소스 프로젝트가 무료인가?)
+      Open-source repositories
+      [오픈소스 프로젝트가 무료인가?]
       Yes
       
-      Space(GB) (용량)
+      Space(GB)
+      [용량]
       Unlimited
       
-      Free private repositories(비공개 저장소를 무료제공하는가? (매우중요))  
+      Free private repositories
+      [비공개 저장소를 무료제공하는가? (매우중요)]  
       No
       ```
     * GitLab
       ```
-      Framework is open-source (서비스 자체가 오픈소스라서 서버에 직접설치가 가능한가?)
+      Framework is open-source
+      [서비스 자체가 오픈소스라서 서버에 직접설치가 가능한가?]
       Yes
 
-      Open-source repositories (오픈소스 프로젝트가 무료인가?)
+      Open-source repositories
+      [오픈소스 프로젝트가 무료인가?]
       Yes
 
-      Space(GB) (용량)
+      Space(GB)
+      [용량]
       Unlimited
 
-      Free private repositories(비공개 저장소를 무료제공하는가? (매우중요))
+      Free private repositories
+      [비공개 저장소를 무료제공하는가? (매우중요)]
       Unlimited projects, unlimited collaborators
       ```
-
+### 3. 저장소 생성
+  - #### 3-1. 정리
+    * 진행과정
+      1. GitHub, GitLab 홈페이지 들어가기  
+        [GitHub](https://github.com/)  
+        [GitLab](https://about.gitlab.com/)  
+       
+      2. 회원 가입 후 저장소 생성  
+        GitHub  
+        New repository로 생성    
+        
+        GitLab  
+        New project로 생성(Blank project)  
+      
 ## Reference   
   - [생활코딩 GIT CLI](https://opentutorials.org/course/3841)
   - [kbss27-wiki git workflow](https://kbss27.github.io/2017/09/15/gitworkflow/) 
