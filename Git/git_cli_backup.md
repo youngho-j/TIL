@@ -12,6 +12,9 @@
   5. [원격 저장소와 연결](#5-원격-저장소와-연결)  
   5-1. [정리](#5-1-정리)  
   5-2. [명령어](#5-2-명령어)  
+  6. [git push](#6-git-push)  
+  6-1. [정리](#6-1-정리)  
+  6-2. [명령어](#6-2-명령어)  
 ***
 ### 1. 수업의 목표와 용어정리
   - #### 1-1. 목표  
@@ -137,6 +140,37 @@
       git remote : 등록된 원격저장소 별명 출력  
       git remote -v : 등록된 원격저장소 별명, https 주소 출력  
       ```  
+### 6. git push
+  - #### 6-1. 정리
+    * 진행과정
+      1. 현재 지역 저장소가 원격저장소와 연결된 상태  
+      
+      2. Bash창에서 git push 입력  
+          ```
+          해당 명령어 입력시 아래의 에러 메세지 뜨게됨(처음으로 push를 진행할때 발생)
+          fatal: The current branch master has no upstream branch.  
+          
+          To push the current branch and set the remote as upstream, use
+          
+          git push --set-upstream origin master
+          
+          업로드 진행시 어떤 원격저장소와 기본적으로 연결시킬것인지 모른다. 
+          해당 원격저장소의 브랜치를 기본으로 설정하고 싶으면 `git push --set-upstream origin master`를 사용해라 
+          ```  
+      3. 에러 메세지 중 git push --set-upstream origin master를 복사해서 실행  
+          `git push를 입력하게 되면 origin이라는 이름을 가진 master 브랜치로 기본적으로 업로드 됨`  
+          
+      4. 해당 git hosting의 아이디와 비밀번호 입력하면 업로드 완료  
+        
+  - #### 6-2. 명령어
+    * git push
+      ```
+      원격 저장소에 로컬에서 변경된 이력을 업로드 하기 위해서 사용하는 명령어
+      
+      git push : 기본적으로 설정된 저장소의 브랜치로 변경 이력들을 보냄
+      git push [저장소 이름] [저장소 브랜치 이름] : 지정한 원격저장소의 브랜치로 변경 이력들을 보냄
+      ```
+  
 ## Reference   
   - [생활코딩 GIT CLI](https://opentutorials.org/course/3841)
   - [kbss27-wiki git workflow](https://kbss27.github.io/2017/09/15/gitworkflow/) 
