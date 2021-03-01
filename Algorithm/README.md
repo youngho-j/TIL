@@ -9,4 +9,6 @@
   - [삽입 정렬 알고리즘](https://github.com/youngho-j/TIL/blob/main/Algorithm/insertion_sort.md "삽입 정렬 알고리즘")
   - [계수 정렬 알고리즘](https://github.com/youngho-j/TIL/blob/main/Algorithm/counting_sort.md "계수 정렬 알고리즘")
   - [백트래킹](https://github.com/youngho-j/TIL/blob/main/Algorithm/backtracking.md "백트래킹")
+  - [동적계획법](https://github.com/youngho-j/TIL/blob/main/Algorithm/DynamicProgramming.md "동적계획법")
+
 ***  
