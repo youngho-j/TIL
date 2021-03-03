@@ -10,7 +10,9 @@
 3-2. [서로 다른 파일 병합](#3-2-서로-다른-파일-병합)  
 3-3. [서로 같은 파일 병합](#3-3-서로-같은-파일-병합)  
 3-3-1. [서로 같은 파일 다른 부분 병합](#3-3-1-서로-같은-파일-다른-부분-병합)   
-3-3-2. [서로 같은 파일 같은 부분 병합](#3-3-1-서로-같은-파일-같은-부분-병합)  
+3-3-2. [서로 같은 파일 같은 부분 병합](#3-3-2-서로-같은-파일-같은-부분-병합)  
+4. [CONFLICT](#4-conflict)  
+4-1. [3 way merge](#4-1-3-way-merge)  
 ***
 
 ### 1. Branch
@@ -330,8 +332,49 @@
           
           git commit
           자동으로 Conflict가 해결되었다고 나오면서 merge commit이 됨
-          ```
+          ```  
 
+### 4. CONFLICT
+  - #### 4-1. 3 way merge
+    - 충돌은 브랜치와 브랜치 병합시, 협업시도 발생 가능
+    
+    - 그렇다면 Git은 어떻게 충돌에 대처하는가? 3 way merge 방법 사용
+      ```
+      brance 그림
+
+      *    -> merge commit
+      │\
+      │ *  -> there(branch 이름)
+      * │  -> here(branch 이름)
+      │/
+      *    -> base : here, there branch의 조상
+      ```
+      |here|base|there|2 way merge|3 way merge|
+      |:---:|:---:|:---:|:---:|:---:|
+      |A|A|A|A|A|
+      |H|B|B|?|H|
+      |C|C|T|?|T|
+      |H|D|T|?|?|
+    
+    - 2 way merge 방법 사용시  
+      here와 there branch를 비교하여 자동으로 합할 수 있는 것과 없는 것을 판별  
+    
+    - 3 way merge 방법 사용시  
+      2 way merge에서 좀 더 많은 것들을 자동화하기 위해 등장  
+      
+      3 way merge 방법은 merge 하고자 하는 branch들의 공통의 조상인 base를 알아야함.  
+      ```
+      위 표의 here base there을 보면
+      
+      A A A 로 모두 같음, 따라서 수정한게 없으므로 A
+      
+      H B B 로 base와 there가 같으므로 수정이 되지 않았음, here가 다르므로 수정이 되었음 따라서 H
+      
+      C C T 로 base와 here가 같으므로 수정이 되지 않았음, there가 다르므로 수정이 되었음 따라서 T
+      
+      H D T 로 모두 다름, 따라서 두 branch가 모두 수정되었으므로 자동병합이 불가하므로 충돌 발생 -> 사람이 수정해야함
+      ```  
+  
 ## Reference   
   - [생활코딩 GIT CLI Branch](https://opentutorials.org/course/3840)
 
