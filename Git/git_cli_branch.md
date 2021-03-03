@@ -13,6 +13,7 @@
 3-3-2. [서로 같은 파일 같은 부분 병합](#3-3-2-서로-같은-파일-같은-부분-병합)  
 4. [CONFLICT](#4-conflict)  
 4-1. [3 way merge](#4-1-3-way-merge)  
+4-2. [외부 도구를 이용해서 병합하는 방법](#4-2-외부-도구를-이용해서-병합하는-방법)  
 ***
 
 ### 1. Branch
@@ -374,9 +375,50 @@
       
       H D T 로 모두 다름, 따라서 두 branch가 모두 수정되었으므로 자동병합이 불가하므로 충돌 발생 -> 사람이 수정해야함
       ```  
+
+  - #### 4-2. 외부 도구를 이용해서 병합하는 방법
+    - P4MergeTool
+      1. 다운로드(운영체제에 맞게)  
+         [P4MergeTool 다운로드](https://www.perforce.com/downloads/visual-merge-tool)  
+         
+      2. 환경변수 설정(windows)  
+          1. 작업표시줄에서 시스템 환경 변수 편집 검색 후 클릭  
+          2. 환경 변수 버튼 클릭  
+          3. 시스템 변수 그룹에서 Path 클릭 후 편집   
+          4. 새로 만들기 클릭하여 p4merge.exe가 설치된 폴더 경로 입력  
+      
+      3. git config에 등록하기  
+          1. Diff Tool 등록  
+             ```
+             git config --global diff.tool p4merge
+             git config --global difftool.p4merge.path "C:/Program Files/Perforce/p4merge.exe(설치경로)"
+             git config --global difftool.prompt false
+             ```
+          2. Merge Tool 등록  
+             ```
+             git config --global merge.tool p4merge
+             git config --global mergetool.p4merge.path "C:/Program Files/Perforce/p4merge.exe(설치경로)"
+             git config --global mergetool.prompt false
+             ```
+          3. 등록 확인  
+             cat ~/.gitconfig  
+      
+      4. 실행  
+          `git difftool`  
+          `git mergetool`  
+          
+      5. 충돌을 해결하고 저장한 뒤 프로그램을 끄면 자동으로 add로 staging에 올려줌  
+      
+      6. orig 파일은 충돌난 상태를 백업해 놓은 것으로 rm (충돌난 파일).orig 로 삭제  
+      
+      7. git commit으로 버전 저장  
+    
+    - 3 way merge tool은 좋은게 많으니 검색해보고 좋은거 쓰면 됨  
   
+
 ## Reference   
-  - [생활코딩 GIT CLI Branch](https://opentutorials.org/course/3840)
+  - [생활코딩 GIT CLI Branch](https://opentutorials.org/course/3840)  
+  - [테디노트 p4mergetool](https://teddylee777.github.io/git/study-git-2)  
 
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/Git/README.md "Go README.md")
