@@ -8,6 +8,8 @@
 3. [Branch 병합](#3-branch-병합)  
 3-1. [merge](#3-1-merge)  
 3-2. [서로 다른 파일 병합](#3-2-서로-다른-파일-병합)  
+3-3. [서로 같은 파일 병합](#3-3-서로-같은-파일-병합)  
+3-3-1. [서로 같은 파일 다른 부분 병합](#3-3-1-서로-같은-파일-다른-부분-병합)   
 ***
 
 ### 1. Branch
@@ -91,7 +93,7 @@
        
           - base를 바탕으로 해서 merge(버전a, 버전4) 된 버전5는 merge commit이라고 함
        ```  
-       <p align="center"><img src="/img/Algorithm/merge1.png" width="70%" height="60%" title="merge 이미지"></img></p>  
+       <p align="center"><img src="/img/Git/merge1.png" width="70%" height="60%" title="merge 이미지"></img></p>  
        
   - #### 3-2. 서로 다른 파일 병합
     1. 진행과정
@@ -116,7 +118,7 @@
        3. 새로운 branch o2 생성 및 각 브랜치 work2 버전 만들기
        ```
        1. 새로운 branch o2 생성
-       branch o2
+       git branch o2
        
        2. master branch work2 버전 만들기
        nano master.txt
@@ -153,6 +155,65 @@
        4. git reset --hard (리셋하고 싶은 버전)
        -> 연습해보기 위해 사용
        ```  
+  - #### 3-3. 서로 같은 파일 병합
+    ##### 3-3-1. 서로 같은 파일 다른 부분 병합
+       1. manual-merge 폴더에서 새로 시작
+          ```
+          git init manual-merge
+       
+          cd manual-merge
+       
+          폴더 생성과 동시에 git init 후 폴더로 이동
+          ```
+       
+       2. 1 버전 만들기
+          ```
+          nano work.txt
+       
+          git add work.txt
+       
+          git commit -m "1"
+          ```
+       
+       3. 새로운 branch o2 생성 및 각 브랜치 work2 버전 만들기
+          ```
+          1. 새로운 branch o2 생성
+          git branch o2
+       
+          2. master branch master work 2 버전 만들기
+          nano work.txt
+       
+          git add work.txt
+       
+          git commit -m "master work 2"
+       
+          3. o2 branch에서 o2 work 2 버전 만들기
+          git checkout o2
+       
+          nano work.txt
+       
+          git add work.txt
+       
+          git commit -m "o2 work2"
+          ```
+       
+       4. 병합하기(master에 o2 branch를 병합)
+          ```
+          방향 o2 branch의 내용을 master로 
+       
+          1. 메인이 되는 branch로 이동
+          git checkout master
+       
+          2. 현재 branch로 병합하고 싶은 branch를 merge를 통해 지정
+          git merge o2
+       
+          3. git log --all --graph --oneline으로 병합 되었는지 확인
+       
+          4. cat work.txt로 변경된 부분 확인 
+          ```  
+       
+       중요!  병합시 같은 파일이라고 하더라도 서로 다른 부분을 수정했다면 알아서 수정해준다.   
+
 ## Reference   
   - [생활코딩 GIT CLI Branch](https://opentutorials.org/course/3840)
 
