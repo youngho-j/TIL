@@ -14,6 +14,10 @@
 4. [CONFLICT](#4-conflict)  
 4-1. [3 way merge](#4-1-3-way-merge)  
 4-2. [외부 도구를 이용해서 병합하는 방법](#4-2-외부-도구를-이용해서-병합하는-방법)  
+5. [부록 checkout vs reset](#5-부록)  
+5-1. [checkout](#5-1-checkout)   
+5-2. [reset](#5-2-reset)  
+5-3. [checkout vs reset](#5-3-checkout-vs-reset)  
 ***
 
 ### 1. Branch
@@ -415,7 +419,61 @@
     
     - 3 way merge tool은 좋은게 많으니 검색해보고 좋은거 쓰면 됨  
   
-
+### 5. 부록
+  - #### 5-1. checkout
+    - HEAD, master branch, commit 의 관계를 살펴보자  
+    
+    - 기본적으로 저장소를 생성시 HEAD, master branch가 생성됨  
+      작업을 하는 것은 결국 기본적으로 master branch위에서 버전을 생성하는 것  
+      즉, HEAD를 보면 현재 branch에 checkout 되어있구나(= master branch 상태구나) 라는 것을 알 수 있음  
+      
+    - 현재 버전을 알고 싶다면 HEAD가 가리키고, branch가 가리키는 버전을 보면 알 수 있음  
+    
+    - checkout (branch name) 
+      ```
+      HEAD가 가리키는 branch를 변경하는 것   
+      
+      즉, 이 과정을 통해 현재 우리가 어느 branch에 있고, 
+      
+      branch의 최신 버전이 무엇인지 알 수 있음   
+      ```
+    - checkout (버전) 
+      ```
+      branch를 가리키지 않고 1번이라는 버전(commit)을 직접 가리킴  
+      
+      이러한 상태를 branch로 부터 떨어져 있다. -> detached 상태라고 함  
+      ```
+      
+    - checkout은 결국 `HEAD를 제어(HEAD의 값)하는 것`이다.  
+  
+  - #### 5-2. reset
+    - branch를 변경  
+    
+    - reset (branch이름) - 이렇게는 잘 쓰지 않음
+      ```
+      현재 branch를 reset에서 지정한 branch가 가리키고 있는 버전으로 변경한다.  
+      
+      현재 branch가 이전에 가리키고 있던 버전은 지정한 branch가 가리키고 있는 버전 이후 이므로   
+      
+      링크가 끊겨 더 이상 현재 branch의 소속이 아니게 된다.  
+      ```  
+    - reset (버전의 아이디) - 보통 이렇게 사용함
+      ```
+      현재 branch에서 reset 명령어로 지정한 버전을 가리키게 되므로  
+      
+      지정한 버전 이후에 등장하는 것들은 해당 branch 소속이 아니게 된다.  
+      ```  
+  - #### 5-3. checkout vs reset
+    - checkout  
+      - HEAD를 변경  
+      - `change`의 느낌   
+    
+    - reset  
+      - HEAD가 branch를 가리키고 있는 동안 branch를 변경(제어)  
+      - branch가 가리키는 commit을 변경하면  
+        그 commit 이후에 등장하는 것들은 링크가 끊겨 더 이상 해당 branch의 소속이 아니게됨  
+      - `delete`의 느낌  
+  
 ## Reference   
   - [생활코딩 GIT CLI Branch](https://opentutorials.org/course/3840)  
   - [테디노트 p4mergetool](https://teddylee777.github.io/git/study-git-2)  
