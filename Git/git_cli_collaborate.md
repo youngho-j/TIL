@@ -3,6 +3,9 @@
 ## 목차
 1. [혼자서 작업하기](#1-혼자서-작업하기)  
 1-1. [정리](#1-1-정리)  
+2. [같이 작업하기](#2-같이-작업하기)  
+2-1. [정리](#2-1-정리)  
+***
 ### 1. 혼자서 작업하기
   - #### 1-1. 정리
     - 디렉토리 생성  
@@ -21,7 +24,7 @@
     - staging에 파일 추가  
       ```
       git add (파일)
-      staging area에 파일 올
+      staging area에 파일 올림
       ```
     - 버전만들기  
       ```
@@ -42,7 +45,31 @@
       git push -u origin master
       지역저장소의 마스터와 원격 저장소의 마스터를 페어링(Tracked) 
       ```  
+### 2. 같이 작업하기
+  - #### 2-1. 정리
+    - github에서 비공개, 공개 저장소 사용시 버전을 올리기 위해서는 승인이 필요
+    - 저장소 승인하기
+      ```
+      1. 공유하는 원격 저장소에서 settings로 이동 
+      
+      2. 우측 Collaborators & teams 탭 클릭
+      
+      3. 하단 Collaborators에 username or email adress 추가
+      
+      4. 초대 받은 사람은 메일을 받게 되고 해당 메일에서 view invitation 클릭
 
+      5. Accept invitation을 클릭하면 협업자 관계 맺어짐  
+         
+         참고  
+         Copy invite link - 못받았을 경우 링크를 복사해서 보내주면 됨  
+         Premission level - Admin / Write / Read 가 있음  
+      ```
+    - 협업자 저장소 세팅
+      ```
+      저장소 주소 복사
+      
+      git clone (원격 저장소 주소) (clone을 받을 디렉토리)
+      ```
 ## Reference   
   - [생활코딩 GIT CLI Collaboration](https://opentutorials.org/course/3842)  
 ***
