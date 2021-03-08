@@ -5,6 +5,8 @@
 1-1. [정리](#1-1-정리)  
 2. [같이 작업하기](#2-같이-작업하기)  
 2-1. [정리](#2-1-정리)  
+3. [push & pull](#3-push--pull)  
+3-1. [협업 중 일어날 수 있는 경우의 수](#3-1-협업-중-일어날-수-있는-경우의-수)  
 ***
 ### 1. 혼자서 작업하기
   - #### 1-1. 정리
@@ -70,6 +72,57 @@
       
       git clone (원격 저장소 주소) (clone을 받을 디렉토리)
       ```
+### 3. push & pull
+  - #### 3-1. 협업 중 일어날 수 있는 경우의 수
+    1. A 라는 사람이 work.txt 파일을 수정하고 버전을 만들어 원격저장소에 push 한 뒤  
+       B 라는 사람이 pull을 깜빡하고 work.txt 파일을 수정 후 버전을 만들어 원격 저장소에 push를 한 상황
+       ```
+       code
+       
+       1. A : git pull을 통해 현재 원격저장소에서 변경된 내용을 로컬에 내려받음
+       
+       2. A : nono work.txt를 통해 파일을 수정(2번째 줄)
+       
+       3. A : git add work.txt
+       
+       4. A : git commit -m "work 2a"
+       
+       5. A : git push
+       
+       6. B : nano work.txt를 통해 파일 수정(2번째 줄)
+       
+       7. B : git add work.txt
+       
+       8. B : git commit -m "work 2b"
+       
+       9. B : git push -> rejected 발생  
+              원인 : 원격저장소에 변경된 작업이 존재하는데 내려받지 않아서  
+              해결 : 원격저장소의 내용을 pull로 내려받고 push를 실행해라  
+       
+       10. B : git pull -> CONFLICT 발생  
+               원인 : 같은 줄을 수정했기 때문에 충돌 발생  
+               해결 : 병합도구(git mergetool or nano (파일)을 통해 수동으로 수정)  
+       
+       11. B : nano work.txt로 원하는 내용으로 수정 후 git add work.txt
+       
+       12. B : git commit  
+               git commit -m "(메세지)" 형태처럼 사용하지 않는 이유  
+               : git이 conflict 상황을 기억하기 때문에 자동으로 메세지를 생성해줌   
+       
+       13. B : git log --all --graph --oneline 사용시 병합이 된 것을 알 수 있음
+       
+       14. B : 병합된 새로운 버전을 git push
+       
+       15. A : 작업을 하기 전 git pull을 통해 새로운 버전을 내려 받아 동기화 시킴  
+               각 로컬에서 git log --all --graph --oneline 사용해 보면 됨  
+       
+       Point!
+       최대한 작업을 빨리 끝내고 push를 자주해야지 충돌이 일어나지 않음
+       
+       작업시 반드시 git pull을 통해 업데이트된 내용이 있는지 확인하는 것은 매우 좋은 습관이다.
+       
+       -> conflict, push, pull의 기능을 통해 협업자간 커뮤니케이션이 증대될 수 있다.         
+       ```
 ## Reference   
   - [생활코딩 GIT CLI Collaboration](https://opentutorials.org/course/3842)  
 ***
