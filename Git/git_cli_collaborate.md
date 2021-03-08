@@ -7,6 +7,8 @@
 2-1. [정리](#2-1-정리)  
 3. [push & pull](#3-push--pull)  
 3-1. [협업 중 일어날 수 있는 경우의 수](#3-1-협업-중-일어날-수-있는-경우의-수)  
+4. [remote branch 와 fetch](#4-remote-branch-와-fetch)  
+4-1. [정리](#4-1-정리)  
 ***
 ### 1. 혼자서 작업하기
   - #### 1-1. 정리
@@ -123,7 +125,55 @@
        
        -> conflict, push, pull의 기능을 통해 협업자간 커뮤니케이션이 증대될 수 있다.         
        ```
+### 4. remote branch 와 fetch
+  - #### 4-1. 정리
+    1. git fetch; git merge
+       협업시 기본적인 작업 순서는 아래 순서와 같음 
+       
+       1. git pull → commit → git push   
+       
+       위와 같이 사용할 수 있으나 아래와 같이 작업을 진행 할 수 있음(결과는 같다.)  
+       
+       2. git fetch → git merge FETCH_HEAD → commit → push  
+          ```
+          git fetch 
+           = 원격 저장소로부터 필요한 파일을 다운(remote branch만 가져옴)
+             지역 저장소의 브랜치는 지역 저장소의 최근 커밋 상태
+             원격 저장소의 브랜치(origin/master)는 다운 받은 최신 커밋의 상태를 가리킴
+           
+           git merge (원격저장소별명)/(브랜치명)
+           = 원격 저장소의 브랜치를 로컬 저장소의 master branch로 merge(병합)
+           
+           참고, 그냥 git pull해도 상관은 없음.
+          ```
+           
+       즉, `git pull = git fetch → git merge origin/master`   
+       
+       참고  
+       ```
+       git merge (원격저장소별명)/(브랜치명)을 보다 간편하게 사용하고 싶을 경우
+       
+       git merge FETCH_HEAD을 사용하면 자동적으로 적용이 됨
+       
+       그럼 어떻게 자동 적용이 되는걸까?
+       fetch를 사용시 .git/FETCH_HEAD라는 파일을 생성하여 참고하여 자동 적용
+       ```
+         
+       git fetch는 언제 쓰이나?  
+       ```
+       신중하게 git의 데이터를 pull하고 싶을때 
+       데이터를 일단 가져오고 나중에 결합하면 됨
+       ```
+         
+       git fetch 사용하는 이유  
+       ```
+       1. 원래 내용과 바뀐 내용과의 차이를 알 수 있음 
+          → git diff HEAD origin/master  
+       2. commit이 얼마나 됐는지 알 수 있음
+          → git log --decorate --all --oneline
+       ```
 ## Reference   
   - [생활코딩 GIT CLI Collaboration](https://opentutorials.org/course/3842)  
+  - [유자의 개발아지트 pull과 fetch의 차이](https://yuja-kong.tistory.com/60)  
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/Git/README.md "Go README.md")
