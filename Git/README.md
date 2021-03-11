@@ -10,3 +10,4 @@
 -  [생활코딩 GIT CLI Backup](https://github.com/youngho-j/TIL/blob/main/Git/git_cli_backup.md)
 -  [생활코딩 GIT CLI Collraboration](https://github.com/youngho-j/TIL/blob/main/Git/git_cli_collaborate.md)
 -  [Git 에러 모음](https://github.com/youngho-j/TIL/blob/main/Git/error.md) 
+-  [Git 삭제 관련 내용](https://github.com/youngho-j/TIL/blob/main/Git/git_delete.md)
