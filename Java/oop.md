@@ -13,6 +13,8 @@
 3-4. [return 문](3-4-return-문)  
 3-5. [호출스택(call stack)](#3-5-호출스택call-stack)  
 3-6. [기본형 매개변수와 참조형 매개변수](#3-6-기본형-매개변수와-참조형-매개변수)  
+3-7. [재귀호출](#3-7-재귀호출)  
+3-8. [static method와 instance method](#3-8-static-method와-instance-method)  
 ***
 ### 1. 객체지향언어(프로그래밍언어 + 객체지향개념)
   - #### 1-1. 특징
@@ -260,10 +262,94 @@
     
     - 매개변수의 유효성 검사
       적절하지 않은 값이 들어오면 
+      ```
       1. 매개변수의 값을 보정  
       2. return문으로 작업을 중단하고, 호출한 메서드로 되돌아가도록 함  
+      ```
       둘 중 하나의 코드를 반드시 넣어줘야함  
  
+  - #### 3-7 재귀호출
+    - 메서드 내에서 자기자신을 반복적으로 호출하는 것
+
+  - #### 3-8 static method와 instance method
+    - static method   
+      <table>
+        <tr>
+          <th rowspan="3">
+            static method
+          </th>
+           <th>
+             객체 생성X, [클래스이름].[메서드이름()] 으로 호출
+          </th>
+        </tr>
+        <tr>
+           <th>
+             인스턴스 멤버와 관련없는 작업을 하는 메서드
+          </th>
+        </tr>
+	      <tr>
+           <th>
+             메서드 내 인스턴스 변수(iv) 사용 불가!
+          </th>
+        </tr>
+      </table>  
+      
+    - instance method   
+      <table>
+        <tr>
+          <th rowspan="3">
+            instance method
+          </th>
+           <th>
+             인스턴스 생성 후, [참조변수].[메서드이름()] 으로 호출
+          </th>
+        </tr>
+        <tr>
+           <th>
+             인스턴스 멤버(iv, im)와 관련된 작업을 하는 메서드
+          </th>
+        </tr>
+	      <tr>
+           <th>
+             메서드 내 인스턴스 변수(iv) 사용 가능!
+          </th>
+        </tr>
+      </table>
+    
+    - instance method와 static method의 차이는 `iv 사용 유무`   
+    
+    - static을 언제 붙여야 할까
+      ```
+      1. 속성(멤버 변수) 중에서 공통 속성에 static 사용
+      2. 인스턴스 멤버(iv, im)을 사용하지 않는 메서드에 static 사용
+      ```
+    - 메서드 간의 호출과 참조
+      <table>
+        <tr>
+          <th rowspan="2">
+            static<br> 
+            method
+          </th>
+          <th>
+             호출X<br>
+              &nbsp;&nbsp;&nbsp;→
+          </th>
+          <th rowspan="2">
+            instance<br>
+            method
+          </th>
+        </tr>
+        <tr>
+           <th>
+             &nbsp;&nbsp;&nbsp;←<br>
+             호출O
+          </th>
+        </tr>
+      </table>
+      
+      - static method는 인스턴스 멤버(iv, im) 사용할 수 없다.  
+        왜? iv, im은 객체를 생성해야 사용가능 한데 객체가 있을지 없을지 몰라서 
+
 ## Reference   
   - [남궁성 자바의 정석 기초편](https://youtube.com/playlist?list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp)  
   - [남궁성 객체지향 개념](https://codechobo.tistory.com/25?category=645496) 
