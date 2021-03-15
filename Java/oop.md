@@ -20,7 +20,9 @@
 5. [생성자](#5-생성자)  
 5-1. [생성자](#5-1-생성자constructor)  
 5-2. [기본 생성자](#5-2-기본-생성자default-constructor)  
-5-3. [매개변수가 있는 생성자](#5-3-매개변수가-있는-생성자default-constructor)   
+5-3. [매개변수가 있는 생성자](#5-3-매개변수가-있는-생성자)   
+5-4. [생성자 this()](#5-4-생성자-this)  
+5-5. [참조변수 this](#5-5-참조변수-this)  
 ***
 ### 1. 객체지향언어(프로그래밍언어 + 객체지향개념)
   - #### 1-1. 특징
@@ -387,7 +389,7 @@
       [클래스이름](){}
       Point() {};
       ```
-  - #### 5-3. 매개변수가 있는 생성자(default constructor)   
+  - #### 5-3. 매개변수가 있는 생성자   
     - 인스턴스를 생성하는 동시에 원하는 값으로 초기화 할 수 있게 됨
     - 인스턴스 생성 후 인스턴스 변수의 값을 변경하는 것보다 이게 코드가 더 간결함.
       ```java
@@ -400,6 +402,51 @@
       Car c = new Car("White", "auto", 4);
       // 실행 과정 : Car c[참조변수 c 생성] → new[객체 생성] → Car(~)[생성자 호출 후 객체 초기화] → =[대입, 연결]
       ```
+
+  - #### 5-4. 생성자 this()
+    - 생성자에서 다른 생성자 호출할 때 클래스 이름 대신 this를 사용  
+      주의! 같은 클래스 안에 있어야함  
+      
+    - 다른 생성자 호출시 `첫 줄에서만 사용가능`  
+      왜? 다른 생성자로 인해 호출 이전의 초기화 작업이 무의미해지므로   
+      
+      ```java
+      class Car2 {
+        String color;  
+        String gearType;  
+	      int door;  
+        
+        Car2() {
+	        this("white", "auto", 4);  // Car(String color, String gearType, int door)를 호출
+	      }
+        
+        Car2(String color, String gearType, int door) {
+          this.color = color;
+          this.gearType = gearType;
+          this.door = door;
+        }
+      }
+      ```
+      
+    - 왜 이렇게 사용하는가? `코드 중복 제거`를 위해  
+    
+  - #### 5-5. 참조변수 this
+    - 주의!  
+      ```
+      참조변수 this와 생성자 this()와 연관 짓지 않기! 
+      
+      완전히 다름
+      ```
+      
+    - 인스턴스 자신을 가리키는 참조변수(객체 주소가 저장되어 있음)  
+    
+    - 모든 인스턴스 메서드에 지역변수로 숨겨친 채로 존재  
+      선언하지 않아도 사용가능하다.  
+    
+    - 인스턴스 메서드(생성자 포함)에서 사용O / static 메서드에선 사용X  
+    
+    - 지역변수(lv)와 인스턴스변수(iv)를 구별할 때 사용  
+      this가 붙으면 iv, 만약 this를 붙이지 않을 경우 매개변수와 가까운 lv이가 됨  
 
 ## Reference   
   - [남궁성 자바의 정석 기초편](https://youtube.com/playlist?list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp)  
