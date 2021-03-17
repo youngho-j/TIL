@@ -13,6 +13,12 @@
 2-2. [조건(규칙)](#2-2-조건규칙)  
 2-3. [참조변수 super](#2-3-참조변수-super)  
 2-4. [부모의 생성자 super()](#2-4-부모의-생성자-super)  
+3. [package와 import](#3-package와-import)  
+3-1. [패키지](#3-1-패키지)  
+3-2. [패키지의 선언](#3-2-패키지의-선언)  
+3-3. [클래스패스 설정](#3-3-클래스패스-설정)  
+3-4. [import문](#3-4-import문)  
+3-5. [import문 선언](#3-5-import문-선언)  
 
 ***
 ### 1. 상속
@@ -161,6 +167,79 @@
     - Object 클래스를 제외한 모든 클래스의 생성자 첫줄에는  
       반드시 같은 클래스의 다른 생성자 또는 부모의 생성자를 호출해야함   
       호출하지 않으면, 컴파일러가 자동으로 삽입..
+
+### 3. package와 import
+  - #### 3-1. 패키지
+    - 서로 관련된 클래스와 인터페이스의 묶음  
+    
+    - 클래스파일 = (*.class)    
+      패키지 = 폴더  
+      서브패키지 = (패키지명).(서브패키지명)  
+    
+    - 클래스의 실제이름은 패키지명이 포함된 것  
+      Ex) String class → java.lang.String
+      
+  - #### 3-2. 패키지의 선언
+    - 소스파일 첫 번째 문장(주석제외)으로 단 한번 선언  
+      Package (패키지명);
+      
+    - 같은 소스파일의 클래스들은 모두 같은 패키지에 속하게 됨  
+  
+  - #### 3-3. 클래스패스 설정
+    - 클래스파일(*.class) 위치를 찾는 경로
+    
+    - 환경변수로 관리하며, 경로간 구분은 `;` 사용, 환경변수에 패키지 루트를 등록 필요
+
+  - #### 3-4. import문
+    - 컴파일러에게 클래스가 속한 패키지를 알려줌  
+    
+    - import문 사용하면 클래스 사용시 패키지명 생략 가능  
+      Ex) import java.util.*;  
+    
+  - #### 3-5. import문 선언
+    - 소스파일 구성 순서  
+      ```java
+      1. package문
+      2. import문
+      3. 클래스 선언
+
+      Ex)
+      package com.javachobo.book;
+      
+      import java.util.*;
+      
+      public class Test {
+        public static void main(String[] args) {
+          Date today = new Date();        
+        }
+      }
+      ```  
+    - 선언 방법  
+      `import 패키지명.클래스명;`  
+      참고 : 컴파일시 처리되므로 성능에 영향 미치지 않음
+      
+      이름이 같은 클래스가 속한 두패키지를 선언하는 경우
+      ```java
+      import java.sql.*;  //java.sql.Date;
+      import java.util.*; //java.util.Date;
+      
+      public class Test {
+        public static void main(String[] args) {
+          // 클래스 앞에 패키지명을 붙여줘야함 
+         java.util.Date today = new java.util.Date();
+        }
+      }
+      ```
+      
+   - static import문  
+     static 멤버(static 메서드, cv)를 사용시 클래스 이름 생략가능하게 해줌.  
+     ```java
+     import static java.lang.Integer;
+     import static java.lang.Math.random; 
+     import static java.lang.System.out; // out.println(random()); 처럼 사용가능
+     import static java.lang.Math.PI; // cv도 대상 out.println(PI); 처럼 사용가능
+     import static java.lang.Math.*; // 권장되지 않음
+     ```  
 
 ## Reference   
   - [남궁성 자바의 정석 기초편](https://youtube.com/playlist?list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp)  
