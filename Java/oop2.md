@@ -19,6 +19,10 @@
 3-3. [클래스패스 설정](#3-3-클래스패스-설정)  
 3-4. [import문](#3-4-import문)  
 3-5. [import문 선언](#3-5-import문-선언)  
+4. [제어자(modifiers)](#4-제어자modifiers)  
+4-1. [제어자란?](#4-1-제어자란)    
+4-2. [static - 클래스의, 공통적인](#4-2-static---클래스의-공통적인)  
+4-3. [final - 마지막의, 변경될 수 없는](#4-3-final---마지막의-변경될-수-없는)  
 
 ***
 ### 1. 상속
@@ -240,6 +244,91 @@
      import static java.lang.Math.PI; // cv도 대상 out.println(PI); 처럼 사용가능
      import static java.lang.Math.*; // 권장되지 않음
      ```  
+
+### 4. 제어자(modifiers)
+  - #### 4-1. 제어자란?  
+    - 클래스와 변수, 메서드의 선언부에 사용되어 부가적인 의미를 부여  
+    - 하나의 대상에 여러 제어자를 같이 사용 가능(단, 접근제어자는 단 하나만 사용 가능)  
+    - 분류
+      ```
+      접근 제어자 - public, protected, default, private
+      
+      그 외 - static, final, abstract, native, transient, sychronized, volailo, strictfp
+      ```  
+  - #### 4-2. static - 클래스의, 공통적인  
+    - 사용 가능 한 곳 : 멤버변수, 메서드, 초기화 블럭(static {})에서 사용 가능  
+      ```java
+      class StaticTest {
+        // 모든 인스턴스에 공통적으로 사용되는 클래스변수가 됨
+        // 인스턴스를 생성하지 않고도 사용 가능
+        // 클래스가 메모리에 로드될 때 생성
+        static int width = 200;  // 멤버 변수
+        static int height = 120;
+        
+        static { // 클래스 초기화 블럭
+        // static 변수의 복잡한 초기화 수행
+        }
+       
+        // 인스턴스 생성하지 않고 호출 가능
+        // static 메서드 내에서는 인스턴스 멤버들을 직접 사용 불가
+        static int max(int a, int b) {
+          return a > b ? a : b;
+        }
+      }
+      ```
+ 
+  - #### 4-3. final - 마지막의, 변경될 수 없는  
+    - 사용 가능 한 곳 : 클래스, 메서드 멤버변수, 지역변수
+       ```java
+       // 변경, 확장 될수 없는 클래스가 됨 -> final로 지정된 클래스는 다른 클래스의 부모가 될 수 없음
+       final class FinalTest {
+         // 값을 변경할 수 없는 상수가 됨
+         final int MAX_SIZE = 10;  // 멤버 변수
+       
+         static { // 클래스 초기화 블럭
+         // static 변수의 복잡한 초기화 수행
+         }
+       
+         // 변경 될 수 없는 메서드, 오버라이딩을 통해 재정이 불가!
+         final void getMaxSize() {
+           // 값을 변경할 수 없는 상수가 됨
+           final int LV = MAX_SIZE; //지역 변수
+           return MAX_SIZE;
+         }
+       }
+       ```
+    - 참고 : 대표적인 final 클래스는 String, Math 클래스  
+  
+    - 생성자를 이용한 final 멤버변수 초기화  
+      - 보통은 선언과 초기화를 동시에 하지만,   
+        인스턴스마다 고정값을 갖는 인스턴수 변수의 경우 `생성자에서 단 한번 초기화`  
+        (카드의 무늬와 숫자는 한번 결정되면 바뀌지 않아야 하는 경우)  
+      ```java
+      class Card {
+        final int NUMBER;
+        final String KIND;
+        static int width = 200;
+        static int height = 120;
+        
+        Card(String kind, int num) {
+          KIND = kind;
+          NUMBER = num;
+        }
+        
+        Card() {
+          // 같은 클래스의 다른 생성자를 호출 시 사용 this() 생성자
+          this("HEART", 1);
+        }
+        
+        public String toString() {
+          return "" + KIND + " " + NUMBER;
+        }
+      }
+      
+      public static void main(String[] args) {
+        Card c = new Card("HEART", 10);
+      }
+      ```
 
 ## Reference   
   - [남궁성 자바의 정석 기초편](https://youtube.com/playlist?list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp)  
