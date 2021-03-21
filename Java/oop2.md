@@ -28,6 +28,9 @@
 4-6. [접근 제어자를 통한 캡슐화](#4-6-접근-제어자를-통한-캡슐화)  
 4-7. [생성자의 접근 제어자](#4-7-생성자의-접근-제어자)  
 4-8. [제어자의 조합](#4-8-제어자의-조합)  
+5. [다형성(polymorphism)](#5-다형성polymorphism)  
+5-1. [다형성이란?](#5-1-다형성이란)  
+5-2. [참조변수의 형변환](#5-2-참조변수의-형변환)    
 
 ***
 ### 1. 상속
@@ -416,6 +419,70 @@
     4. 메서드에 private와 final을 같이 사용할 필요 없음  
         왜? 접근 제어자가 private인 메서드는 오버라이딩 될 수 없음  
             둘 중 하나만 사용해도 충분  
+
+### 5. 다형성(polymorphism)
+  - #### 5-1. 다형성이란?
+    - 여러 가지 형태를 가질 수 있는 능력  
+    
+    - 하나의 참조변수로 여러 타입의 객체를 참조할 수 있는 것  
+      즉, `부모타입의 참조변수로 자식타입의 객체를 다룰 수 잇는 것`  
+      ```java
+      class Tv {
+        boolean power;
+        int channel;
+        
+        void power() {power = !power;}
+        void channelUp() {++channel;}
+        void channelDown() {--channel;}
+      }
+      
+      class CaptionTv extends Tv {
+        String Text;
+        void caption() {/*내용생략*/}
+      }
+      
+      Tv t = new CaptionTv();
+      ```
+    - 장점
+      1. 조상타입 참조변수로 자손타입의 객체를 다룰 수 있다.  
+      2. 하나의 배열에 여러종류의 객체 저장 가능  
+    
+    - 참조변수가 사용할 수 있는 멤버의 개수는 인스턴스의 멤버개수보다 같거나 적어야 한다.  
+    
+    - 참조변수 타입과 인스턴스 타입은 보통 일치하지만 일치하지 않을 수도 있음   
+  
+  - #### 5-2. 참조변수의 형변환  
+    - (리모컨을 변경함으로서) 사용할 수 있는 멤버의 개수를 조절하는 것  
+    - 부모, 자식 관계의 참조변수는 서로 형변환이 가능 (형제관계는 없음!!!)  
+    - 리모컨 기능이 많은 쪽에서 적은 쪽으로 줄이는 것은 안전!!
+      자식 → 부모 ○, 형변환 생략 가능  
+    - 적은 쪽을 늘릴때는 안전하지 않으므로 꼭 형변환 필요!!  
+      부모 → 자식 △, 형변환 꼭 필요!!  
+      ```java
+      class Car {
+        String color;
+        int door;
+        
+        void drive() {/*내용생략*/}
+        void stop() {/*내용생략*/}
+      }
+      
+      class FireEngine extends Car {
+        void water() {/*내용생략*/}
+      }
+      
+      public static void main(String[] args) {
+        Car car = null;
+        FireEngine fe = new FireEngine();
+        FireEngine fe2 = null;
+        
+        fe.water();
+        car = fe; // car = (Car)fe; 부모 <- 자식
+        
+        fe2 = (FireEngine)car; // 자식 <- 부모
+        fe2.water();
+      }
+      ```
 
 ## Reference   
   - [남궁성 자바의 정석 기초편](https://youtube.com/playlist?list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp)  
