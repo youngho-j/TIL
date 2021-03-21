@@ -23,6 +23,11 @@
 4-1. [제어자란?](#4-1-제어자란)    
 4-2. [static - 클래스의, 공통적인](#4-2-static---클래스의-공통적인)  
 4-3. [final - 마지막의, 변경될 수 없는](#4-3-final---마지막의-변경될-수-없는)  
+4-4. [abstract - 추상의, 미완성의](#4-4-abstract---추상의-미완성의)  
+4-5. [접근 제어자](#4-5-접근-제어자)  
+4-6. [접근 제어자를 통한 캡슐화](#4-6-접근-제어자를-통한-캡슐화)  
+4-7. [생성자의 접근 제어자](#4-7-생성자의-접근-제어자)  
+4-8. [제어자의 조합](#4-8-제어자의-조합)  
 
 ***
 ### 1. 상속
@@ -329,6 +334,88 @@
         Card c = new Card("HEART", 10);
       }
       ```
+
+  - #### 4-4. abstract - 추상의, 미완성의  
+    - 객체를 생성할 수 없고, 추상메서드를 갖고 있으므로 상속받아서 완성을 해야한다. 
+    - 사용 가능 한 곳 : 클래스, 메서드
+      ```java
+      // 클래스 안에 추상 메서드가 있음, 미완성 설계도
+      abstract class AbstractTest {
+        // 선언부만 있고 {구현부}가 없는 메서드
+        abstract void move ();
+      }
+      ```
+  
+  - #### 4-5. 접근 제어자
+    - 멤버 또는 클래스에 사용되어, 외부로부터의 접근을 제한
+    - 사용 가능 한 곳 : 클래스, 멤버변수, 메서드, 생성자
+      |제어자|같은 클래스|같은 패키지|자식 클래스|전체|
+      |:--:|:--:|:--:|:--:|:--:|
+      |public|○|○|○|○|
+      |protected|○|○|○|×|
+      |default|○|○|×|×|
+      |private|○|×|×|×|
+      
+    - 즉, 위의 표를 통해 접근 범위를 본다면
+      ```
+      public  >  protected  >  default  >  private  
+       전체      같은 패키지   같은 패키지   같은 클래스  
+                 ＋ 다른  
+                    패키지 자손
+      ```
+  
+  - #### 4-6. 접근 제어자를 통한 캡슐화
+    - 접근 제어자를 사용하는 이유
+      1. 외부로부터 `데이터를 보호`하기 위해
+      2. 외부에는 불필요한 `내부적으로만 사용되는 부분을 감추기 위해`
+  
+  - #### 4-7. 생성자의 접근 제어자
+    - 일반적으로 생성자의 접근 제어자는 클래스의 접근 제어자와 일치  
+    - 생성자에 접근 제어자를 사용함으로써 `인스턴스의 생성 제한 가능`  
+      ```java
+      final calss Singleton {
+        // getInstance() 에서 사용 가능하도록 인스턴스가 미리 생성되어야함
+        private static Singleton s = new Singleton();
+        
+        private Singleton() { //생성자
+          // ... 
+        }
+        
+        public static Singleton getInstance() {
+          if(s == null) {
+            s = new Singleton();
+          }
+          return s;
+        }
+      }
+      
+      class Test {
+        public static void main(String[] args) {
+          // Singleton s = new Singleton(); 에러, 접근 불가!
+          Singleton s1 = Singleton.getInstance();
+        }
+      ```
+
+  - #### 4-8. 제어자의 조합
+    |대상|사용가능한 제어자|
+    |:--:|:--:|
+    |클래스|public, (default), final, abstract|
+    |메서드|모든 접근제어자, final, abstract, static|
+    |멤버변수|모든 접근제어자, final, static|
+    |지역변수|final|
+    
+    1. 메서드에 static과 abstract를 함께 사용 불가!  
+        왜? static 메서드는 구현부가 있는 메서드만 사용가능하기 때문  
+    
+    2. 클래스에 abstract와 final 동시 사용 불가!  
+        왜? final은 더이상 확장이 불가하다는 의미, abstract는 상속을 통해 완성해야 함을 의미 따라서 서로 모순  
+   
+    3. abstract 메서드의 접근 제어자가 private일 수 없음  
+        왜? abstract메서드는 자식 클래스에서 구현해줘야 하는데 접근제어자가 private이면, 자식 클래스에서 접근 불가  
+        
+    4. 메서드에 private와 final을 같이 사용할 필요 없음  
+        왜? 접근 제어자가 private인 메서드는 오버라이딩 될 수 없음  
+            둘 중 하나만 사용해도 충분  
 
 ## Reference   
   - [남궁성 자바의 정석 기초편](https://youtube.com/playlist?list=PLW2UjW795-f6xWA2_MUhEVgPauhGl3xIp)  
