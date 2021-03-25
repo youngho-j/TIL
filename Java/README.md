@@ -13,7 +13,3 @@
 - [String str = new String(" ") / String str = " " 차이](https://github.com/youngho-j/TIL/blob/main/Java/String_object_compare_literal.md "자바_String 관련")
 - [List list = new ArrayList(); 와 ArrayList list = new ArrayList(); 의 차이?](https://github.com/youngho-j/TIL/blob/main/Java/List_compare_ArrayList.md "자바_List,ArrayList 관련")
 ***
-
-테스트
-테스트
-왜 안되는데?
