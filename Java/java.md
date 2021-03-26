@@ -31,6 +31,36 @@
       + Java EE(Enterprise Edition) - 서버용 애플리케이션 개발 에디션   
         : 서버용 애플리케이션을 개발하기 위한 도구, 라이브러리 API 정의  
       
+      + JDK(Java Development kit), JRE(Java Runtime Enviroment), JVM(Java Virtual Machine) 차이  
+        - 요약  
+          - JDK = JRE + @  
+            ```
+            JVM = 자바 소스코드로부터 만들어지는 자바 바이너리 파일(.class)을 실행
+            JDK = 읽기/쓰기 전용
+            JRE = 읽기 전용
+            ```   
+        - JVM(Java Virtual Machine)  
+          - 자바 소스코드로부터 만들어지는 자바 바이너리 파일(.class)을 실행할 수 있음  
+          - 플랫폼에 의존적이다. 즉 리눅스의 JVM과 윈도우즈의 JVM은 다름 단, 컴파일된 바이너리 코드는 어떤 JVM에서도 동작시킬 수 있다.  
+          - 역할  
+            바이너리 코드를 읽는다.
+            바이너리 코드를 검증한다.
+            바이너리 코드를 실행한다.
+            실행환경(Runtime Environment)의 규격을 제공한다. (필요한 라이브러리 및 기타파일)
+        
+        - JRE(Java Runtime Enviroment)  
+          - 컴파일된 자바 프로그램을 실행시킬 수 있는 자바 환경  
+          - JVM이 자바 프로그램을 동작시킬 때 필요한 라이브러리 파일들과 기타 파일들을 가지고 있음  
+          - JVM의 실행환경을 구현했다고 할 수 있다  
+          - 자바 프로그램을 실행시키기 위해선 JRE를 반드시 설치해야함  
+          - 하지만 `자바 프로그래밍 도구는 포함되어있지 않음`  
+        
+        - JDK(Java Development kit)  
+          - 자바 프로그래밍시 필요한 컴파일러 등 포함  
+          - 개발을 위해 필요한 도구(javac, java등)들을 포함  
+          - JDK를 설치하면 JRE도 같이 설치가 된다  
+          - 즉 JDK = JRE + @ 라고 생각하면 됨  
+        
     * 멀티 스레드(Multi-Thread)를 쉽게 구현 가능
       + 스레드 생성 및 제어와 관련된 라이브러리 API 제공  
       
@@ -41,5 +71,6 @@
 
 ## Reference   
   - 신용권, 이것이 자바다, 한빛미디어(2019)  
+  - [gooGid JDK와 JRE의 차이점](https://goodgid.github.io/Java-JDK-JRE/)  
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/Java/README.md "Go README.md")
