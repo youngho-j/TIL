@@ -1,15 +1,47 @@
 # 자바 가상 기계(JVM)
   - 자바 프로그램을 이루고 있는 바이트 코드를 해석하고 실행할 수 있는 가상의 운영체제
-    * 바이트 코드는 모든 JVM에서 동일한 실행 결과 보장, but JVM은 운영체제에 종속적(운영체제에 맞는 JVM 설치 필요)   
+    * 바이트 코드는 모든 JVM에서 동일한 실행 결과 보장, but JVM은 운영체제에 종속적(운영체제에 맞는 JVM 설치 필요)    
+    * 메모리 관리 기능(Garbage Collection)  
    <p align="center"> <img src="/img/Java/javaExecution.png" width="50%" height="40%" title="자바실행단계사진"></img></p>   
+  
+  - JVM 구조
+    * 프로그램이 실행되면 JVM은 OS로부터 이 프로그램이 필요로 하는 메모리를 할당받고,  
+      JVM은 이 메모리를 용도에 따라 여러 영역으로 나누어 관리  
+    ```
+    - Class Loader
+      JVM 안으로 class파일을 로드하고, 링크를 통해 배치하는 작업을 수행하는 모듈
+      jar파일 내 저장된 클래스들을 JVM위에 탑재하고 사용하지 않는 클래스들을 메모리에서 삭제
+
+    - Execution Engine
+      클래스를 실행시키는 역할
+      클래스 로더가 JVM내의 런타임 데이터 영역에 바이트코드를 배치시키고, 이것은 실행엔진에 의해 실행
     
-    1. .java 파일(소스파일) 작성    
-    2. 컴파일러(javac.exe)로 컴파일
-    3. .class 파일(바이트 코드 파일) 생성
-    4. JVM 구동 명령어(java.exe)에 의해 해석, 운영체제에 맞는 기계어로 번역   
+    - Interpreter
+      Execution Engine은 자바 바이트 코드를 명령어 단위로 읽어서 실행
+      한줄씩 읽어서 수행하기 때문에 느림
+
+    - JIT (Just - In - Time)
+      인터프리터 방식의 단점을 보완하기 위해 도입된 JIT컴파일러
+      인터프리터 방식으로 실행하다가 적절한 시점에 바이트코드 전체를 컴파일하여 네이티브 코드로 변경
+    
+    - Garbage collector
+      GC를 수행하는 모듈
+    ```
+  
+  - Java 어플리케이션 실행과정
+     ```
+     1. 프로그램이 실행되면 JVM은 OS로부터 메모리를 할당 받음
+     2. 자바 컴파일러(javac)가 자바 소스코드(.java)를 읽어들여 자바 바이트코드(.class)로 변환
+     3. Class Loader를 통해 class파일들을 JVM으로 로딩
+     4. 로딩된 class 파일들은 Execution engine을 통해 해석
+     5. 해석된 바이트코드는 Runtime Data Area에 배치되어 실질적인 수행이 이루어짐
+     6. 이러한 실행과정 속에서 JVM은 필요에 따라 GC같은 관리작업을 수행
+     ```
+  - Runtime Data Area
+    * 프로그램을 수행하기 위해 OS에 할당받은 메모리 공간   
   
   - JVM의 메모리 구조 (5가지)
-    1. method Area (메소드 영역)  
+    1. method Area (메소드 영역)  = (Class Area or Static Area)
        ```
        클래스 변수의 이름, 타입, 접근제어자 등과 같은 `클래스와 관련된 정보를 저장` 
        그외에도 `static 변수, 인터페이스 등을 저장`  
