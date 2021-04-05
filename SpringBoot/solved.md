@@ -9,7 +9,12 @@
 2-1. [원인](#2-1-원인)  
 2-2. [해결방법](#2-2-해결방법)  
 2-3. [Reference](#2-3-reference)  
+3. [lombok constructor 생성 오류](#3-lombok-constructor-생성-오류)  
+3-1. [원인](#3-1-원인)  
+3-2. [해결방법](#3-2-해결방법)  
+3-3. [Reference](#3-3-reference)  
 ***
+
 ### 1. 테스트 코드 한글 깨짐 현상해결하기
   - #### 1-1. 원인
     - IntelliJ 에서 소스 파일을 읽고, 바이트 코드를 만드는 과정에서 한글 문자열 깨짐  
@@ -61,6 +66,31 @@
     - [메자곰localhost:8080 사용자 비밀번호 입력이라고 뜰 경우](https://technote-mezza.tistory.com/27)  
     - [JustOne 오라클 관리자계정 비밀번호 잊어버렸을때](https://nhs0912.tistory.com/49)  
     - [sj입니다 오라클 포트번호 변경방법](https://javawin.tistory.com/24)  
+  
+### 3. lombok constructor 생성 오류
+  - #### 3-1. 원인
+    - 책에서 사용하고 있는 gradle 권장 버전은 4.8 ~ 4.10.2 현재 사용중인 버전은 6.7
+    - 설정은 따로 건드린 것이 없었으니 자동으로 최신버전을 설치한 것 같다. 
+   
+  - #### 3-2. 해결방법
+    - Gradle Annotation processor 설정하여 사용(IntelliJ 2020.X 기준)  
+      왜? 그레이들 플러그인이 그레이들의 변동을 따라오지 못하므로.. 기본 제공기능을 활용하자  
+     
+    - gradle 버전 다운그레이드  
+      현시점에서는 빠르게 훑어보는게 목적이므로 해당 방법을 사용  
+      ```
+      1. IntelliJ 하단 Terminal 탭 클릭
+      2. gradlew wrapper --gradle-version 4.10.2 (window 기준)
+      3. 좌측 gradle 폴더 클릭
+      4. wrapper 폴더 클릭
+      5. 폴더 내부 gradle-wrapper.properties 에서 gradle 버전 확인 (아래와 같게 나오면 됨)   
+         distributionUrl=https\://services.gradle.org/distributions/gradle-4.10.2-bin.zip  
+      ```
+     
+  - #### 3-3. Reference
+    - [jojoldu p.72 lombok constructor 생성 오류 #78](https://github.com/jojoldu/freelec-springboot2-webservice/issues/78)  
+    - [일상, 기록 gradle 버전 다운그레이드](https://skyfox83.tistory.com/27)  
+    - [honeymom.io 그레이들 Annotation processor 와 Querydsl](http://honeymon.io/tech/2020/07/09/gradle-annotation-processor-with-querydsl.html)  
   
 
 
