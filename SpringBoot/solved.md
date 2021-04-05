@@ -2,18 +2,22 @@
 
 ## 목차
 1. [테스트 코드 한글 깨짐 현상해결하기](#1-테스트-코드-한글-깨짐-현상해결하기)  
+1-1. [원인](#1-1-원인)  
+1-2. [해결방법](#1-2-해결방법)  
+1-3. [Reference](#1-3-reference)  
 2. [localhost:8080 입력시 비밀번호 입력 창 뜨는 경우 해결하기](#2-localhost8080-입력시-비밀번호-입력-창-뜨는-경우-해결하기)  
-
+2-1. [원인](#2-1-원인)  
+2-2. [해결방법](#2-2-해결방법)  
+2-3. [Reference](#2-3-reference)  
 ***
 ### 1. 테스트 코드 한글 깨짐 현상해결하기
   - #### 1-1. 원인
-    - IntelliJ 에서 소스 파일을 읽고, 바이트 코드를 만드는 과정에서  
-      한글 문자열 깨짐  
+    - IntelliJ 에서 소스 파일을 읽고, 바이트 코드를 만드는 과정에서 한글 문자열 깨짐  
   
   - #### 1-2. 해결방법
     ```
     1. 메뉴 탭 Help 클릭
-    2. 드룹다운 메뉴 중 Edit Custom VM Options 클릭
+    2. 드롭다운 메뉴 중 Edit Custom VM Options 클릭
     3. -Dfile.encoding=UTF-8 추가
     4. IntelliJ 끄고 다시 실행
     5. 테스트 실행 
@@ -54,7 +58,7 @@
        ```
 
   - #### 2-3. Reference
-    - [메자곰localhost:8080 사용자 비밀번호 입력이라고 뜰 경우](인https://technote-mezza.tistory.com/27)  
+    - [메자곰localhost:8080 사용자 비밀번호 입력이라고 뜰 경우](https://technote-mezza.tistory.com/27)  
     - [JustOne 오라클 관리자계정 비밀번호 잊어버렸을때](https://nhs0912.tistory.com/49)  
     - [sj입니다 오라클 포트번호 변경방법](https://javawin.tistory.com/24)  
   
