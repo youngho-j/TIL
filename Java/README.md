@@ -12,4 +12,6 @@
 - [자바_객체지향개념2](https://github.com/youngho-j/TIL/blob/main/Java/oop2.md "자바_객체 지향개념2")
 - [String str = new String(" ") / String str = " " 차이](https://github.com/youngho-j/TIL/blob/main/Java/String_object_compare_literal.md "자바_String 관련")
 - [List list = new ArrayList(); 와 ArrayList list = new ArrayList(); 의 차이?](https://github.com/youngho-j/TIL/blob/main/Java/List_compare_ArrayList.md "자바_List,ArrayList 관련")
+- [자바 메모리 구조](https://github.com/youngho-j/TIL/blob/main/Java/java_T_memory.md "자바_메모리 구조")  
+- [자바_입력관련 내용 정리](https://github.com/youngho-j/TIL/blob/main/Java/java_input.md "자바_입력관련 내용 정리")  
 ***
