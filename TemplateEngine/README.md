@@ -5,5 +5,5 @@
 ## 목차
 
 -  [템플릿 엔진](https://github.com/youngho-j/TIL/blob/main/TemplateEngine/TemplateEngine.md)  
--  [템플릿 엔진](https://github.com/youngho-j/TIL/blob/main/TemplateEngine/Mustache.md)  
+-  [머스테치](https://github.com/youngho-j/TIL/blob/main/TemplateEngine/Mustache.md)  
 
