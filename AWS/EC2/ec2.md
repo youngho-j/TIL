@@ -9,6 +9,10 @@
 2-1. [1차 시도](#2-1-1차-시도)  
 2-2. [2차 시도](#2-2-2차-시도)  
 2-3. [Reference](#2-3-reference)  
+3. [EC2 소셜 로그인 기능 추가 중 발생한 오류 해결하기](#3-ec2-소셜-로그인-기능-추가-중-발생한-오류-해결하기)  
+3-1. [AWS 보안 그룹 변경 후 EC2 도메인으로 접속하기](#3-1-aws-보안-그룹-변경-후-ec2-도메인으로-접속하기)    
+3-2. [구글, 네이버 서비스에 도메인 등록 후 소셜로그인 하기](#3-2-구글-네이버-서비스에-도메인-등록-후-소셜로그인-하기)    
+3-3. [Reference](#3-3-reference)  
 
 ***
 ### 1. EC2에 프로젝트 클론 후 테스트 검증시 denied 해결 방법
@@ -101,6 +105,66 @@
     - [jojoldu 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 repo issue](https://github.com/jojoldu/freelec-springboot2-webservice/issues)  
     - [개발자스럽다 Bash 입문자를 위한 핵심 요약](https://blog.gaerae.com/2015/01/bash-hello-world.html)  
 
+### 3. EC2 소셜 로그인 기능 추가 중 발생한 오류 해결하기
+  - #### 3-1. AWS 보안 그룹 변경 후 EC2 도메인으로 접속하기  
+    ```
+    1. AWS 접속 후 EC2 네트워크 및 보안 탭에서 보안 그룹탭으로 이동
+    
+    2. EC2 8080 포트 열기  
+    
+    3. 퍼블릭 DNS에 ':8080' 붙여서 브라우저에서 접속
+    
+    이 단계까지는 쉽게 마무리 가능했음.. 문제는 다음 도메인 등록에서 시작.. 
+    ```
+  
+  - #### 3-2. 구글, 네이버 서비스에 도메인 등록 후 소셜로그인 하기
+    ```
+    1. 구글에 도메인 등록하기
+    
+    1-1. 구글 웹 콘솔 접속 후 api 및 서비스 탭에 OAuth 동의 화면 클릭
+    
+    1-2. 앱 수정 버튼 클릭
+    
+    1-3. 승인된 도메인에 'http://' 없이 퍼블릭 DNS 등록
+    
+    1-4. api 및 서비스 탭에 사용자 인증 정보 탭 클릭
+    
+    1-5. OAuth 2.0 클라이언트 ID 클릭 후   
+         승인된 리디렉션 URI에 'http:// + (퍼블릭 DNS) + :8080/login/oauth2/code/goole' 추가하여 퍼블릭 DNS 등록  
+    
+    1-6. EC2 DNS 주소로 이동시 화면 정상 출력 확인 
+    
+    1-7. 구글 로그인 버튼 클릭시 화면 멈춰있는 현상 발생
+    
+    1-8. EC2에서 다시 빌드 후 접속 후 F12로 확인해보니 500 에러 
+    
+    1-9. 지금까지 했던 작업 오타 체크 및 비슷한 현상 검색.. 길었다.. ㅠ
+    
+    1-10. 다시 빌드 후 nohup.out에 BadSQL 에러 확인.. (드디어 빛을 봄 ㅠ)
+    
+    1-11. RDS에 쿼리를 이용하여 누락된 SESSION_ATTRIBUTE 테이블과 오타난 인덱스 제거 후 재등록
+          (ALTER TABLE 테이블명 DROP INDEX 인덱스명;)  
+    
+    1-12. 정상 실행 확인(드디어 완료!)
+    
+    2. 네이버에 도메인 등록하기  
+    
+    2-1. 네이버 개발자 센터 접속 후 상단 Application 탭 클릭
+    
+    2-2. Client ID 클릭 후 API 설정 탭 클릭
+          
+    2-3. 로그인 오픈 API 서비스 환경에서  
+         서비스 URL 등록(http:// + 퍼블릭DNS), 
+         Callback URL(http:// + 퍼블릭DNS + :8080/login/oauth2/code/naver) 수정 및 추가  
+         
+    2-4. 정상 실행 확인(마무리)
+    ```
+
+  - #### 3-3. Reference
+    - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱 저  
+    - [jojoldu 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 repo issue](https://github.com/jojoldu/freelec-springboot2-webservice/issues)  
+    - [It is my Style MySQL인덱스 생성, 조회, 삭제](https://creds.tistory.com/163)  
+    - [기억보단 기록을 인덱스 정리 및 팁](https://jojoldu.tistory.com/243)  
 
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/AWS/EC2/README.md "Go README.md")
