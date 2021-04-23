@@ -167,4 +167,4 @@
     - [기억보단 기록을 인덱스 정리 및 팁](https://jojoldu.tistory.com/243)  
 
 ***
-[목차로 이동](https://github.com/youngho-j/TIL/blob/main/AWS/EC2/README.md "Go README.md")
+[목차로 이동](https://github.com/youngho-j/TIL/blob/main/AWS/WebDev/README.md "Go README.md")
