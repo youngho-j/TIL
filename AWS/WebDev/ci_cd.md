@@ -20,6 +20,9 @@
 3-6. [.travis.yml 코드 추가](#3-6-travisyml-코드-추가)   
 3-7. [EC2에 IAM 역할 추가하기](#3-7-ec2에-iam-역할-추가하기)  
 3-8. [Codedeploy 에이전트 설치](#3-8-codedeploy-에이전트-설치)  
+3-9. [CodeDeploy를 위한 권한 생성](#3-9-codedeploy를-위한-권한-생성)  
+3-10. [CodeDeploy 생성](#3-10-codedeploy-생성)  
+3-11. [Travis, S3, CodeDeploy 연동](#3-11-travis-s3-codedeploy-연동)  
 
 ***
 ### 1. CI & CD
@@ -192,6 +195,89 @@
       5. Agent 정상 실행 확인 sudo service codeploy-agent status
          The AWS CodeDeploy agent is running as PID ~ 메세지 출력시 정상  
       ```
+
+  - #### 3-9. CodeDeploy를 위한 권한 생성
+    - 권한 생성을 하는 이유?
+    - Codedeploy에서 EC2에 접근하기 위해 권한이 필요함
+    - 과정
+      ```
+      1. AWS 콘솔에서 IAM 검색
+
+      2. 좌측 역할 탭에서 역할 만들기 클릭
+      
+      3. AWS 서비스 중 CodeDeploy 선택(권한이 하나 밖에 없음 - AWSCodeDeployRole)
+      
+      4. 태그 추가 키 - Name, 값은 본인이 알아볼 수 있도록 작성
+      ```
+      
+   - #### 3-10. CodeDeploy 생성
+    - CodeDeploy - AWS의 배포 서비스 / 대체제가 없음
+    - 과정
+      ```
+      1. AWS 콘솔에서 CodeDeploy 검색
+      
+      2. 애플리케이션 생성 버튼 클릭
+      
+      3. 애플리케이션 이름, 컴퓨팅 플랫폼(EC2/온프레미스) 선택
+      
+      4. 애플리케이션에서 배포 그룹 생성하기 버튼 클릭
+      
+      5. 배포 그룹 이름 지정, 서비스 역할 선택(CodeDeploy IAM 선택)
+      
+      6. 배포 유형은 현재 위치 선택 (배포할 서비스 2대 이상이면 블루/그린 선택)
+      
+      7. 환경 구성에서는 Amazon EC2 인스턴스 체크
+      
+      8. 태그 그룹에서는 키에 Name 값에 사용하는 EC 인스턴스 이름 작성
+      
+      9. 배포 구성에는 CodeDeployDefaultAllAtOnce (한번에 전체 배포)
+      
+      10. 로드 밸런싱 비활성화 
+      ```
+  - #### 3-11. Travis, S3, CodeDeploy 연동
+    - 1. EC2 설정
+         - zip 파일을 저장할 디렉토리 생성
+         - 과정
+           ```
+           1. EC2 접속
+           
+           2. S3에서 넘겨 받은 zip 파일을 저장할 디렉토리 생성
+           
+           3. mkdir ~/app/step2 && mkdir ~/app/step2/zip (&& 옵션은 연속해서 명령어 사용가능하도록 함)
+           ```
+    - 2. Travis CI 설정
+         - .travis.yml 파일로 설정
+         - 
+
+    - 3. CodeDeploy 설정
+         - appspec.yml 파일로 설정
+         - 받은 zip 파일을 /home/ec2-user/app/step2/zip/(EC2)에 복사 한 뒤 압축을 풀 예정
+         - 코드
+           ```
+           # AWS CodeDeploy 설정
+           # version - CodeDeploy 버전 / 0.0 외 다른 버전 사용시 오류 발생
+           version: 0.0
+           os : linux
+           files :
+           # CodeDeploy에서 전달해준 파일 중(여기선 전체) destination으로 이동시킬 대상 지정
+            - source : /
+              destination: /home/ec2-user/app/step2/zip/
+              overwrite : yes
+
+           # CodeDeploy에서 EC2 서버로 넘겨준 파일들을 모두 ec2-user 권한을 갖도록 한다.
+           permissions:
+            - object: /
+              pattern: "**"
+              owner: ec2-user
+              group: ec2-user
+
+           # 배포 단계에서 실행할 명령어 지정
+           hooks:
+            ApplicationStart:
+              - location : deploy.sh
+                timeout: 60
+                runas: ec2-user
+           ```
 
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/AWS/EC2/README.md "Go README.md")
