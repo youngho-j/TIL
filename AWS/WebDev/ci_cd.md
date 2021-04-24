@@ -11,6 +11,11 @@
 2-1. [Travis CI](#2-1-travis-ci)  
 2-2. [과정](#2-2-과정)  
 2-3. [Reference](#2-3-reference)  
+3. [Travis CI 와 AWS S3 연동하기](#3-travis-ci-와-aws-s3-연동하기)  
+3-1. [AWS S3](#3-1-aws-s3)  
+3-2. [Travis CI와 S3 연동](#3-2-travis-ci와-s3-연동)  
+3-3. [AWS Key 발급](#3-3-aws-key-발급)  
+3-4. [Travis CI에 키 등록](#3-4-travis-ci에-키-등록)  
 
 ***
 ### 1. CI & CD
@@ -62,6 +67,47 @@
   - #### 2-3. Reference
     - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱 저  
     - [기억보단 기록을 6. TravisCI & AWS CodeDeploy로 배포 자동화 구축하기](https://jojoldu.tistory.com/265)  
+
+### 3. Travis CI 와 AWS S3 연동하기
+  - #### 3-1. AWS S3
+    - AWS에서 제공하는 `일종의 파일 서버`
+    - 이미지 파일을 비롯한 정적 파일들을 관리 또는 배포 파일들을 관리하는 등의 기능 제공  
+  
+  - #### 3-2. Travis CI와 S3 연동
+    - 왜 Travis CI와 CodeDeploy를 바로 연결하지 않는가?  
+    - CodeDeply는 저장 기능이 없어 CodeDeploy가 배포 파일을 가져갈 수 있도록  
+      보관할 공간이 필요  
+    - 웬만하면 `빌드와 배포는 분리하는 것을 추천` - 빌드 없이 배포시 대응하기 어렵  
+  
+  - #### 3-3. AWS Key 발급
+    - Key를 발급받는 이유?  
+    - 일반적으로 AWS 서비스에 외부 서비스 접근불가!
+    - 따라서, 접근 권한을 가진 Key를 생성하여 접근 해야함!
+    - AWS에서는 `IAM(Identity and Access Management)` - 인증관련 기능(서비스의 접근 방식과 권한 관리)  
+    - 과정
+      ```
+      1. aws 콘솔에서 iam 검색
+      
+      2. 우측 사용자 탭 클릭
+      
+      3. 사용자 이름 및 엑세스 유형(프로그래밍 방식), 권한 설정(기존 정책...) 선택
+      
+      4. 권한 설정 후 s3full / codedeployf 검색하여, 권한 추가
+      
+      5. 태그 key 부분에 Name 지정 후 값을 작성
+      
+      6. 설정 항목 확인 후 엑세스 키와 비밀 엑세스 키 기억해두기(Travis CI에서 사용될 키)
+      ```
+  
+  - #### 3-4. Travis CI에 키 등록
+    - 과정
+      ```
+      1. Travis CI 설정 화면으로 이동(settings)
+      
+      2. Environment Variables 하단에 IAM에서 발급받은 엑세스, 비밀 엑세스 키 등록
+      
+      3. 등록 시 입력한 이름을 쉘스크립트에서 사용하듯이 사용 가능 ($AWS_ACCESS_KEY, $AWS_SECRET_KEY) 
+      ```
 
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/AWS/EC2/README.md "Go README.md")

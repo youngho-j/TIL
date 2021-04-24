@@ -5,4 +5,5 @@
 ## 목차
 
 - [ec2 관련 내용 정리](https://github.com/youngho-j/TIL/blob/main/AWS/WebDev/ec2.md)  
-- [CI, CD 관련 내용 정리](https://github.com/youngho-j/TIL/blob/main/AWS/WebDev/CI_CD.md)  
+- [CI, CD 관련 내용 정리](https://github.com/youngho-j/TIL/blob/main/AWS/WebDev/ci_cd.md)  
+
