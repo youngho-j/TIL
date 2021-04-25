@@ -18,11 +18,14 @@
 3-4. [Travis CI에 키 등록](#3-4-travis-ci에-키-등록)  
 3-5. [S3 버킷 생성](#3-5-s3-버킷-생성)  
 3-6. [.travis.yml 코드 추가](#3-6-travisyml-코드-추가)   
-3-7. [EC2에 IAM 역할 추가하기](#3-7-ec2에-iam-역할-추가하기)  
-3-8. [Codedeploy 에이전트 설치](#3-8-codedeploy-에이전트-설치)  
-3-9. [CodeDeploy를 위한 권한 생성](#3-9-codedeploy를-위한-권한-생성)  
-3-10. [CodeDeploy 생성](#3-10-codedeploy-생성)  
-3-11. [Travis, S3, CodeDeploy 연동](#3-11-travis-s3-codedeploy-연동)  
+3-7. [Reference](#3-7-reference)  
+4. [Travis CI와 AWS S3, CodeDeploy 연동하기](#4-travis-ci와-aws-s3-codedeploy-연동하기)  
+4-1. [EC2에 IAM 역할 추가하기](#4-1-ec2에-iam-역할-추가하기)  
+4-2. [Codedeploy 에이전트 설치](#4-2-codedeploy-에이전트-설치)  
+4-3. [CodeDeploy를 위한 권한 생성](#4-3-codedeploy를-위한-권한-생성)  
+4-4. [CodeDeploy 생성](#4-4-codedeploy-생성)  
+4-5. [Travis, S3, CodeDeploy 연동](#4-5-travis-s3-codedeploy-연동)  
+4-6. [Reference](#4-6-reference)  
 
 ***
 ### 1. CI & CD
@@ -144,7 +147,12 @@
     - deploy 코드를 통해 `외부 서비스와 연동될 행위들을 선언`  
     - 깃허브에 PUSH 후 빌드 성공시 S3 버킷에 업로드 성공을 확인하면 연동이 잘 되었는지 확인 가능
 
-  - #### 3-7. EC2에 IAM 역할 추가하기
+  - #### 3-7. Reference
+    - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱 저  
+    - [기억보단 기록을 6. TravisCI & AWS CodeDeploy로 배포 자동화 구축하기](https://jojoldu.tistory.com/265)  
+  
+### 4. Travis CI와 AWS S3, CodeDeploy 연동하기
+  - #### 4-1. EC2에 IAM 역할 추가하기
     - 해당 작업을 하는 이유? 
     - 배포 대상인 `EC2가 CodeDeploy를 연동 받을 수 있도록 하기 위해`  
     - 과정
@@ -177,7 +185,7 @@
       | - AWS 서비스에만 할당 할 수 있는 권한| - AWS 서비스 외에 사용할 수 있는 권한|  
       | - EC2, CodeDeploy 등| - 로컬 PC, IDC 서버 등|  
       
-  - #### 3-8. CodeDeploy 에이전트 설치
+  - #### 4-2. CodeDeploy 에이전트 설치
     - 설치 하는 이유?
     - `CodeDeploy 요청을 받기 위해`
     - 과정
@@ -196,7 +204,7 @@
          The AWS CodeDeploy agent is running as PID ~ 메세지 출력시 정상  
       ```
 
-  - #### 3-9. CodeDeploy를 위한 권한 생성
+  - #### 4-3. CodeDeploy를 위한 권한 생성
     - 권한 생성을 하는 이유?
     - Codedeploy에서 EC2에 접근하기 위해 권한이 필요함
     - 과정
@@ -210,7 +218,7 @@
       4. 태그 추가 키 - Name, 값은 본인이 알아볼 수 있도록 작성
       ```
       
-   - #### 3-10. CodeDeploy 생성
+   - #### 4-4. CodeDeploy 생성
     - CodeDeploy - AWS의 배포 서비스 / 대체제가 없음
     - 과정
       ```
@@ -234,9 +242,9 @@
       
       10. 로드 밸런싱 비활성화 
       ```
-  - #### 3-11. Travis, S3, CodeDeploy 연동
+  - #### 4-5. Travis, S3, CodeDeploy 연동
     - 1. EC2 설정
-         - zip 파일을 저장할 디렉토리 생성
+         - 넘겨받을 zip 파일을 저장할 디렉토리 생성
          - 과정
            ```
            1. EC2 접속
@@ -247,7 +255,27 @@
            ```
     - 2. Travis CI 설정
          - .travis.yml 파일로 설정
-         - 
+         - Build 완료시 S3로 zip 파일 전송
+         - TravisCI가 CodeDeploy도 실행시키도록 설정 코드 추가
+         - 코드(codedeploy 실행 코드 추가)
+           ```
+           deploy:
+           ~
+             - provider: codedeploy
+               access_key_id: $AWS_ACCESS_KEY #Travis repo setting에 설정된 값
+               secret_access_key: $AWS_SECRET_KEY #Travis repo setting에 설정된 값
+
+               bucket: springboot-build #s3 버킷
+               key: springboot-webservice.zip #빌드파일을 압축해서 전달
+
+               bundle_type: zip #압축확장자
+               applicationn: springboot-webservice # 웹 콘솔에서 등록한 CodeDeploy 애플리케이션
+
+               deplyment_group: springboot-webservice-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+
+               region: ap-northeast-2
+               wait-until-deployed: true
+           ```
 
     - 3. CodeDeploy 설정
          - appspec.yml 파일로 설정
@@ -278,6 +306,23 @@
                 timeout: 60
                 runas: ec2-user
            ```
+     - 4. 연동 확인
+          - 과정
+            ```
+            1. 프로젝트 Commit & PUSH
+            
+            2. Travis 콘솔로 이동하여 배포 수행 확인
+            
+            3. 성공시 EC2에 접속하여 'cd /home/ec2-user/app/stp2/zip' 디렉토리 경로로 이동
+            
+            4. 'll' 명령어로 파일 목록 확인
+            
+            5. 파일이 복제된 것을 확인하면 연동이 완료된것을 알 수 있음
+            ```
+            
+  - #### 4-6. Reference
+    - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱 저  
+    - [기억보단 기록을 6. TravisCI & AWS CodeDeploy로 배포 자동화 구축하기](https://jojoldu.tistory.com/265)  
 
 ***
 [목차로 이동](https://github.com/youngho-j/TIL/blob/main/AWS/EC2/README.md "Go README.md")
