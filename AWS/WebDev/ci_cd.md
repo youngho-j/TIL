@@ -26,6 +26,15 @@
 4-4. [CodeDeploy 생성](#4-4-codedeploy-생성)  
 4-5. [Travis, S3, CodeDeploy 연동](#4-5-travis-s3-codedeploy-연동)  
 4-6. [Reference](#4-6-reference)  
+5. [배포 자동화 구성](#5-배포-자동화-구성)  
+5-1. [현재 구현 상황](#5-1-현재-구현-상황)  
+5-2. [deploy.sh 파일 추가](#5-2-deploysh-파일-추가)  
+5-3. [.travis.yml 파일 수정](#5-3-travisyml-파일-수정)  
+5-4. [appspec.yml 파일 수정](#5-4-appspecyml-파일-수정)  
+5-5. [설정 완료 후 GitHub로 Commit & PUSH](#5-5-설정-완료-후-github로-commit--push)  
+5-6. [CodeDeploy 로그 확인](#5-6-codedeploy-로그-확인)  
+5-7. [Travis CI 배포 자동화 마무리](#5-7-travis-ci-배포-자동화-마무리)  
+5-8. [Reference](#5-8-reference)  
 
 ***
 ### 1. CI & CD
@@ -321,6 +330,101 @@
             ```
             
   - #### 4-6. Reference
+    - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱 저  
+    - [기억보단 기록을 6. TravisCI & AWS CodeDeploy로 배포 자동화 구축하기](https://jojoldu.tistory.com/265)  
+
+### 5. 배포 자동화 구성
+  - #### 5-1. 현재 구현 상황
+    - Travis CI, S3, CodeDeploy 연동까지 구현
+    - 구현된 것을 기반으로 `Jar 배포하여 실행`하는 것이 목표!
+  
+  - #### 5-2. deploy.sh 파일 추가
+    - EC2에 CodeDeploy로 받은 파일을 실행시키는 배포 스크립트(deploy.sh) 생성
+    - 과정
+      ```
+      1. step2 환경에서 실행될 deploy.sh 생성(프로젝트 우클릭 scripts 디렉토리 생성 후 그 안에 생성)  
+      2. git pull을 통해 직접 빌드했던 부분 제거(Travis CI가 빌드를 대신 하므로)  
+      3. Jar 파일에 실행 권한이 없으므로 nohup으로 실행할 수 있도록 권한 부여(chmod +x $JAR_NAME)
+      4. $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &  
+         nohup 실행시 CodeDeploy는 무한 대기 / nohup.out 파일을 표준 입출력용으로 별도 사용
+         이렇게 사용하지 않을 경우 nohup.out 파일이 생성되지 않고, CodeDeploy 로그에 표준 입출력이 표시됨!
+      ```
+  - #### 5-3. .travis.yml 파일 수정
+    - 프로젝트의 모든 파일을 zip으로 만들때 실제 필요한 파일은 `Jar, appspec.yml, 배포관련 스크립트들` 뿐임
+    - 따라서 이외는 포함시키지 않도록 코드를 작성
+    - 코드
+      ```
+      before_deploy:
+        # 존재하지 않는 중간의 before-deploy 디렉토리를 생성
+        # 왜 디렉토리를 생성하는가? 
+        # Travis CI는 S3로 특정파일만 업로드가 안됨.. '디렉토리 단위로만 업로드가 가능'
+        - mkdir -p before-deploy
+        
+        # before-deploy에 파일 복사
+        - cp scripts/*.sh before-deploy/
+        - cp appspec.yml before-deploy/
+        - cp build/libs/*.jar before-deploy/
+        
+        # before-deploy로 이동 후 전체 압축
+        - cd before-deploy && zip -r before-deploy *
+
+        # 상위 디렉토리로 이동 후 deploy 디렉토리 생성
+        - cd ../ && mkdir -p deploy
+        
+        # before-deploy.zip을 deploy 디렉토리로 이동
+        - mv before-deploy/before-deploy.zip deploy/springboot-webservice.zip
+      ```
+      
+  - #### 5-4. appspec.yml 파일 수정
+    - CodeDeploy 명령 담당
+    - location, timeout, runas의 들여쓰기 주의! 잘못되면 배포 실패함
+    - 코드
+      ```
+      ~
+      # CodeDeploy에서 EC2 서버로 넘겨준 파일들을 모두 ec2-user 권한을 갖도록 한다.
+      permissions:
+        - object: /
+          pattern: "**"
+          owner: ec2-user
+          group: ec2-user
+
+      # 배포 단계(ApplicationStrat)에서 실행할 명령어 지정
+      # ApplicationStart 단계에서 deploy.sh를 ec2-user 권한으로 실행
+      # timeout - 무한정 기다릴 수 없으므로 지정
+      hooks:
+        ApplicationStart:
+          - location : deploy.sh
+            timeout: 60
+            runas: ec2-user
+      ```
+  - #### 5-5. 설정 완료 후 GitHub로 Commit & PUSH
+    - 성공시 문구
+      ```
+      ~
+      Logging in with Access Key : ~
+      ~
+      Deployment successful.
+      ~ 
+      Done. Your ~ with 0. 
+      ```
+
+  - #### 5-6. CodeDeploy 로그 확인
+    - AWS가 지원하는 서비스에서 오류 발생시 로그 찾는 방법을 모르면 해결 어려움
+    - CodeDeploy에 관한 로그는 `cd /opt/codedeploy-agent/deployment-root`에 있음(EC2에서 접근)
+    - `ll` 명령어로 확인 가능 
+    - 최상단 숫자, 영어 대시(-)가 있는 디렉토리 명 -> CodeDeploy ID  
+      cd로 해당 디렉토리로 이동시 `배포한 단위별로 배포 파일 확인 가능`  
+      배포파일이 정상적으로 들어 왔는지 확인 가능  
+    - deployment-logs -> CodeDeploy 로그 파일  
+      배포 내용 중 표준 입/출력 내용은 모두 여기에 있으며, 작성한 echo 내용도 모두 표기됨  
+    
+  - #### 5-7. Travis CI 배포 자동화 마무리
+    - 현재 `Master 브랜치에 PUSH시 자동으로 EC2에 배포`됨  
+    - 하지만, `배포하는 동안` 스프링 부트 프로젝트는 종료 상태가 됨 즉, `서비스 이용 불가`
+    - 그렇다면 어떻게 배포하는 동안 서비스를 중지시키지 않고 서비스를 이용할 수 있을까?
+    - 서비스 중단 없는 배포 -> `무중단 배포` 방법으로 진행
+
+  - #### 5-8. Reference
     - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 - 이동욱 저  
     - [기억보단 기록을 6. TravisCI & AWS CodeDeploy로 배포 자동화 구축하기](https://jojoldu.tistory.com/265)  
 
