@@ -20,6 +20,7 @@
 5-4. [여러대의 WAS Health check](#5-4-여러대의-was-health-check)  
 5-5. [보안](#5-5-보안)    
 6. [결론](#6-결론)  
+6-1. [참고](#6-1-참고)   
 
 ***
 
@@ -132,11 +133,58 @@
   - WAS만으로 서비스가 가능하다. 
   - 그러나, WebServer를 사용한다면 서비스 확장성, 안정성 측면에서 WAS만 쓰는 것보단 향상 된다.
 
+  - #### 6-1. 참고  
+    - Web Server, WAS 아키텍처의 보편적 구조 
+      다양한 구조를 가질 수 있음  
+      ```
+      예시
+      
+      1. Client → Web Server → DB
+      2. Client → WAS → DB
+      3. Client → Web Server → WAS → DB
+      ```
+        
+      ![image](https://user-images.githubusercontent.com/65080004/119959004-8a5e1a80-bfde-11eb-851c-af69a1d8aba1.png)  
+      
+      TIER 1 - Web Server / TIER 2 - WAS / TIER 3 - Database(MySQL, Oracle, ...) 
+      
+    - 3번 구조의 동작과정
+      ```
+      1. Client 가 Web Server 로 HTTP Request를 전송
+      
+      2. Web Server 는 Client 의 Request 를 WAS 로 전송
+      
+      3. WAS 는 관련된 Servlet 을 메모리에 올림
+      
+      4. WAS는 web.xml을 참조하여 해당 Servlet에 대한 Thread를 생성
+      
+      5. HttpServletRequest 와 HttpServletResponse 객체를 생성하여 Servlet에 전달
+      
+      6. Thread 는 Servlet 의 service() 메서드를 호출
+      
+      7. service() 메서드는 요청에 맞게 doGet() 또는 doPost() 메서드를 호출
+         메서드 예시 : protected doGet(HttpServletRequest request, HttpServletResponse response) { .. 
+      
+      8. WAS 는 해당 로직을 수행하다 DB 접근이 필요하면 Database 에 SQL Query 를 진행
+      
+      9. Database 는 SQL Query 에 따른 결과값을 Response 에 담아서 반환
+      
+      10. doGet() 또는 doPost() 메서드는 인자에 맞게 생성된 적절한 동적 페이지와 쿼리 결과를 Response 에 담아 WAS 에 전달
+      
+      11. WAS 는 Response 를 HttpResponse 형태로 바꾸어 Web Server 에 전달
+      
+      12. 생성된 Thread 를 종료하고, HttpServletRequest 와 HttpServletResponse 객체를 제거
+      
+      13. Web Server 는 HTTP Response 를 Client 에게 응답한다.
+      ```
+
 ## Reference
   - [jaykee 정적 콘텐츠 그리고 동적 콘텐츠](https://itgit.co.kr/static_dynamic_content/)    
   - [우아한 tech Web Server vs WAS](https://www.youtube.com/watch?v=mcnJcjbfjrs)  
   - [Kim Ha Song Web Server와 WAS 차이](https://has3ong.github.io/webwas/)    
   - [Bubble Guppies 웹의 정적 & 동적 콘텐츠 ..](https://armontad-1202.tistory.com/entry/%EC%9B%B9%EC%9D%98-%EC%A0%95%EC%A0%81-%EB%8F%99%EC%A0%81-%EC%BD%98%ED%85%90%EC%B8%A0-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%A0%95%EC%A0%81-%EB%8F%99%EC%A0%81-%EC%BD%98%ED%85%90%EC%B8%A0)  
+  - [ResearchGate Tier3 Server Architecture](https://www.researchgate.net/figure/A-Typical-3-Tier-Server-Architecture-Tier-1-Web-Server-Tier-2-Application-Server-Tier_fig1_221147997)  
+  - [Heee's Development Blog Web Server와 WAS의 차이와 웹 서비스 구조](https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html)  
 
 ***
 [목록으로 이동](https://github.com/youngho-j/TIL/blob/main/Server/README.md) 
