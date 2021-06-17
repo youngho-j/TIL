@@ -16,5 +16,6 @@
 - [자바 메모리 구조](https://github.com/youngho-j/TIL/blob/main/Java/java_T_memory.md "자바_메모리 구조")  
 - [자바_입력관련 내용 정리](https://github.com/youngho-j/TIL/blob/main/Java/java_input.md "자바_입력관련 내용 정리")  
 - [TDD와 단위테스트](https://github.com/youngho-j/TIL/blob/main/Java/TDD와단위테스트.md "TDD와 단위테스트")  
+- [정적 팩토리 메서드](https://github.com/youngho-j/TIL/blob/main/Java/staticFactoryMethod.md "정적 팩토리 메서드")
 
 ***
