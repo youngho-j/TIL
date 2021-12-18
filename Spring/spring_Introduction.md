@@ -1,7 +1,7 @@
 # 스프링 핵심원리 - 기본편
 
-## 목차
-1. [객체 지향 설계와 스프링](#1-객체-지향-설계와-스프링)       
+## 목차  
+1. [객체 지향 설계와 스프링](#1-객체-지향-설계와-스프링)  
 1-1. [스프링이란?](#1-1-스프링이란)    
 1-1-1. [스프링 생태계](#1-1-1-스프링-생태계)  
 1-1-2. [스프링을 왜 만들었을까?](#1-1-2-스프링을-왜-만들었을까)  
@@ -10,7 +10,10 @@
 1-2-2. [객체 지향 프로그래밍](#1-2-2-객체-지향-프로그래밍)  
 1-2-3. [다형성이 왜 중요한가?](#1-2-3-다형성이-왜-중요한가)  
 1-2-4. [스프링과 객체 지향](#1-2-4-스프링과-객체-지향)  
-
+1-3. [SOLID 원칙](#1-3-solid-원칙)  
+1-3-1. [SOLID란?](#1-3-1-solid란)  
+1-3-2. [SRP(단일 책임 원칙)](#1-3-2-srp단일-책임-원칙)  
+1-3-3. [OCP(개방-폐쇄 원칙)](#1-3-3-ocp개방-폐쇄-원칙)  
 ***
 
 ### 1. 객체 지향 설계와 스프링  
@@ -212,6 +215,84 @@
   
   - 스프링을 사용하면 레고 블럭 조립하듯 구현을 편리하게 변경 할 수 있다.
   ```
+
+#### 1-3. SOLID 원칙
+
+##### 1-3-1. SOLID란?
+  
+  - 로버트 마틴(클린코드 저)이 좋은 객체 지향 설계의 5가지 원칙의 앞 글자를 따서 만든 용어  
+    `SRP`, `OCP`, `LSP`, `ISP`, `DIP`  
+  
+  - SOLID 원칙이 필요한 이유?  
+    `시스템에 새로운 기능이 확장되거나 변경사항이 있는 경우 기존 기능들이 영향을 적게 받는 것`이 좋은 설계이기 때문  
+
+##### 1-3-2. SRP(단일 책임 원칙)
+  
+  - Single Respnsibiluty principle
+ 
+  - `소프트웨어를 설계 시 객체는 단 하나의 책임만 가질 수 있다.`
+  
+  - 하나의 책임?
+    ```
+    책임 like 기능(요런 의미 정도로 해석하면 됨)
+    
+    새로운 기능이 확장 또는 변경사항이 생길 경우 파급효과가 적을때 하나의 책임을 가지고 있다고 볼 수 있음
+    
+    즉, 하나의 책임을 가진 프로그램은 '객체 간의 응집도는 높고 결합도가 낮은 프로그램'이라는 뜻으로 해석 가능
+    ```
+  - 예시
+    ```java
+    
+    class Calculator {
+      public void add(int a, int b){...}   // 더하기
+      public void sub(int a, int b){...}   // 빼기
+      public void mul(int a, int b){...}   // 곱하기
+      public void div(int a, int b){...}   // 나누기
+    }
+    
+    // 위의 Calculator 클래스는 사칙연산에 대한 기능만 가지고 있음
+    // 이는 하나의 책임을 갖는다고 할 수 있음
+    ```
+##### 1-3-3. OCP(개방-폐쇄 원칙)
+
+  - Open-Closed Principle
+
+  - `소프트웨어가 기존의 코드를 변경하지 않고(Closed) 기능을 수정하거나 추가(Open)할 수 있다.`  
+  
+  - 설계시 변경되는 것이 무엇인지에 초점을 맞춰야함
+    자주 변경되는 내용은 수정하기 쉽게 설계, 변경되지 않아야 하는 내용은 수정되는 내용에 영향을 받지않게 해야함
+  
+  - 예시
+    ```java
+    // Car 인터페이스(역할)
+    public interface Car {
+      public boolean isHybrid();
+    }
+
+    // Bus 구현 클래스
+    public class Bus implements Car {
+      @Override
+      public boolean isHybrid() {
+        return false;
+      }
+    }
+
+    // Taxi 구현 클래스
+    public class Taxi implements Car {
+      @Override
+      public boolean isHybrid() {
+        return true;
+      }
+    }
+    
+    // Bus, Taxi가 하이브리드 차량인지 확인 하고 싶은 경우 
+    // 기존 코드(Car interface)를 변경하지 않고 추가(구현 클래스를 추가)하여 확인 가능 
+    Car bus = new Bus();
+    Car taxi = new Taxi();
+    
+    bus.isHybrid(); // 결과 : false
+    taxi.isHybrid(); // 결과 : true
+    ```
 ## Reference
  - [인프런 스프링 입문 - 김영한](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#curriculum)    
  - [김영한 유튜브 좋은 객체 지향 프로그래밍이란](https://www.youtube.com/watch?v=lsPN-N2ze40)  
