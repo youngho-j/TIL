@@ -14,6 +14,10 @@
 1-3-1. [SOLID란?](#1-3-1-solid란)  
 1-3-2. [SRP(단일 책임 원칙)](#1-3-2-srp단일-책임-원칙)  
 1-3-3. [OCP(개방-폐쇄 원칙)](#1-3-3-ocp개방-폐쇄-원칙)  
+1-3-4. [LSP(리스코프 치환 원칙)](#1-3-4-lsp리스코프-치환-원칙)  
+1-3-5. [ISP(인터페이스 분리 원칙)](#1-3-5-isp인터페이스-분리-원칙)  
+1-3-6. [DIP(의존 관계 역전 원칙)](#1-3-6-dip의존-관계-역전-원칙)  
+
 ***
 
 ### 1. 객체 지향 설계와 스프링  
@@ -259,8 +263,8 @@
 
   - `소프트웨어가 기존의 코드를 변경하지 않고(Closed) 기능을 수정하거나 추가(Open)할 수 있다.`  
   
-  - 설계시 변경되는 것이 무엇인지에 초점을 맞춰야함
-    자주 변경되는 내용은 수정하기 쉽게 설계, 변경되지 않아야 하는 내용은 수정되는 내용에 영향을 받지않게 해야함
+  - 설계시 변경되는 것이 무엇인지에 초점을 맞춰야함  
+    자주 변경되는 내용은 수정하기 쉽게 설계, 변경되지 않아야 하는 내용은 수정되는 내용에 영향을 받지않게 해야함  
   
   - 예시
     ```java
@@ -293,9 +297,115 @@
     bus.isHybrid(); // 결과 : false
     taxi.isHybrid(); // 결과 : true
     ```
+    
+##### 1-3-4. LSP(리스코프 치환 원칙)
+
+  - Liskov Substitution Principle
+
+  - `클래스를 상속하는 자식 클래스들은 부모 클래스의 규약을 지켜야 한다.`
+
+  - 부모 클래스의 인스턴스 대신 자식 클래스의 인스턴스를 사용해도 문제가 없어야함을 의미
+  
+  - 상속 관계에서는 일반화 관계(is - a)가 성립해야함 (단어 교체를 통해 확인 가능)
+    ```
+    도형 클래스, 사각형 클래스(도형 클래스를 상속 받음)
+    
+    도형 클래스 {
+      도형은 둘레를 가지고 있다.
+      도형은 넓이를 기지고 있다.
+      도형은 각을 가지고 있다.
+    }
+    
+    사각형 클래스 extends 도형 클래스 {
+      사각형은 둘레를 가지고 있다.
+      사각형은 넓이를 기지고 있다.
+      사각형은 각을 가지고 있다.
+    }
+    // 위 클래스는 일반화 관계가 성립하기에 LSP 만족한 설계라고 볼 수 있음
+    
+    원 클래스 extends 도형 클래스 {
+      원은 둘레를 가지고 있다.
+      원은 넓이를 기지고 있다.
+      원은 각을 가지고 있다.
+    }
+    // 위 클래스에서 원은 각을 가지고 있다는 성립할 수 없으므로 LSP 만족할 수 있도록 수정이 필요함
+    ```
+  - 예시
+    ```java
+    
+    // 부모 클래스
+    public class Car {
+      public void accel(int speed) {
+        speed += 10;
+      }
+    }
+    
+    // 자식 클래스
+    public class Santafe extends Car{
+      @Override
+      public void accel(int speed) {
+        speed -= 20;
+      }
+    }
+    
+    // 위의 자식 클래스(Santafe)의 경우 컴파일시 문제가 생기지는 않으나,
+    // 부모 클래스(Car)가 규정하고 있는 accel의 기능을 무시하는 경우이므로 
+    // 이때 LSP에 위배되었다고 정의
+    ```
+    
+##### 1-3-5. ISP(인터페이스 분리 원칙)
+  
+  - Interface Segregation Principle
+  
+  - `어떤 구현 클래스는 자신이 사용하지 않는 인터페이스는 사용하지 않아야한다.`
+  
+  - 자신(구현 클래스)이 사용하지 않는 기능에는 영향을 받지 말아야한다.
+  
+  - 예시
+    ```java
+    interface People {
+      public void cook();     //요리하기
+      public void cleaning(); //청소하기
+
+      public void work();     //작업하기
+      public void submit();   //제출하기
+    }
+    
+    // 일반적인 인터페이스(People | 위 코드)를 구체적인 여러 인터페이스(HouseKeeper, Worker | 아래 코드)로 나눠 설계해야함
+    
+    //가사도우미 인터페이스
+    interface Housekeeper {
+      public void cook();
+      public void cleaning();
+    }
+
+    //직장인 인터페이스
+    interface Worker {
+      public void work();
+      public void submit();
+    }
+    ```
+    
+##### 1-3-6. DIP(의존 관계 역전 원칙)
+  
+  - Dependency inversion Principle
+  
+  - `구현체보다는 인터페이스나 추상 클래스에 의존하는 것이 좋다.`
+  
+  - 의존 관계를 맺을 때 변화하기 쉬운 것(구체화 된 클래스) 보단 변화하기 어려운 것(추상클래스나 인터페이스)에 의존해야함
+    위와 같이 설계시 기존 기능의 변경이나 새로운 요구사항을 통한 기능 확장이 되었을 때 유연한 변경이 가능  
+  
+  - 구조적 디자인에서 발생하던 `하위 레벨 모듈의 변경이 상위 레벨 모듈의 변경을 요구하는 위계 관계를 끊는` 의미의 역전  
+    실제 사용 관계는 바뀌지 X, 추상을 매개로 메세지를 주고 받음으로써 관계를 최대한 느슨하게 만듦
+    ![image](https://user-images.githubusercontent.com/65080004/146672525-01111dd0-e40b-494e-82e6-f9be1cea7bdb.png)
+
 ## Reference
  - [인프런 스프링 입문 - 김영한](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#curriculum)    
- - [김영한 유튜브 좋은 객체 지향 프로그래밍이란](https://www.youtube.com/watch?v=lsPN-N2ze40)  
- 
+ - [김영한 유튜브 좋은 객체 지향 프로그래밍이란](https://www.youtube.com/watch?v=lsPN-N2ze40) 
+ - [JAVA 객체 지향 디자인 패턴 (정인상/채홍석 지음, 한빛미디어, 2014)]  
+ - [zayson SOLID 원칙](https://velog.io/@zayson/Spring-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8-3-SOLID-%EC%9B%90%EC%B9%99)  
+ - [Programming Note SOLID 원칙](https://dev-momo.tistory.com/entry/SOLID-%EC%9B%90%EC%B9%99)  
+ - [keep going SOLID 원칙](https://velog.io/@hanblueblue/Java-SOLID-SRP-OCP-LSP-ISP-DIP)  
+
 ***
 [목록으로](https://github.com/youngho-j/TIL/edit/main/Spring/README.md)
