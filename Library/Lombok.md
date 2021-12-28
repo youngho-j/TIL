@@ -55,7 +55,7 @@
     ```
   
   - 멤버 변수에 적용시키는 경우 해당 변수만 사용가능
-    ```
+    ```java
     
     // Lombok 적용
     public class People {
@@ -113,6 +113,6 @@
  - [딩규의 개발 블로그 Lombok 기능 정리](https://dingue.tistory.com/14)    
  - [live2skull 커피와 코딩사이 자바 -Lombok](https://blog.live2skull.kr/java/lombok/java-lombok/#2-equalsandhashcode%EB%A5%BC-%ED%95%A8%EB%B6%80%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EC%95%8A%EC%8A%B5%EB%8B%88%EB%8B%A4)  
  - [Lombok features](https://projectlombok.org/features/all)    
- - 
 ***
+
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Library/README.md)
