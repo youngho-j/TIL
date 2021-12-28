@@ -408,4 +408,4 @@
  - [keep going SOLID 원칙](https://velog.io/@hanblueblue/Java-SOLID-SRP-OCP-LSP-ISP-DIP)  
 
 ***
-[목록으로](https://github.com/youngho-j/TIL/edit/main/Spring/README.md)
+[목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)
