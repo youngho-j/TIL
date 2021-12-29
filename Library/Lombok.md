@@ -6,6 +6,7 @@
 2. [Lombok 기능 및 예제](#2-lombok-기능-및-예제)  
 2-1. [@Getter, @Setter](#2-1-getter-setter)   
 2-2. [@EqualsAndHashCode](#2-2-equalsandhashcode)  
+
 참조 : [Reference](#reference)  
 ***
 
@@ -112,7 +113,7 @@
   
   - equals, hashCode 메서드를 자동으로 생성
   
-  - equals< hashCode?
+  - equals, hashCode?
     ```
     - equals : 두 객체의 내용이 같은지, 동등성(equality)을 비교하는 연산자
     
@@ -139,6 +140,7 @@
       assertFalse(test.equals(test2)); // 결과 : false
     }
     ```
+    
   - HashCode 예시
     ```java
     @Test
@@ -200,6 +202,62 @@
       assertEquals(test.hashCode(), test2.hashCode());
     }
     ```
+  - 속성  
+    `callSuper`
+    ```java
+    Class Level
+     - @EqualsAndHashCode(callSuper = true) : 부모 클래스의 필드까지 포함
+
+       // 예시
+       @EqualsAndHashCode(callSuper = true)
+       public class Employee extends Citizen {
+
+          private String name;
+          private int salary;
+       }
+    
+     - @EqualsAndHashCode(callSuper = false) : 기본값(callSuper = false 작성하지 않아도 적용됨), 자신의 필드 값들만 포함
+    ```
+    
+    `exclude`  
+    ```java 
+    ** Class, Field 어느 방법을 사용하던 결과는 유사함
+    
+    Class Level
+     - @EqualsAndHashCode(exclude = "파라미터명") : 해당 파라미터를 제외
+     
+     - @EqualsAndHashCode(exclude = {"파라미터명1", 파라미터명2})
+       
+       // 예시
+       @EqualsAndHashCode(exclude = {"age", "salary"})
+       public class Employee {
+
+         private String name;
+         
+         private int age;
+         
+         private int salary;
+       }
+       
+    Field Level
+     - @EqualsAndHashCode.Exclude
+       private int age
+       참고. 클래스에 @EqualsAndHashCode 적용 후 클래스 내 필드 위에 @EqualsAndHashCode.Exclude를 적용해야함
+       
+       // 예시
+       @EqualsAndHashCode
+       public class Employee {
+          private String name;
+          
+          @EqualsAndHashCode.Exclude
+          private int age;
+          
+          @EqualsAndHashCode.Exclude
+          private int salary;
+       }
+    
+    ```
+    
 ## Reference
  - [망나니개발자 Lombok이란? 및 Lombok 활용법](https://mangkyu.tistory.com/78)    
  - [딩규의 개발 블로그 Lombok 기능 정리](https://dingue.tistory.com/14)    
@@ -208,6 +266,7 @@
  - [seek 블로그 프로젝트롬복_@EqualsAndHashCode](https://blog.naver.com/PostView.nhn?blogId=dktmrorl&logNo=222359154544&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView)  
  - [기록하는 동구 Lombok 자주쓰이는 어노테이션](https://donggu1105.tistory.com/99)  
  - [날아올라 Lombok 사용상 주의점](https://javaengine.tistory.com/entry/Lombok-%EC%82%AC%EC%9A%A9%EC%83%81-%EC%A3%BC%EC%9D%98%EC%A0%90Pitfall)  
+ - [Java By Examples EqaulsAndHashCode](http://www.javabyexamples.com/delombok-equalsandhashcode)  
 ***
 
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Library/README.md)
