@@ -5,7 +5,7 @@
 1-1. [장점](#1-1-장점)  
 2. [Lombok 기능 및 예제](#2-lombok-기능-및-예제)  
 2-1. [@Getter, @Setter](#2-1-getter-setter)   
-
+2-2. [@EqualsAndHashCode](#2-2-equalsandhashcode)  
 참조 : [Reference](#reference)  
 ***
 
@@ -107,12 +107,107 @@
       }
     }
     ```
+
+#### 2-2. @EqualsAndHashCode
+  
+  - equals, hashCode 메서드를 자동으로 생성
+  
+  - equals< hashCode?
+    ```
+    - equals : 두 객체의 내용이 같은지, 동등성(equality)을 비교하는 연산자
     
+    - hashCode : 두 객체가 같은 객체인지, 동일성(identity)을 비교하는 연산자
+    ```
+  
+  - equals 예시
+    ```java
+    @Test
+    public void 같은_값인_경우_equals_테스트() {
+
+      LombokTest test = new LombokTest("1", "2");
+      LombokTest test2 = new LombokTest("1", "2");
+
+      assertTrue(test.equals(test2)); // 결과 : true
+    }
+
+    @Test
+    public void 다른_값인_경우_equals_테스트() throws Exception {
+
+      LombokTest test = new LombokTest("1", "3");
+      LombokTest test2 = new LombokTest("1", "2");
+
+      assertFalse(test.equals(test2)); // 결과 : false
+    }
+    ```
+  - HashCode 예시
+    ```java
+    @Test
+    public void 같은_필드_값을_갖는_객체인_경우_hashCode_테스트() throws Exception {
+      LombokTest test = new LombokTest("1", "2");
+      LombokTest test2 = new LombokTest("1", "2");
+
+      System.out.println("test : " + test.hashCode());   // hashCode : 6422
+      System.out.println("test2 : " + test2.hashCode()); // hashCode : 6422
+
+      assertEquals(test.hashCode(), test2.hashCode());
+    }
+
+    @Test
+    public void 다른_필드_값을_갖는_객체인_경우_hashCode_테스트() throws Exception {
+      LombokTest test = new LombokTest("1", "2");  
+      LombokTest test2 = new LombokTest("1", "3");
+
+      System.out.println("test : " + test.hashCode());   // hashCode : 6422
+      System.out.println("test2 : " + test2.hashCode()); // hashCode : 6423
+
+      assertNotEquals(test.hashCode(), test2.hashCode());
+    }
+
+    @Test
+    public void 객체의_필드값을_변경한_경우_hashCode_테스트() throws Exception {
+      LombokTest test = new LombokTest("1", "2");  
+
+      System.out.println("test : " + test.hashCode());   // hashCode : 6422
+
+      Set<LombokTest> list = new HashSet<>();
+
+      list.add(test);
+      System.out.println("변경 전 : " + list.contains(test)); // true
+      // 참고 - Set class contain 메서드 : 특정 요소를 보관하였는지 판단하는 메서드 
+      assertTrue(list.contains(test));
+
+      test.setTest1("3");
+      System.out.println("test : " + test.hashCode()); // hashCode : 6540
+      System.out.println("변경 후 : " + list.contains(test)); // false
+      assertFalse(list.contains(test));
+
+    }
+
+    @Test
+    public void 객체의_필드값을_변경한_경우_hashCode_테스트2() throws Exception {
+      LombokTest test = new LombokTest("1", "한글");  
+      System.out.println("변경전 test : " + test.hashCode());   // hashCode : 1744136
+
+      LombokTest test2 = new LombokTest("1", "한글3");  
+      System.out.println("변경전 test2 : " + test2.hashCode()); // hashCode : 53877107
+
+      test.setTest2("한글4");
+      System.out.println("변경후 test : " + test.hashCode());   // hashCode : 53877108
+
+      test2.setTest2("한글4");
+      System.out.println("변경후 test2 : " + test2.hashCode()); // hashCode : 53877108
+
+      assertEquals(test.hashCode(), test2.hashCode());
+    }
+    ```
 ## Reference
  - [망나니개발자 Lombok이란? 및 Lombok 활용법](https://mangkyu.tistory.com/78)    
  - [딩규의 개발 블로그 Lombok 기능 정리](https://dingue.tistory.com/14)    
  - [live2skull 커피와 코딩사이 자바 -Lombok](https://blog.live2skull.kr/java/lombok/java-lombok/#2-equalsandhashcode%EB%A5%BC-%ED%95%A8%EB%B6%80%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EC%95%8A%EC%8A%B5%EB%8B%88%EB%8B%A4)  
  - [Lombok features](https://projectlombok.org/features/all)    
+ - [seek 블로그 프로젝트롬복_@EqualsAndHashCode](https://blog.naver.com/PostView.nhn?blogId=dktmrorl&logNo=222359154544&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView)  
+ - [기록하는 동구 Lombok 자주쓰이는 어노테이션](https://donggu1105.tistory.com/99)  
+ - [날아올라 Lombok 사용상 주의점](https://javaengine.tistory.com/entry/Lombok-%EC%82%AC%EC%9A%A9%EC%83%81-%EC%A3%BC%EC%9D%98%EC%A0%90Pitfall)  
 ***
 
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Library/README.md)
