@@ -55,7 +55,7 @@
     int age = people.getAge();
     ```
   
-  - 멤버 변수에 적용시키는 경우 해당 변수만 사용가능
+  - 필드 내 변수에 적용시키는 경우 해당 변수만 사용가능
     ```java
     
     // Lombok 적용
@@ -111,7 +111,11 @@
 
 #### 2-2. @EqualsAndHashCode
   
-  - equals, hashCode 메서드를 자동으로 생성
+  - non-static and non-transient fields에 equals, hashCode 메서드를 자동으로 생성
+    
+    참고. transient : Serialize(직렬화)하는 과정에 제외하고 싶은 경우 선언하는 키워드  
+          Ex) private transient String name;  
+          // 직렬화시 name이 직렬화 대상에서 제외(field는 유지)하여 직렬화 하기때문에 역직렬화 결과는 null로 대입  
   
   - equals, hashCode?
     ```
@@ -203,6 +207,9 @@
     }
     ```
   - 속성  
+    ** of, exclude 속성 보다는 @EqualsAndHashCode(onlyExplicitlyIncluded = true)를 적용하여 각 필드별로 적용하는게 좋음  
+       (앞의 두속성은 deprecated 예정)  
+       
     `callSuper`
     ```java
     Class Level
@@ -226,13 +233,13 @@
     Class Level
      - @EqualsAndHashCode(exclude = "파라미터명") : 해당 파라미터를 제외
      
-     - @EqualsAndHashCode(exclude = {"파라미터명1", 파라미터명2})
+     - @EqualsAndHashCode(exclude = {"파라미터명1", 파라미터명2}) : 지정된 파라미터들을 제외
        
        // 예시
        @EqualsAndHashCode(exclude = {"age", "salary"})
        public class Employee {
 
-         private String name;
+         private String name; // name에 대한 Eqauls, HashCode 메서드 생성
          
          private int age;
          
@@ -255,9 +262,68 @@
           @EqualsAndHashCode.Exclude
           private int salary;
        }
-    
     ```
     
+    `include`  
+    ```java
+    Field Level
+     - @EqualsAndHashCode.Include  
+       private String name;
+       참고. 클래스에 @EqualsAndHashCode(onlyExplicitlyIncluded = true) 적용 후 클래스 내 필드 위에 @EqualsAndHashCode.Include를 적용해야함  
+             이 경우 @EqualsAndHashCode.Include 가 적용된 필드 값에 대한 eqauls, hashCode 메서드 생성
+             
+       // 예시
+       @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+       public class Employee {
+
+          @EqualsAndHashCode.Include
+          private String name;
+       
+          @EqualsAndHashCode.Include
+          private int age;
+          
+          private int salary;
+        } //name, age 필드에 대한 equals, hashCode 메서드 생성
+        
+    Method Level
+     - @EqualsAndHashCode.Include  
+       public boolean canDrink() {
+         return age > 18;
+       }
+       참고. 클래스 내 메서드 위에 @EqualsAndHashCode.Include를 적용해야함  
+             기존 JavaBean style의 getter 메서드가 아니며, 지원 프로퍼티가 존재하지 않음  
+             ** 지원 프로퍼티? 클래스의 필드와 접근자 메서드(getter/setter)가 맞는지 추후 알아볼것.. 
+       
+       // 예시
+       @EqualsAndHashCode
+       public class Employee {
+
+          private String name;
+          private int age;
+          private int salary;
+
+          @EqualsAndHashCode.Include
+          public boolean canDrink() {
+              return age > 18;
+          }
+       } // 전체 필드 값과 메서드에 대한 equals, hashCode 메서드 생성
+       
+    Class Level
+     - @EqualsAndHashCode(of = "파라미터")
+     
+     - @EqualsAndHashCode(of = {"파라미터", "파라미터1"})
+       
+       // 예시  
+       @EqualsAndHashCode(of = {"name", "age"})
+       public class Employee {
+
+          private String name;
+          private int age;
+          private int salary;
+       } // name, age 필드에 대한 equals, hashCode 메서드 생성
+       
+       참고. 기능은 @EqualsAndHashCode(onlyExplicitlyIncluded = true)과 유사함, 추후 deprecated 예정  
+    ```
 ## Reference
  - [망나니개발자 Lombok이란? 및 Lombok 활용법](https://mangkyu.tistory.com/78)    
  - [딩규의 개발 블로그 Lombok 기능 정리](https://dingue.tistory.com/14)    
@@ -267,6 +333,9 @@
  - [기록하는 동구 Lombok 자주쓰이는 어노테이션](https://donggu1105.tistory.com/99)  
  - [날아올라 Lombok 사용상 주의점](https://javaengine.tistory.com/entry/Lombok-%EC%82%AC%EC%9A%A9%EC%83%81-%EC%A3%BC%EC%9D%98%EC%A0%90Pitfall)  
  - [Java By Examples EqaulsAndHashCode](http://www.javabyexamples.com/delombok-equalsandhashcode)  
+ - [](https://javabydeveloper.com/lombok-equalsandhashcode-examples/#6-41-include-fieldsmethods-)  
+ - [Nesoy Blog Java transient이란?](https://nesoy.github.io/articles/2018-06/Java-transient)  
+ - [디빌리 Kotlin 기초강의#5-2 자바의 프로퍼티](https://manorgass.tistory.com/80)  
 ***
 
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Library/README.md)
