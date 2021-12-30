@@ -324,6 +324,52 @@
        
        참고. 기능은 @EqualsAndHashCode(onlyExplicitlyIncluded = true)과 유사함, 추후 deprecated 예정  
     ```
+  - 사용시 주의점
+    무분별한 @EqualsAndHashCode 사용 자제  
+      
+    ```java
+    // 변경 가능한(Mutable) 객체에 아무런 파라미터 없이 그냥 사용하는 경우 
+    // 아래와 같이 동일한 객체임에도 Set에 저장 후 필드 값을 변경하면 hashCode가 변경되면서 찾을 수 없게 됨
+    // 이는 @EqualsAndHashCode의 문제라기 보다는 변경가능한 필드에 이를 남발함으로써 생기는 문제라고 볼 수 있음
+
+    @Test
+    public void 객체의_필드값을_변경한_경우_hashCode_테스트() throws Exception {
+      LombokTest test = new LombokTest("1", "2");  
+
+      System.out.println("test : " + test.hashCode());   // hashCode : 6422
+
+      Set<LombokTest> list = new HashSet<>();
+
+      list.add(test);
+      System.out.println("변경 전 : " + list.contains(test)); // true
+      assertTrue(list.contains(test));
+
+      test.setTest1("3");
+      System.out.println("test : " + test.hashCode()); // hashCode : 6540
+      System.out.println("변경 후 : " + list.contains(test)); // false
+      assertFalse(list.contains(test));
+
+    }
+    ```
+    
+    결론  
+    
+     - Immutable(불변) 클래스를 제외하고는 아무 파라미터 없는 @EqualsAndHashCode 사용은 금지
+     
+     - 일반적으로 비교에서 사용하지 않는 Data 성 객체는 equals & hashCode를 따로 구현하지 않는게 차라리 낫다.
+     
+     - 항상 @EqualsAndHashCode(of={“필드명시”}) 형태로 동등성 비교에 필요한 필드를 명시하는 형태로 사용한다.  
+       -> of 속성 보다는 @EqualsAndHashCode(onlyExplicitlyIncluded = true)를 사용하는 것이 좋음(1.16 이상 버전)  
+     
+     - 실전에서는 누군가는 이에 대해 실수하기 마련인지라 차라리 사용을 완전히 금지시키고 IDE 자동생성으로 꼭 필요한 필드를 지정하는 것이 나을 수도 있다.
+     
+     - [Java equals & hashCode](https://kwonnam.pe.kr/wiki/java/equals_hashcode) 좋은 equals 만드는 방법
+     
+     - 막상 개발을 하다보면 온전히 Immutable 필드를 대상으로만 equals & hashCode를 만들기는 매우 어렵다.  
+       최소한 꼭 필요하고 일반적으로 변하지 않는 필드에 대해서만 만들도록 노력해야 한다.  
+     
+     - [Equals Verifier](https://kwonnam.pe.kr/wiki/java/equals_verifier)를 통해 equals, hashCode 메소드 테스트를 자동으로 할 수 있다.
+
 ## Reference
  - [망나니개발자 Lombok이란? 및 Lombok 활용법](https://mangkyu.tistory.com/78)    
  - [딩규의 개발 블로그 Lombok 기능 정리](https://dingue.tistory.com/14)    
@@ -331,9 +377,10 @@
  - [Lombok features](https://projectlombok.org/features/all)    
  - [seek 블로그 프로젝트롬복_@EqualsAndHashCode](https://blog.naver.com/PostView.nhn?blogId=dktmrorl&logNo=222359154544&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView)  
  - [기록하는 동구 Lombok 자주쓰이는 어노테이션](https://donggu1105.tistory.com/99)  
+ - [권남 Lombok 사용상 주의점](https://kwonnam.pe.kr/wiki/java/lombok/pitfall?s[]=equalsandhashcode)  
  - [날아올라 Lombok 사용상 주의점](https://javaengine.tistory.com/entry/Lombok-%EC%82%AC%EC%9A%A9%EC%83%81-%EC%A3%BC%EC%9D%98%EC%A0%90Pitfall)  
  - [Java By Examples EqaulsAndHashCode](http://www.javabyexamples.com/delombok-equalsandhashcode)  
- - [](https://javabydeveloper.com/lombok-equalsandhashcode-examples/#6-41-include-fieldsmethods-)  
+ - [Java By Developer Lombok @EqualsAndHashCode examples](https://javabydeveloper.com/lombok-equalsandhashcode-examples/#6-41-include-fieldsmethods-)  
  - [Nesoy Blog Java transient이란?](https://nesoy.github.io/articles/2018-06/Java-transient)  
  - [디빌리 Kotlin 기초강의#5-2 자바의 프로퍼티](https://manorgass.tistory.com/80)  
 ***
