@@ -18,6 +18,9 @@
   - [yoonje 개발자 인터뷰 질문 및 지식 내용 정리](https://github.com/yoonje/developer-interview-questions-and-answers)  
   - [jojoldu님의 주니어개발자 구직 정보 및 각종 팁](https://github.com/jojoldu/junior-recruit-scheduler/blob/master/README.md)
   - [huisam 기술 면접 저장소](https://github.com/huisam/interview)  
+  - [Lob-dev Java, Spring 위주의 Back-end 신입 개발자를 위한 저장소](https://github.com/Lob-dev/Junior-Back-end-Developer-Concepts)  
+  - [Catsbi's DLog 개발자가 되고 싶은 이들이 자주하는 질문에 대한 이야기](https://catsbi.oopy.io/5d96b825-84ab-4419-9b03-720e7f591a29)  
+  - [배진오 신입 개발자 포트폴리오 준비하기](https://blex.me/@baealex/%EC%B7%A8%EC%A4%80%EC%83%9D%EC%9D%B4-%EC%83%9D%EA%B0%81%ED%95%98%EB%8A%94-%EA%B0%9C%EB%B0%9C%EC%9E%90-%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4-%EC%A4%80%EB%B9%84)  
 
 ##### 2. 질문 모음
   - [tvandame 백앤드 개발자 면접질문 문제은행](https://github.com/tvandame/back-end-developer-interview-questions/blob/master/Translations/Korean/README_KR.md)  
