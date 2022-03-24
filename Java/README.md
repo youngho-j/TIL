@@ -15,6 +15,7 @@
 - [String, StringBuffer, StringBuiler](https://github.com/youngho-j/TIL/blob/main/Java/String_StringBuffer_StringBuilder.md "String_StringBuffer_StringBuilder 내용정리")  
 - [List list = new ArrayList(); 와 ArrayList list = new ArrayList(); 의 차이?](https://github.com/youngho-j/TIL/blob/main/Java/List_compare_ArrayList.md "자바_List,ArrayList 관련")
 - [자바 메모리 구조](https://github.com/youngho-j/TIL/blob/main/Java/java_T_memory.md "자바_메모리 구조")  
+- [자바 Scanner, Buffer 개념정리]((https://github.com/youngho-j/TIL/blob/main/Java/Scanner_Buffer.md "자바 Scanner, Buffer 내용 정리")  
 - [자바_입력관련 내용 정리](https://github.com/youngho-j/TIL/blob/main/Java/java_input.md "자바_입력관련 내용 정리")  
 - [TDD와 단위테스트](https://github.com/youngho-j/TIL/blob/main/Java/TDD와단위테스트.md "TDD와 단위테스트")  
 - [정적 팩토리 메서드](https://github.com/youngho-j/TIL/blob/main/Java/staticFactoryMethod.md "정적 팩토리 메서드")
