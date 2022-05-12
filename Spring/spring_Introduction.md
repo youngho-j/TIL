@@ -6,13 +6,7 @@
 1-2. [스프링이란?](#1-2-스프링이란)  
 1-3. [좋은 객체 지향 프로그래밍?](#1-3-좋은-객체-지향-프로그래밍)  
 1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
-1-3. [SOLID 원칙](#1-3-solid-원칙)  
-1-3-1. [SOLID란?](#1-3-1-solid란)  
-1-3-2. [SRP(단일 책임 원칙)](#1-3-2-srp단일-책임-원칙)  
-1-3-3. [OCP(개방-폐쇄 원칙)](#1-3-3-ocp개방-폐쇄-원칙)  
-1-3-4. [LSP(리스코프 치환 원칙)](#1-3-4-lsp리스코프-치환-원칙)  
-1-3-5. [ISP(인터페이스 분리 원칙)](#1-3-5-isp인터페이스-분리-원칙)  
-1-3-6. [DIP(의존 관계 역전 원칙)](#1-3-6-dip의존-관계-역전-원칙)  
+1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
 
 ***
 
@@ -263,9 +257,11 @@
   
 </details>  
 
-#### 1-3. SOLID 원칙
+### 1-5. 좋은 객체 지향 설계의 원칙  
+<details>
+  <summary>자세히</summary>  
 
-##### 1-3-1. SOLID란?
+#### SOLID란?
   
   - 로버트 마틴(클린코드 저)이 좋은 객체 지향 설계의 5가지 원칙의 앞 글자를 따서 만든 용어  
     `SRP`, `OCP`, `LSP`, `ISP`, `DIP`  
@@ -273,23 +269,21 @@
   - SOLID 원칙이 필요한 이유?  
     `시스템에 새로운 기능이 확장되거나 변경사항이 있는 경우 기존 기능들이 영향을 적게 받는 것`이 좋은 설계이기 때문  
 
-##### 1-3-2. SRP(단일 책임 원칙)
-  
-  - Single Respnsibiluty principle
- 
-  - `소프트웨어를 설계 시 객체는 단 하나의 책임만 가질 수 있다.`
+#### `SRP 단일 책임 원칙` - Single Responsibility Principle   
+
+  - `소프트웨어를 설계 시 객체(클래스)는 단 하나의 책임만 가질 수 있다.`
   
   - 하나의 책임?
     ```
-    책임 like 기능(요런 의미 정도로 해석하면 됨)
+    책임 like 기능 (이런 의미 정도로 해석하면 됨)
     
-    새로운 기능이 확장 또는 변경사항이 생길 경우 파급효과가 적을때 하나의 책임을 가지고 있다고 볼 수 있음
+    새로운 기능이 확장 또는 변경사항이 생길 경우 파급효과가 적을 경우 하나의 책임을 가지고 있다고 볼 수 있음
     
     즉, 하나의 책임을 가진 프로그램은 '객체 간의 응집도는 높고 결합도가 낮은 프로그램'이라는 뜻으로 해석 가능
     ```
+  
   - 예시
     ```java
-    
     class Calculator {
       public void add(int a, int b){...}   // 더하기
       public void sub(int a, int b){...}   // 빼기
@@ -300,14 +294,17 @@
     // 위의 Calculator 클래스는 사칙연산에 대한 기능만 가지고 있음
     // 이는 하나의 책임을 갖는다고 할 수 있음
     ```
-##### 1-3-3. OCP(개방-폐쇄 원칙)
 
-  - Open-Closed Principle
+#### `OCP 개방-폐쇄 원칙` - Open-Closed Principle
 
-  - `소프트웨어가 기존의 코드를 변경하지 않고(Closed) 기능을 수정하거나 추가(Open)할 수 있다.`  
+  - 소프트웨어가 기존의 코드를 변경하지 않고(Closed) 기능을 수정하거나 추가(Open)할 수 있다.  
+    즉, `확장에는 열려있지만 변경에는 닫혀있어야 함`   
   
-  - 설계시 변경되는 것이 무엇인지에 초점을 맞춰야함  
+  - `설계시 변경되는 것이 무엇인지에 초점`을 맞춰야함  
     자주 변경되는 내용은 수정하기 쉽게 설계, 변경되지 않아야 하는 내용은 수정되는 내용에 영향을 받지않게 해야함  
+    
+  - 어떻게 변경하지 않고 기능을 확장하는가?  
+    다형성을 활용하여 인터페이스를 구현한 새로운 클래스를 생성하여 기능 구현  
   
   - 예시
     ```java
@@ -340,14 +337,26 @@
     bus.isHybrid(); // 결과 : false
     taxi.isHybrid(); // 결과 : true
     ```
-    
-##### 1-3-4. LSP(리스코프 치환 원칙)
+  
+  - 문제점 
+    ```java
+    public class MemberService {
+      //private MemberRepository memberRepository = new MemoryMemberRepository();
+       private MemberRepository memberRepository = new JdbcMemberRepository();
+    }
+    ```
+    - 위와 같은 코드의 경우 MemberRepository 인터페이스를 상속 받아 구현한 새로운 클래스를 만들어 적용
+      그러나, 새로운 객체를 변경하기 위해 MemberService의 코드를 변경해야하는 상황이 발생  
+      분명 다형성을 활용하여 기능을 확장했지만 부득이하게 변경이 발생 됨
+      이러한 상황을 해결하기 위해서 스프링이 DI 기술을 통해 해결해 줄 수 있음  
 
-  - Liskov Substitution Principle
+#### `LSP 리스코프 치환 원칙` - Liskov Substitution Principle
 
-  - `클래스를 상속하는 자식 클래스들은 부모 클래스의 규약을 지켜야 한다.`
+  - `객체는 프로그램의 정확성을 깨지 않으면서 하위 타입의 인스턴스로 바꿀 수 있어야 한다`  
+    => 클래스를 상속하는 자식 클래스들은 부모 클래스의 규약을 지켜야 한다.
 
-  - 부모 클래스의 인스턴스 대신 자식 클래스의 인스턴스를 사용해도 문제가 없어야함을 의미
+  - 부모 클래스의 인스턴스 대신 자식 클래스의 인스턴스를 사용해도 문제가 없어야함을 의미  
+    부모 클래스를 구현한 자식 클래스를 믿고 사용하기 위함
   
   - 상속 관계에서는 일반화 관계(is - a)가 성립해야함 (단어 교체를 통해 확인 가능)
     ```
@@ -395,12 +404,10 @@
     // 부모 클래스(Car)가 규정하고 있는 accel의 기능을 무시하는 경우이므로 
     // 이때 LSP에 위배되었다고 정의
     ```
-    
-##### 1-3-5. ISP(인터페이스 분리 원칙)
+
+#### `ISP 인터페이스 분리 원칙` - Interface Segregation Principle
   
-  - Interface Segregation Principle
-  
-  - `어떤 구현 클래스는 자신이 사용하지 않는 인터페이스는 사용하지 않아야한다.`
+  - `특정 클라이언트를 위한 인터페이스 여러 개가 범용 인터페이스 하나보다 낫다.`
   
   - 자신(구현 클래스)이 사용하지 않는 기능에는 영향을 받지 말아야한다.
   
@@ -428,27 +435,37 @@
       public void submit();
     }
     ```
-    
-##### 1-3-6. DIP(의존 관계 역전 원칙)
   
-  - Dependency inversion Principle
+#### `DIP 의존 관계 역전 원칙` - Dependency inversion Principle
   
-  - `구현체보다는 인터페이스나 추상 클래스에 의존하는 것이 좋다.`
+  - `구체적인 것이 아니라 추상적인 것에 의존해야한다.`  
+    즉, 구현체보다는 인터페이스나 추상 클래스에 의존하는 것이 좋다.
   
   - 의존 관계를 맺을 때 변화하기 쉬운 것(구체화 된 클래스) 보단 변화하기 어려운 것(추상클래스나 인터페이스)에 의존해야함
     위와 같이 설계시 기존 기능의 변경이나 새로운 요구사항을 통한 기능 확장이 되었을 때 유연한 변경이 가능  
   
   - 구조적 디자인에서 발생하던 `하위 레벨 모듈의 변경이 상위 레벨 모듈의 변경을 요구하는 위계 관계를 끊는` 의미의 역전  
     실제 사용 관계는 바뀌지 X, 추상을 매개로 메세지를 주고 받음으로써 관계를 최대한 느슨하게 만듦
-    ![image](https://user-images.githubusercontent.com/65080004/146672525-01111dd0-e40b-494e-82e6-f9be1cea7bdb.png)
+    ![image](https://user-images.githubusercontent.com/65080004/146672525-01111dd0-e40b-494e-82e6-f9be1cea7bdb.png)  
+  
+#### 정리 
+  
+  - 객체 지향의 핵심은 `다형성`
+  - 하지만 다형성만으로는 쉽게 부품을 바꾸듯 개발할 수 없음  
+    - 왜?  
+      구현 객체를 변경할 때 클라이언트 코드도 함께 변경되기 때문에  
+  - 다형성 만으로는 OCP, DIP를 지킬 수 없다.  
+  
+</details>  
 
 ## Reference
- - [인프런 스프링 입문 - 김영한](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#curriculum)    
+ - [인프런 스프링 입문 - 김영한](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#curriculum) 
  - [김영한 유튜브 좋은 객체 지향 프로그래밍이란](https://www.youtube.com/watch?v=lsPN-N2ze40) 
  - [JAVA 객체 지향 디자인 패턴 (정인상/채홍석 지음, 한빛미디어, 2014)]  
  - [zayson SOLID 원칙](https://velog.io/@zayson/Spring-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8-3-SOLID-%EC%9B%90%EC%B9%99)  
  - [Programming Note SOLID 원칙](https://dev-momo.tistory.com/entry/SOLID-%EC%9B%90%EC%B9%99)  
  - [keep going SOLID 원칙](https://velog.io/@hanblueblue/Java-SOLID-SRP-OCP-LSP-ISP-DIP)  
+ - [dodeon 좋은 객체 지향 설계의 원칙](https://dodeon.gitbook.io/study/kimyounghan-spring-core-principle/01-oop-spring/oop-principle)  
 
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)
