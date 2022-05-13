@@ -7,6 +7,7 @@
 1-3. [좋은 객체 지향 프로그래밍?](#1-3-좋은-객체-지향-프로그래밍)  
 1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
 1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
+1-6. [객체 지향 설계와 스프링](#1-6-객체-지향-설계와-스프링)  
 
 ***
 
@@ -271,16 +272,17 @@
 
 #### `SRP 단일 책임 원칙` - Single Responsibility Principle   
 
-  - `소프트웨어를 설계 시 객체(클래스)는 단 하나의 책임만 가질 수 있다.`
+  - 소프트웨어를 설계 시 객체(클래스)는 `하나의 책임`만 가져야 한다
   
   - 하나의 책임?
-    ```
-    책임 like 기능 (이런 의미 정도로 해석하면 됨)
+     - 모호함.. 크거나 작을 수 있고, 문맥과 상황에 따라 달라질 수 있음  
+     
+     - 책임 like 기능 (이런 의미 정도로 해석하면 됨)
+     
+     - `중요한 기준은 변경`  
+       변경시 파급효과가 적을 경우 하나의 책임을 가지고 있다고 볼 수 있음
     
-    새로운 기능이 확장 또는 변경사항이 생길 경우 파급효과가 적을 경우 하나의 책임을 가지고 있다고 볼 수 있음
-    
-    즉, 하나의 책임을 가진 프로그램은 '객체 간의 응집도는 높고 결합도가 낮은 프로그램'이라는 뜻으로 해석 가능
-    ```
+     - 하나의 책임을 가진 프로그램은 '객체 간의 응집도는 높고 결합도가 낮은 프로그램'이라는 뜻으로 해석 가능  
   
   - 예시
     ```java
@@ -303,8 +305,8 @@
   - `설계시 변경되는 것이 무엇인지에 초점`을 맞춰야함  
     자주 변경되는 내용은 수정하기 쉽게 설계, 변경되지 않아야 하는 내용은 수정되는 내용에 영향을 받지않게 해야함  
     
-  - 어떻게 변경하지 않고 기능을 확장하는가?  
-    다형성을 활용하여 인터페이스를 구현한 새로운 클래스를 생성하여 기능 구현  
+  - 어떻게 `변경하지 않고 기능을 확장`하는가? (= 어떻게 다형성을 사용하는가?)    
+    인터페이스를 구현한 새로운 클래스를 생성하여 기능 구현  
   
   - 예시
     ```java
@@ -352,7 +354,7 @@
 
 #### `LSP 리스코프 치환 원칙` - Liskov Substitution Principle
 
-  - `객체는 프로그램의 정확성을 깨지 않으면서 하위 타입의 인스턴스로 바꿀 수 있어야 한다`  
+  - 객체는 프로그램의 정확성을 깨지 않으면서 `하위 타입의 인스턴스로 바꿀 수 있어야 한다.`  
     => 클래스를 상속하는 자식 클래스들은 부모 클래스의 규약을 지켜야 한다.
 
   - 부모 클래스의 인스턴스 대신 자식 클래스의 인스턴스를 사용해도 문제가 없어야함을 의미  
@@ -407,7 +409,7 @@
 
 #### `ISP 인터페이스 분리 원칙` - Interface Segregation Principle
   
-  - `특정 클라이언트를 위한 인터페이스 여러 개가 범용 인터페이스 하나보다 낫다.`
+  - 특정 클라이언트를 위한 `인터페이스 여러 개`가 범용 인터페이스 하나보다 낫다.
   
   - 자신(구현 클래스)이 사용하지 않는 기능에는 영향을 받지 말아야한다.
   
@@ -438,15 +440,14 @@
   
 #### `DIP 의존 관계 역전 원칙` - Dependency inversion Principle
   
-  - `구체적인 것이 아니라 추상적인 것에 의존해야한다.`  
-    즉, 구현체보다는 인터페이스나 추상 클래스에 의존하는 것이 좋다.
+  - 구체적인 것이 아니라 `추상적인 것에 의존해야한다.`  
+    즉, 구현체보다는 인터페이스나 추상 클래스에 의존하는 것이 좋음
+  
+  - 구현이 아닌 `역할(Role)에 의존하게 해야함`
   
   - 의존 관계를 맺을 때 변화하기 쉬운 것(구체화 된 클래스) 보단 변화하기 어려운 것(추상클래스나 인터페이스)에 의존해야함
     위와 같이 설계시 기존 기능의 변경이나 새로운 요구사항을 통한 기능 확장이 되었을 때 유연한 변경이 가능  
   
-  - 구조적 디자인에서 발생하던 `하위 레벨 모듈의 변경이 상위 레벨 모듈의 변경을 요구하는 위계 관계를 끊는` 의미의 역전  
-    실제 사용 관계는 바뀌지 X, 추상을 매개로 메세지를 주고 받음으로써 관계를 최대한 느슨하게 만듦
-    ![image](https://user-images.githubusercontent.com/65080004/146672525-01111dd0-e40b-494e-82e6-f9be1cea7bdb.png)  
   
 #### 정리 
   
@@ -455,17 +456,50 @@
     - 왜?  
       구현 객체를 변경할 때 클라이언트 코드도 함께 변경되기 때문에  
   - 다형성 만으로는 OCP, DIP를 지킬 수 없다.  
+
+#### Reference  
+  - [zayson SOLID 원칙](https://velog.io/@zayson/Spring-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8-3-SOLID-%EC%9B%90%EC%B9%99)  
+  - [Programming Note SOLID 원칙](https://dev-momo.tistory.com/entry/SOLID-%EC%9B%90%EC%B9%99)  
+  - [keep going SOLID 원칙](https://velog.io/@hanblueblue/Java-SOLID-SRP-OCP-LSP-ISP-DIP)  
+  - [dodeon 좋은 객체 지향 설계의 원칙](https://dodeon.gitbook.io/study/kimyounghan-spring-core-principle/01-oop-spring/oop-principle)  
   
 </details>  
 
+### 1-6. 객체 지향 설계와 스프링  
+<details> 
+  <summary>자세히</summary>  
+  
+#### 스프링과 객체 지향  
+  - 스프링은 DI와 DI 컨테이너를 통해 다형성, OCP, DIP를 가능하도록 지원  
+    - DI(Dependency Injection): 의존관계, 의존성 주입  
+      각 클래스간의 의존관계를 빈(Bean)설정 정보를 바탕으로 컨테이너가 자동으로 연결해주는 것  
+      
+    - DI 컨테이너 [= 빈 팩토리(BeanFactory)]  
+      [DI 컨테이너 추가 정보](https://dog-developers.tistory.com/12)  
+    
+    - 클라이언트 코드의 변경 없이 기능 확장이 가능해짐  
+
+#### 내용 정리 
+ - 모든 설계에 `역할`과 `구현`을 분리  
+ 
+ - 애플리케이션 설계시 공연을 설계하듯 배역(역할)만 만들어두고,  
+   배우(구현)는 언제든 `유연하게 변경`할 수 있도록 만드는 것이 좋은 객체 지향 설계  
+ 
+ - 이상적으로는 모든 설계에 인터페이스를 부여하는게 좋음  
+   - 하지만, 추상화하는 비용이 발생  
+   - 따라서 기능 확장의 가능성이 없다면 구체 클래스를 직접 사용하거나  
+   - 향후 필요시 리팩토링을 통해 인터페이스를 도입하는 것도 방법이 될 수 있다.  
+  
+#### Reference  
+  - [개키우는 개발자 IoC 컨테이너와 DI](https://dog-developers.tistory.com/12)  
+  - [lychee 객체 지향 설계와 스프링](https://velog.io/@lychee/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-01.-%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%EC%84%A4%EA%B3%84%EC%99%80-%EC%8A%A4%ED%94%84%EB%A7%81#srp-%EB%8B%A8%EC%9D%BC-%EC%B1%85%EC%9E%84-%EC%9B%90%EC%B9%99-single-reponsibility-principle)  
+    
 ## Reference
- - [인프런 스프링 입문 - 김영한](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#curriculum) 
- - [김영한 유튜브 좋은 객체 지향 프로그래밍이란](https://www.youtube.com/watch?v=lsPN-N2ze40) 
- - [JAVA 객체 지향 디자인 패턴 (정인상/채홍석 지음, 한빛미디어, 2014)]  
- - [zayson SOLID 원칙](https://velog.io/@zayson/Spring-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8-3-SOLID-%EC%9B%90%EC%B9%99)  
- - [Programming Note SOLID 원칙](https://dev-momo.tistory.com/entry/SOLID-%EC%9B%90%EC%B9%99)  
- - [keep going SOLID 원칙](https://velog.io/@hanblueblue/Java-SOLID-SRP-OCP-LSP-ISP-DIP)  
- - [dodeon 좋은 객체 지향 설계의 원칙](https://dodeon.gitbook.io/study/kimyounghan-spring-core-principle/01-oop-spring/oop-principle)  
+  - [인프런 스프링 입문 - 김영한](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#curriculum) 
+  - [김영한 유튜브 좋은 객체 지향 프로그래밍이란](https://www.youtube.com/watch?v=lsPN-N2ze40) 
+  - [JAVA 객체 지향 디자인 패턴 (정인상/채홍석 지음, 한빛미디어, 2014)]  
+
+</details> 
 
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)
