@@ -8,6 +8,11 @@
 1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
 1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
 1-6. [객체 지향 설계와 스프링](#1-6-객체-지향-설계와-스프링)  
+2. [스프링 핵심 원리 이해 - 예제 만들기](#2-스프링-핵심-원리-이해---예제-만들기)    
+2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
+
+## 예제 코드  
+[스프링 핵심 원리 코드 바로가기](https://github.com/youngho-j/TIL/tree/main/Spring/core)  
 
 ***
 
@@ -500,6 +505,88 @@
   - [JAVA 객체 지향 디자인 패턴 (정인상/채홍석 지음, 한빛미디어, 2014)]  
 
 </details> 
+ 
+### 2. 스프링 핵심 원리 이해 - 예제 만들기  
+### 2-1. 프로젝트 생성  
+<details>
+  <summary>자세히</summary>  
+
+#### 스프링 부트 프로젝트 생성    
+  1. [스프링 부트 스타터 사이트](https://start.spring.io/) 에서 생성 
+  
+  2. 프로젝트 설정  
+    - Project : Gradle Project 선택
+    - Language : Java
+    - Spring Boot : 2.3.x 버전 선택  
+      없을 경우 제일 낮은 버전을 선택(생성 후 변경 가능)  
+    - Project Metadata  
+      - Group : hello 작성
+      - Artifact : core 작성
+      - Packaging : Jar 선택  
+      - Java : 11
+      - Dependencies : 선택하지 않음
+      - GENERATE를 눌러 zip 파일 생성  
+  
+  3. 원하는 폴더에 생성한 zip 파일 압축 해제  
+  
+  4. IntelliJ open을 통해 폴더 경로까지 이동  
+  
+  5. build.gradle을 open  
+     초기 실행시 파일 설정으로인해 로딩시간이 김  
+  
+  6. build.gradle 아래와 같은 코드로 수정  
+     ```gradle
+     plugins {
+      id 'org.springframework.boot' version '2.3.3.RELEASE'
+      id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+      id 'java'
+     }
+     
+     group = 'hello'
+     version = '0.0.1-SNAPSHOT'
+     sourceCompatibility = '11'
+     
+     repositories {
+         mavenCentral()
+     }
+     
+     dependencies {
+          implementation 'org.springframework.boot:spring-boot-starter'
+          testImplementation('org.springframework.boot:spring-boot-starter-test') {
+              exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+          }
+     }
+   
+     test {
+          useJUnitPlatform()
+     }
+     ``` 
+  
+  7. Load Gradle change 버튼 클릭하여 Gradle 로딩  
+     Problems에 오류가 있을 경우 Reload All Gradle Project를 통해 다시 한번 리로드  
+     참고, Gradle 탭은 우측 상단에 위치  
+  
+  8. 설정 완료 
+
+#### 실행속도 빠르게 설정하기  
+  - 최근 IntelliJ 버전은 Gradle을 통해서 실행 하는 것이 기본 설정  
+    실행속도가 느림  
+  
+  - 다음과 같이 변경하여 실행속도 향상  
+    1. File 탭에서 Settings 클릭 (Mac의 Preferences와 같음)   
+    
+    2. gradle 검색 시 (Build, Execution, Deployment / Build Tools / Gradle)이 검색됨  
+       (Mac : Preferences → Build, Execution, Deployment → Build Tools → Gradle)  
+    
+    3. Gradle projects의 설정을 아래와 같이 변경  
+       - Build and run using  
+         : Gradle → `IntelliJ IDEA`  
+       - Run tests using  
+         : Gradle → `IntelliJ IDEA`  
+    
+    4. 설정 저장  
+  
+</details>  
 
 ***
-[목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)
+[목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
