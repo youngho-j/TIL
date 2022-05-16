@@ -11,6 +11,8 @@
 2. [스프링 핵심 원리 이해 - 예제 만들기](#2-스프링-핵심-원리-이해---예제-만들기)    
 2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
 2-2. [비즈니스 요구사항](#2-2-비즈니스-요구사항)  
+2-3. [회원 도메인 설계](#2-3-회원-도메인-설계)  
+2-4. [회원 도메인 개발](#2-3-회원-도메인-개발)  
 
 ## 예제 코드  
 [스프링 핵심 원리 코드 바로가기](https://github.com/youngho-j/TIL/tree/main/Spring/core)  
@@ -619,6 +621,178 @@
       구현체를 언제든 갈아끼울 수 있도록 설계하면 개발이 가능
 
 </details>   
+
+### 2-3. 회원 도메인 설계  
+<details>
+  <summary>자세히</summary>  
+
+#### 회원 도메인 요구사항
+  - 회원 가입, 조회 가능  
+  - 회원 등급 존재(일반, VIP)  
+  - 회원 데이터는 자체 DB를 구축할 수 있고, 외부 시스템과 연동할 수 있음 (미확정)   
+
+#### 회원 도메인 협력 관계  
+  ![image](https://user-images.githubusercontent.com/65080004/168537018-75379a60-81ff-4c50-bf47-9db27b53626b.png)  
+  - 회원 DB를 자체 구축 할 수도 있고, 외부 시스템과 연동할 수 있으므로, 데이터 접근 계층을 따로 만들어둠  
+  - 회원 저장소 인터페이스(역할)를 두고, 구현은 메모리, DB, 외부 저장소로 분리  
+
+#### 회원 클래스 다이어 그램  
+  ![image](https://user-images.githubusercontent.com/65080004/168537413-356f97d1-0be3-4522-bf3b-2235698877e0.png)  
+  - MemberService(회원 서비스 역할)는 인터페이스로 생성,  
+      역할의 구현체인 MemberServiceImpl을 따로 생성  
+      
+  - MemberRepository(회원 저장소 역할)는 인터페이스로 생성,  
+      역할의 구현체인 Memory와 DB를 따로 생성   
+
+#### 회원 객체 다이어그램  
+  ![image](https://user-images.githubusercontent.com/65080004/168537942-5234364f-6106-4112-9687-83b8c05dece6.png)  
+  - 실제 서버에서의 인스턴스 간 참조 관계  
+  - 회원 서비스 주소 값 :  MemberServiceImpl  
+  - 회원 저장소 주소 값 : MemoryMemberRepository  
+
+</details> 
+
+### 2-4. 회원 도메인 개발  
+<details>
+  <summary>자세히</summary>  
+
+#### 회원 엔티티  
+  - 회원 등급  
+     ```java
+     package hello.core.member;
+
+     public enum Grade {
+       BASIC,
+       VIP
+     }
+     ```
+
+  - 회원 엔티티  
+     ```java
+     package hello.core.member;
+
+     public class Member {
+
+       private Long id;
+       private String name;
+       private Grade grade;
+
+       public Member(Long id, String name, Grade grade) {
+         this.id = id;
+         this.name = name;
+         this.grade = grade;
+       }
+
+       public Long getId() {
+         return id;
+       }
+
+       public void setId(Long id) {
+         this.id = id;
+       }
+
+       public String getName() {
+         return name;
+       }
+
+       public void setName(String name) {
+         this.name = name;
+       }
+
+       public Grade getGrade() {
+         return grade;
+       }
+
+       public void setGrade(Grade grade) {
+         this.grade = grade;
+       }
+     }   
+     ```
+     - Entity : 실체, 객체라는 의미를 가지며, 실무에선 엔티티라고 부름  
+
+#### 회원 서비스  
+  - 회원 서비스 인터페이스
+     ```java
+     package hello.core.member;
+
+     public interface MemberService {
+
+       void join(Member member);
+
+       Member findMember(Long memberId);
+
+     }
+     ```
+     - 회원 가입, 조회 두가지 기능  
+     - 이상적으로는 모든 설계에 인터페이스를 부여하면 좋음  
+        - 하지만 모든 설계에 인터페이스를 도입하면 추상화라는 비용이 발생  
+        - 따라서 기능을 확장할 가능성이 없다면, 구체 클래스를 직접 사용하거나  
+        - 향후 필요시 리팩토링을 통해 인터페이스를 도입하면 됨  
+     - 현재 코드에선 `역할과 구현을 분리하는 것에 초점`을 맞추어  
+      MemberService도 역할(Interface)과 구현(Impl)로 분리했다.  
+
+  - 회원 서비스 구현체  
+     ```java
+     package hello.core.member;
+
+     public class MemberServiceImpl implements  MemberService{
+
+       private final MemberRepository memberRepository 
+                              = new MemoryMemberRepository();
+
+       @Override
+       public void join(Member member) {
+         memberRepository.save(member);
+       }
+
+       @Override
+       public Member findMember(Long memberId) {
+         return memberRepository.findById(memberId);
+       }
+     }
+     ```
+     - 인터페이스의 구현객체가 한개일 경우  
+      구현 클래스이름을 `인터페이스명Impl`이라고 짓는다.   
+
+#### 회원 저장소
+  - 회원 저장소 인터페이스  
+     ```java
+     package hello.core.member;
+      
+     public interface MemberRepository {
+
+       void save(Member member);
+
+       Member findById(Long memberId);
+     }
+     ```
+     - 데이터 베이스가 미정이지만, 개발을 진행해야함으로 단순하게 구현  
+   
+  - 회원 저장소 구현체  
+     ```java
+     package hello.core.member;
+
+     import java.util.HashMap;
+     import java.util.Map;
+
+     public class MemoryMemberRepository implements  MemberRepository{
+
+       private  static Map<Long, Member> store = new HashMap<>();
+
+       @Override
+       public void save(Member member) {
+         store.put(member.getId(), member);
+       }
+
+       @Override
+       public Member findById(Long memberId) {
+         return store.get(memberId);
+       }
+     }
+     ```
+     - HashMap은 동시성 이슈가 발생할 수 있어, 실무에서는 ConcurrentHashMap을 사용함  
+     
+</details>
 
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
