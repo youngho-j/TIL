@@ -12,7 +12,10 @@
 2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
 2-2. [비즈니스 요구사항](#2-2-비즈니스-요구사항)  
 2-3. [회원 도메인 설계](#2-3-회원-도메인-설계)  
-2-4. [회원 도메인 개발](#2-3-회원-도메인-개발)  
+2-4. [회원 도메인 개발](#2-4-회원-도메인-개발)  
+2-5. [회원 도메인 테스트](#2-5-회원-도메인-테스트)  
+2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
+회원 도메인 설계의 문제점
 
 ## 예제 코드  
 [스프링 핵심 원리 코드 바로가기](https://github.com/youngho-j/TIL/tree/main/Spring/core)  
@@ -792,6 +795,64 @@
      ```
      - HashMap은 동시성 이슈가 발생할 수 있어, 실무에서는 ConcurrentHashMap을 사용함  
      
+
+</details>
+
+### 2-5. 회원 도메인 테스트  
+<details>
+  <summary>자세히</summary>  
+
+#### 회원 도메인 테스트  
+  - 회원 가입 테스트  
+     ```java
+     package hello.core.member;
+
+     import org.assertj.core.api.Assertions;
+     import org.junit.jupiter.api.Test;
+
+     public class MemberServiceTest {
+
+       MemberService memberService = new MemberServiceImpl();
+
+       @Test
+       void join(){
+         //given
+         Member member = new Member(1L, "memberA", Grade.VIP);
+
+         //when
+         memberService.join(member);
+         Member findMember = memberService.findMember(1L);
+
+         //then
+         Assertions.assertThat(member).isEqualTo(findMember);
+
+       }
+     }
+     ```
+     - org.assertj.core.api.Assertions 클래스  
+        - Assertions.assertThat(객체1).isEqaulsTo(객체2)  
+           - assertThat()으로 비교할 대상(객체1)을 설정하고  
+            isEqualTo()로 사용자가 생각하는 값(객체2)을 비교하여 맞는지 검사하는 테스트  
+
+</details>
+
+### 2-6. 회원 도메인 설계의 문제점     
+<details>
+  <summary>자세히</summary>  
+
+#### 문제점  
+  ```java
+  public class MemberServiceImpl implements MemberService {
+
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
+		...
+  }
+  ```
+  - 위의 MemberServiceImpl 코드를 보면  
+     - MemberRepository와 MemoryMemberRepository를 모두 의존  
+     - 즉, 의존관계가 인터페이스(추상화) 뿐만 아니라 구현(구체화)까지 모두 의존  
+     - 변경이 발생되었을때 문제가 되며, DIP를 위반  
+
 </details>
 
 ***
