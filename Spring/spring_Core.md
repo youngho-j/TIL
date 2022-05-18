@@ -16,6 +16,7 @@
 2-5. [회원 도메인 테스트](#2-5-회원-도메인-테스트)  
 2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
 2-7. [주문과 할인 도메인 설계](#2-7-주문과-할인-도메인-설계)  
+2-8. [주문과 할인 도메인 개발](#2-8-주문과-할인-도메인-개발)  
 
 ## 예제 코드  
 [스프링 핵심 원리 코드 바로가기](https://github.com/youngho-j/TIL/tree/main/Spring/core)  
@@ -875,8 +876,7 @@
   ![image](https://user-images.githubusercontent.com/65080004/168757778-fc4c1806-23c5-4388-b246-7d74a5576a34.png)  
   1. 주문 생성 : 클라이언트는 주문 서비스에 주문 생성을 요청  
   2. 회원 조회 : 할인을 적용하기 위해 회원 등급이 필요  
-
-    → 주문 서비스는 회원 저장소에서 회원을 조회한다.  
+	  → 주문 서비스는 회원 저장소에서 회원을 조회한다.  
   3. 할인 적용 : 주문 서비스는 회원 등급에 따른 할인 여부를 할인 정책에 위임  
   4. 주문 결과 반환 : 주문 서비스는 할인 결과를 포함한 주문 결과를 반환
 
@@ -901,5 +901,164 @@
 
 </details>
 
+### 2-8. 주문과 할인 도메인 개발     
+<details>
+  <summary>자세히</summary>  
+
+#### 할인 정책  
+  - 할인 정책 인터페이스  
+    ```java
+    package hello.core.discount;
+  
+    import hello.core.member.Member;
+
+    public interface DiscountPolicy {
+    
+      // @return 할인 대상 금액
+      int discount(Member member, int price);
+
+    }
+    ```
+  
+  - 정액 할인 정책 구현체  
+    ```java
+    package hello.core.discount;
+
+    import hello.core.member.Grade;
+    import hello.core.member.Member;
+
+    public class FixDiscountPolicy implements DiscountPolicy {
+
+      private int discountFixAmount = 1000;  // 1000원 할인
+
+      @Override
+      public int discount(Member member, int price) {
+
+        if (member.getGrade() == Grade.VIP){
+           return discountFixAmount;
+        }
+
+        return 0;
+      }
+    }
+    ```
+    - 할인에 관련된 기능을 가지고 있음  
+    - Grade가 VIP인 경우 1000원 할인 적용
+  
+#### 주문 엔티티  
+  - 주문 엔티티
+    ```java
+    package hello.core.Order;
+
+    public class Order {
+
+      private Long memberId;
+      private String iteamName;
+      private int itemPrice;
+      private int discountPrice;
+
+      public Order(Long memberId, String iteamName, int itemPrice, int discountPrice) {
+        this.memberId = memberId;
+        this.iteamName = iteamName;
+        this.itemPrice = itemPrice;
+        this.discountPrice = discountPrice;
+      }
+
+      public int calcuatePrice(){
+        return itemPrice - discountPrice;
+      }
+
+      public Long getMemberId() {
+        return memberId;
+      }
+
+      public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+      }
+
+      public String getIteamName() {
+        return iteamName;
+      }
+
+      public void setIteamName(String iteamName) {
+        this.iteamName = iteamName;
+      }
+
+      public int getItemPrice() {
+        return itemPrice;
+      }
+
+      public void setItemPrice(int itemPrice) {
+        this.itemPrice = itemPrice;
+      }
+
+      public int getDiscountPrice() {
+        return discountPrice;
+      }
+
+      public void setDiscountPrice(int discountPrice) {
+        this.discountPrice = discountPrice;
+      }
+
+      @Override
+      public String toString() {
+        return "Order{" +
+                "memberId=" + memberId +
+                ", iteamName='" + iteamName + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", discountPrice=" + discountPrice +
+                '}';
+      }
+    }
+    ```
+  
+#### 주문 서비스  
+  - 주문 서비스 인터페이스  
+    ```java
+    package hello.core.Order;
+
+    public interface OrderService {
+
+      Order createOrder(Long memberId, String itemName, int itemPrice);
+
+    }  
+    ```
+  
+  - 주문 서비스 구현체  
+    ```java
+    package hello.core.Order;
+
+    import hello.core.discount.DiscountPolicy;
+    import hello.core.discount.FixDiscountPolicy;
+    import hello.core.member.Member;
+    import hello.core.member.MemberRepository;
+    import hello.core.member.MemoryMemberRepository;
+
+    public class OrderServiceImpl implements OrderService {
+
+      private final MemberRepository memberRepository 
+                                     = new MemoryMemberRepository();
+      private final DiscountPolicy discountPolicy 
+                                    = new FixDiscountPolicy();
+
+      @Override
+      public Order createOrder(Long memberId, String itemName, int itemPrice) {
+          
+        Member member = memberRepository.findById(memberId);
+        
+        int discountPrice = discountPolicy.discount(member, itemPrice);
+        
+        return new Order(memberId, itemName, itemPrice, discountPrice);
+      }
+    }
+    ```
+    - MemoryMemberRepository와 FixDiscountPolicy를 구현체로 생성
+    - 주문 생성 요청이 오면,  
+      1. 회원 정보 조회  
+      2. 할인 정책 적용
+      3. 주문 객체 생성하여 반환  
+  
+</details>
+  
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
