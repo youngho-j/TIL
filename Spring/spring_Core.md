@@ -17,6 +17,7 @@
 2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
 2-7. [주문과 할인 도메인 설계](#2-7-주문과-할인-도메인-설계)  
 2-8. [주문과 할인 도메인 개발](#2-8-주문과-할인-도메인-개발)  
+2-9. [주문과 할인 도메인 테스트](#2-9-주문과-할인-도메인-테스트)  
 
 ## 예제 코드  
 [스프링 핵심 원리 코드 바로가기](https://github.com/youngho-j/TIL/tree/main/Spring/core)  
@@ -1059,6 +1060,46 @@
       3. 주문 객체 생성하여 반환  
   
 </details>
+
+### 2-9. 주문과 할인 도메인 테스트     
+<details>
+  <summary>자세히</summary>  
+
+#### 주문과 할인 정책 테스트
+  - 주문 서비스 테스트  
+    ```java
+    package hello.core.Order;
+
+    import hello.core.member.Grade;
+    import hello.core.member.Member;
+    import hello.core.member.MemberService;
+    import hello.core.member.MemberServiceImpl;
+    import org.assertj.core.api.Assertions;
+    import org.junit.jupiter.api.Test;
+
+    public class OrderServiceTest {
+
+      MemberService memberService = new MemberServiceImpl();
+      OrderService orderService = new OrderServiceImpl();
+
+      @Test
+      void createOrder(){
+      
+        Long memberId = 1L;
+        
+        Member member = new Member(memberId, "memberA", Grade.VIP);
+        memberService.join(member);
+
+        Order order = orderService.createOrder(memberId, "itemA", 1000);
+        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
+
+      }
+
+    }
+    ```
+    - 단위 테스트가 중요함!  
+      `단위 테스트` : 스프링 및 컨테이너의 도움 없이 순수하게 자바 코드를 테스트  
+</details>  
   
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
