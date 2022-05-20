@@ -1059,6 +1059,20 @@
       2. 할인 정책 적용
       3. 주문 객체 생성하여 반환  
   
+#### 주문 서비스 구현체의 문제점  
+  - DIP 원칙 위반 
+    ```java
+    public class OrderServiceImpl implements OrderService {
+
+      private final MemberRepository memberRepository 
+                                     = new MemoryMemberRepository();
+      private final DiscountPolicy discountPolicy 
+                                    = new FixDiscountPolicy();
+      ...
+    }
+    ```
+    - 구현체인 MemoryMemberRepository, FixDiscountPolicy에 의존하기 때문에 `DIP 위반`  
+	
 </details>
 
 ### 2-9. 주문과 할인 도메인 테스트     
