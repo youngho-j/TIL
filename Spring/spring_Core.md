@@ -2,25 +2,28 @@
 
 ## 목차  
 1. [객체 지향 설계와 스프링](#1-객체-지향-설계와-스프링)  
-1-1. [스프링의 탄생](#1-1-스프링의-탄생)  
-1-2. [스프링이란?](#1-2-스프링이란)  
-1-3. [좋은 객체 지향 프로그래밍?](#1-3-좋은-객체-지향-프로그래밍)  
-1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
-1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
-1-6. [객체 지향 설계와 스프링](#1-6-객체-지향-설계와-스프링)  
-2. [스프링 핵심 원리 이해 - 예제 만들기](#2-스프링-핵심-원리-이해---예제-만들기)    
-2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
-2-2. [비즈니스 요구사항](#2-2-비즈니스-요구사항)  
-2-3. [회원 도메인 설계](#2-3-회원-도메인-설계)  
-2-4. [회원 도메인 개발](#2-4-회원-도메인-개발)  
-2-5. [회원 도메인 테스트](#2-5-회원-도메인-테스트)  
-2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
-2-7. [주문과 할인 도메인 설계](#2-7-주문과-할인-도메인-설계)  
-2-8. [주문과 할인 도메인 개발](#2-8-주문과-할인-도메인-개발)  
-2-9. [주문과 할인 도메인 테스트](#2-9-주문과-할인-도메인-테스트)  
+    1-1. [스프링의 탄생](#1-1-스프링의-탄생)  
+    1-2. [스프링이란?](#1-2-스프링이란)  
+    1-3. [좋은 객체 지향 프로그래밍?](#1-3-좋은-객체-지향-프로그래밍)  
+    1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
+    1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
+    1-6. [객체 지향 설계와 스프링](#1-6-객체-지향-설계와-스프링)  
 
-## 예제 코드  
-[스프링 핵심 원리 코드 바로가기](https://github.com/youngho-j/TIL/tree/main/Spring/core)  
+2. [스프링 핵심 원리 이해 - 예제 만들기](#2-스프링-핵심-원리-이해---예제-만들기)    
+    2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
+    2-2. [비즈니스 요구사항](#2-2-비즈니스-요구사항)  
+    2-3. [회원 도메인 설계](#2-3-회원-도메인-설계)  
+    2-4. [회원 도메인 개발](#2-4-회원-도메인-개발)  
+    2-5. [회원 도메인 테스트](#2-5-회원-도메인-테스트)  
+    2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
+    2-7. [주문과 할인 도메인 설계](#2-7-주문과-할인-도메인-설계)  
+    2-8. [주문과 할인 도메인 개발](#2-8-주문과-할인-도메인-개발)  
+    2-9. [주문과 할인 도메인 테스트](#2-9-주문과-할인-도메인-테스트)   
+
+  
+
+## Reference  
+[스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
 
 ***
 
@@ -547,7 +550,7 @@
   5. build.gradle을 open  
      초기 실행시 파일 설정으로인해 로딩시간이 김  
   
-  6. build.gradle 아래와 같은 코드로 수정  
+  6. build.gradle 아래와 같은 코드로 수정 (수정부분만 올림) 
      ```gradle
      plugins {
       id 'org.springframework.boot' version '2.3.3.RELEASE'
@@ -555,13 +558,7 @@
       id 'java'
      }
      
-     group = 'hello'
-     version = '0.0.1-SNAPSHOT'
-     sourceCompatibility = '11'
-     
-     repositories {
-         mavenCentral()
-     }
+    ...
      
      dependencies {
           implementation 'org.springframework.boot:spring-boot-starter'
@@ -570,9 +567,7 @@
           }
      }
       
-     test {
-          useJUnitPlatform()
-     }
+     ...
      ```
   
   7. Load Gradle change 버튼 클릭하여 Gradle 로딩  
@@ -682,59 +677,24 @@
        private String name;
        private Grade grade;
 
-       public Member(Long id, String name, Grade grade) {
-         this.id = id;
-         this.name = name;
-         this.grade = grade;
-       }
-
-       public Long getId() {
-         return id;
-       }
-
-       public void setId(Long id) {
-         this.id = id;
-       }
-
-       public String getName() {
-         return name;
-       }
-
-       public void setName(String name) {
-         this.name = name;
-       }
-
-       public Grade getGrade() {
-         return grade;
-       }
-
-       public void setGrade(Grade grade) {
-         this.grade = grade;
-       }
+       ...
+       // 생성자 및 Getter, Setter 추가
      }   
      ```
      - Entity : 실체, 객체라는 의미를 가지며, 실무에선 엔티티라고 부름  
 
 #### 회원 서비스  
-  - 회원 서비스 인터페이스
-     ```java
-     package hello.core.member;
+  - 회원 서비스 인터페이스  
+    - 회원 가입, 조회 두가지 기능  
+      1. void join(Member member)  
+      2. Member findMember(Long memberId)  
 
-     public interface MemberService {
-
-       void join(Member member);
-
-       Member findMember(Long memberId);
-
-     }
-     ```
-     - 회원 가입, 조회 두가지 기능  
-     - 이상적으로는 모든 설계에 인터페이스를 부여하면 좋음  
-        - 하지만 모든 설계에 인터페이스를 도입하면 추상화라는 비용이 발생  
-        - 따라서 기능을 확장할 가능성이 없다면, 구체 클래스를 직접 사용하거나  
-        - 향후 필요시 리팩토링을 통해 인터페이스를 도입하면 됨  
-     - 현재 코드에선 `역할과 구현을 분리하는 것에 초점`을 맞추어  
-      MemberService도 역할(Interface)과 구현(Impl)로 분리했다.  
+    - 이상적으로는 모든 설계에 인터페이스를 부여하면 좋음  
+       - 하지만 모든 설계에 인터페이스를 도입하면 추상화라는 비용이 발생  
+       - 따라서 기능을 확장할 가능성이 없다면, 구체 클래스를 직접 사용하거나  
+       - 향후 필요시 리팩토링을 통해 인터페이스를 도입하면 됨  
+    - 현재 코드에선 `역할과 구현을 분리하는 것에 초점`을 맞추어  
+     MemberService도 역할(Interface)과 구현(Impl)로 분리했다.  
 
   - 회원 서비스 구현체  
      ```java
@@ -744,16 +704,7 @@
 
        private final MemberRepository memberRepository 
                               = new MemoryMemberRepository();
-
-       @Override
-       public void join(Member member) {
-         memberRepository.save(member);
-       }
-
-       @Override
-       public Member findMember(Long memberId) {
-         return memberRepository.findById(memberId);
-       }
+       회원 서비스 인터페이스 Override 메서드 작성
      }
      ```
      - 인터페이스의 구현객체가 한개일 경우  
@@ -761,17 +712,11 @@
 
 #### 회원 저장소
   - 회원 저장소 인터페이스  
-     ```java
-     package hello.core.member;
-      
-     public interface MemberRepository {
-
-       void save(Member member);
-
-       Member findById(Long memberId);
-     }
-     ```
-     - 데이터 베이스가 미정이지만, 개발을 진행해야함으로 단순하게 구현  
+    - 저장, 아이디 검색 메서드  
+      1. void save(Member member);  
+      2. Member findById(Long memberId);  
+    
+    - 데이터 베이스가 미정이지만, 개발을 진행해야함으로 단순하게 구현  
    
   - 회원 저장소 구현체  
      ```java
@@ -784,15 +729,7 @@
 
        private  static Map<Long, Member> store = new HashMap<>();
 
-       @Override
-       public void save(Member member) {
-         store.put(member.getId(), member);
-       }
-
-       @Override
-       public Member findById(Long memberId) {
-         return store.get(memberId);
-       }
+       // 회원 저장소 인터페이스 Override 메서드 작성
      }
      ```
      - HashMap은 동시성 이슈가 발생할 수 있어, 실무에서는 ConcurrentHashMap을 사용함  
@@ -806,35 +743,10 @@
 
 #### 회원 도메인 테스트  
   - 회원 가입 테스트  
-     ```java
-     package hello.core.member;
-
-     import org.assertj.core.api.Assertions;
-     import org.junit.jupiter.api.Test;
-
-     public class MemberServiceTest {
-
-       MemberService memberService = new MemberServiceImpl();
-
-       @Test
-       void join(){
-         //given
-         Member member = new Member(1L, "memberA", Grade.VIP);
-
-         //when
-         memberService.join(member);
-         Member findMember = memberService.findMember(1L);
-
-         //then
-         Assertions.assertThat(member).isEqualTo(findMember);
-
-       }
-     }
-     ```
-     - org.assertj.core.api.Assertions 클래스  
-        - Assertions.assertThat(객체1).isEqaulsTo(객체2)  
-           - assertThat()으로 비교할 대상(객체1)을 설정하고  
-            isEqualTo()로 사용자가 생각하는 값(객체2)을 비교하여 맞는지 검사하는 테스트  
+    - org.assertj.core.api.Assertions 클래스  
+      - Assertions.assertThat(객체1).isEqaulsTo(객체2)  
+      - assertThat()으로 비교할 대상(객체1)을 설정하고  
+       iisEqualTo()로 사용자가 생각하는 값(객체2)을 비교하여 맞는지 검사하는 테스트  
 
 </details>
 
@@ -908,19 +820,9 @@
 
 #### 할인 정책  
   - 할인 정책 인터페이스  
-    ```java
-    package hello.core.discount;
-  
-    import hello.core.member.Member;
-
-    public interface DiscountPolicy {
+    - 할인 금액 리턴 메서드 작성  
+      - int discount(Member member, int price);
     
-      // @return 할인 대상 금액
-      int discount(Member member, int price);
-
-    }
-    ```
-  
   - 정액 할인 정책 구현체  
     ```java
     package hello.core.discount;
@@ -932,20 +834,12 @@
 
       private int discountFixAmount = 1000;  // 1000원 할인
 
-      @Override
-      public int discount(Member member, int price) {
-
-        if (member.getGrade() == Grade.VIP){
-           return discountFixAmount;
-        }
-
-        return 0;
-      }
+      // 할인 정책 인터페이스 메서드 Override
     }
     ```
     - 할인에 관련된 기능을 가지고 있음  
     - Grade가 VIP인 경우 1000원 할인 적용
-  
+
 #### 주문 엔티티  
   - 주문 엔티티
     ```java
@@ -958,82 +852,18 @@
       private int itemPrice;
       private int discountPrice;
 
-      public Order(Long memberId, String iteamName, int itemPrice, int discountPrice) {
-        this.memberId = memberId;
-        this.iteamName = iteamName;
-        this.itemPrice = itemPrice;
-        this.discountPrice = discountPrice;
-      }
-
-      public int calcuatePrice(){
-        return itemPrice - discountPrice;
-      }
-
-      public Long getMemberId() {
-        return memberId;
-      }
-
-      public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-      }
-
-      public String getIteamName() {
-        return iteamName;
-      }
-
-      public void setIteamName(String iteamName) {
-        this.iteamName = iteamName;
-      }
-
-      public int getItemPrice() {
-        return itemPrice;
-      }
-
-      public void setItemPrice(int itemPrice) {
-        this.itemPrice = itemPrice;
-      }
-
-      public int getDiscountPrice() {
-        return discountPrice;
-      }
-
-      public void setDiscountPrice(int discountPrice) {
-        this.discountPrice = discountPrice;
-      }
-
-      @Override
-      public String toString() {
-        return "Order{" +
-                "memberId=" + memberId +
-                ", iteamName='" + iteamName + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", discountPrice=" + discountPrice +
-                '}';
-      }
+      // 생성자, Getter, Setter, ToString 메서드 생성
     }
     ```
-  
+
 #### 주문 서비스  
   - 주문 서비스 인터페이스  
-    ```java
-    package hello.core.Order;
-
-    public interface OrderService {
-
-      Order createOrder(Long memberId, String itemName, int itemPrice);
-
-    }  
-    ```
+    - 주문 생성 메서드 작성  
+      - Order createOrder(Long memberId, String itemName, int itemPrice)
   
   - 주문 서비스 구현체  
     ```java
     package hello.core.Order;
-
-    import hello.core.discount.DiscountPolicy;
-    import hello.core.discount.FixDiscountPolicy;
-    import hello.core.member.Member;
-    import hello.core.member.MemberRepository;
-    import hello.core.member.MemoryMemberRepository;
 
     public class OrderServiceImpl implements OrderService {
 
@@ -1042,15 +872,8 @@
       private final DiscountPolicy discountPolicy 
                                     = new FixDiscountPolicy();
 
-      @Override
-      public Order createOrder(Long memberId, String itemName, int itemPrice) {
-          
-        Member member = memberRepository.findById(memberId);
-        
-        int discountPrice = discountPolicy.discount(member, itemPrice);
-        
-        return new Order(memberId, itemName, itemPrice, discountPrice);
-      }
+      // 주문 서비스 인터페이스 메서드 Override
+      
     }
     ```
     - MemoryMemberRepository와 FixDiscountPolicy를 구현체로 생성
@@ -1058,7 +881,7 @@
       1. 회원 정보 조회  
       2. 할인 정책 적용
       3. 주문 객체 생성하여 반환  
-  
+
 #### 주문 서비스 구현체의 문제점  
   - DIP 원칙 위반 
     ```java
@@ -1073,6 +896,7 @@
     ```
     - 구현체인 MemoryMemberRepository, FixDiscountPolicy에 의존하기 때문에 `DIP 위반`  
 	
+
 </details>
 
 ### 2-9. 주문과 할인 도메인 테스트     
@@ -1081,39 +905,10 @@
 
 #### 주문과 할인 정책 테스트
   - 주문 서비스 테스트  
-    ```java
-    package hello.core.Order;
-
-    import hello.core.member.Grade;
-    import hello.core.member.Member;
-    import hello.core.member.MemberService;
-    import hello.core.member.MemberServiceImpl;
-    import org.assertj.core.api.Assertions;
-    import org.junit.jupiter.api.Test;
-
-    public class OrderServiceTest {
-
-      MemberService memberService = new MemberServiceImpl();
-      OrderService orderService = new OrderServiceImpl();
-
-      @Test
-      void createOrder(){
-      
-        Long memberId = 1L;
-        
-        Member member = new Member(memberId, "memberA", Grade.VIP);
-        memberService.join(member);
-
-        Order order = orderService.createOrder(memberId, "itemA", 1000);
-        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
-
-      }
-
-    }
-    ```
+    - 주문 생성 메서드 테스트 코드 작성  
     - 단위 테스트가 중요함!  
       `단위 테스트` : 스프링 및 컨테이너의 도움 없이 순수하게 자바 코드를 테스트  
 </details>  
-  
+
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
