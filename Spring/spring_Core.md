@@ -23,6 +23,7 @@
 3. [스프링 핵심 원리 이해 - 객체지향 원리 적용](#3-스프링-핵심-원리-이해---객체지향-원리-적용)  
 3-1. [새로운 할인 정책 적용](#3-1-새로운-할인-정책-적용)  
 3-2. [OCP, DIP 원칙을 지키기 위한 방법](#3-2-ocp-dip-원칙을-지키기-위한-방법)  
+3-3. [AppConfig 리팩토링](#3-3-appconfig-리팩토링)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1131,9 +1132,71 @@
       - 배역, 배우를 생각 해보기
       - AppConfig는 구체 클래스를 선택하고 연결하는 역할  
         즉, 공연 기획자의 역할
-      
 
 </details>  
 
+### 3-3. AppConfig 리팩토링  
+<details>
+  <summary>자세히</summary>  
+  
+#### AppConfig의 문제점  
+  - 중복 존재  
+      - new MemoryMemberRepository() 코드 중복  
+      - 현재는 Service가 적어 큰 문제가 없어보이나, Service가 늘어나 100곳이 된다고 했을때  
+        100곳에서 MemoryMemberRepository가 쓰인다면? ... 어휴  
+  
+  - 역할에 따른 구현 파악이 어려움  
+      ```java
+      public class AppConfig {
+
+        public MemberService memberService() {
+          return new MemberServiceImpl(new MemoryMemberRepository());
+        }
+
+        public OrderService orderService() {
+          return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        }
+
+      }
+      ```
+      - MemberService와 OrderService 역할은 파악할 수 있음
+      - MemberRepository와 DiscountPolicy의 역할은 파악이 힘듦  
+        아 객체 생성시 필요한 구현체구나 정도로 생각... 
+  
+#### AppConfig의 리팩토링  
+  - 리팩토링 후 코드  
+      ```java
+      public class AppConfig {
+
+        public MemberService memberService() {
+          return new MemberServiceImpl(MemberRepository());
+        }
+
+        private MemberRepository MemberRepository() {
+          return new MemoryMemberRepository();
+        }
+
+        public OrderService orderService() {
+          return new OrderServiceImpl(MemberRepository(), DiscountPolicy());
+        }
+
+        private DiscountPolicy DiscountPolicy() {
+          return new FixDiscountPolicy();
+        }
+      }
+      ```
+      - 중복 제거 
+        - 중복되는 new MemoryMemberRepository()를 메서드로 추출  
+        - MemberRepository() `메서드 명을 통해 역할이 보임`  
+        - MemoryMemberRepository를 다른 구현체로 변경하고 싶을 경우 MemberRepository()의 리턴값을 변경하면 됨  
+        - 단축키 : `ctrl + alt + M` (윈도우)  
+     
+      - 역할에 따른 구현 파악이 가능하도록 수정  
+        - `역할(메소드명)` 과 `구현 클래스(리턴값)` 이 한눈에 보임 
+        - 메소드 명을 보면 역할에 따른 구현 파악이 쉬움
+        - 애플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악 가능   
+  
+</details>  
+  
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
