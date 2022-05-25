@@ -2,25 +2,26 @@
 
 ## 목차  
 1. [객체 지향 설계와 스프링](#1-객체-지향-설계와-스프링)  
-    1-1. [스프링의 탄생](#1-1-스프링의-탄생)  
-    1-2. [스프링이란?](#1-2-스프링이란)  
-    1-3. [좋은 객체 지향 프로그래밍?](#1-3-좋은-객체-지향-프로그래밍)  
-    1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
-    1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
-    1-6. [객체 지향 설계와 스프링](#1-6-객체-지향-설계와-스프링)  
+1-1. [스프링의 탄생](#1-1-스프링의-탄생)  
+1-2. [스프링이란?](#1-2-스프링이란)  
+1-3. [좋은 객체 지향 프로그래밍?](#1-3-좋은-객체-지향-프로그래밍)  
+1-4. [스프링과 객체 지향](#1-4-스프링과-객체-지향)  
+1-5. [좋은 객체 지향 설계의 원칙](#1-5-좋은-객체-지향-설계의-원칙)  
+1-6. [객체 지향 설계와 스프링](#1-6-객체-지향-설계와-스프링)  
 
 2. [스프링 핵심 원리 이해 - 예제 만들기](#2-스프링-핵심-원리-이해---예제-만들기)    
-    2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
-    2-2. [비즈니스 요구사항](#2-2-비즈니스-요구사항)  
-    2-3. [회원 도메인 설계](#2-3-회원-도메인-설계)  
-    2-4. [회원 도메인 개발](#2-4-회원-도메인-개발)  
-    2-5. [회원 도메인 테스트](#2-5-회원-도메인-테스트)  
-    2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
-    2-7. [주문과 할인 도메인 설계](#2-7-주문과-할인-도메인-설계)  
-    2-8. [주문과 할인 도메인 개발](#2-8-주문과-할인-도메인-개발)  
-    2-9. [주문과 할인 도메인 테스트](#2-9-주문과-할인-도메인-테스트)   
+2-1. [프로젝트 생성](#2-1-프로젝트-생성)   
+2-2. [비즈니스 요구사항](#2-2-비즈니스-요구사항)  
+2-3. [회원 도메인 설계](#2-3-회원-도메인-설계)  
+2-4. [회원 도메인 개발](#2-4-회원-도메인-개발)  
+2-5. [회원 도메인 테스트](#2-5-회원-도메인-테스트)  
+2-6. [회원 도메인 설계의 문제점](#2-6-회원-도메인-설계의-문제점)  
+2-7. [주문과 할인 도메인 설계](#2-7-주문과-할인-도메인-설계)  
+2-8. [주문과 할인 도메인 개발](#2-8-주문과-할인-도메인-개발)  
+2-9. [주문과 할인 도메인 테스트](#2-9-주문과-할인-도메인-테스트)   
 
-  
+3. [스프링 핵심 원리 이해 - 객체지향 원리 적용](#3-스프링-핵심-원리-이해---객체지향-원리-적용)  
+3-1. [새로운 할인 정책 적용](#3-1-새로운-할인-정책-적용)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -910,5 +911,68 @@
       `단위 테스트` : 스프링 및 컨테이너의 도움 없이 순수하게 자바 코드를 테스트  
 </details>  
 
+### 3. 스프링 핵심 원리 이해 - 객체지향 원리 적용  
+### 3-1. 새로운 할인 정책 적용  
+<details>
+  <summary>자세히</summary>  
+  
+#### 할인 정책 확장  
+  - 기존 사용하던 고정 금액 할인이 아닌 주문금액당 할인하는 정률(%) 할인 정책으로 변경하고 싶다. 
+    - 객체 지향 설계 원칙을 준수한다면 유연하게 설계를 변경 가능  
+    
+  - 정률 할인 정책 클래스 추가  
+    - 기대한 의존 관계  
+      ![image](https://user-images.githubusercontent.com/65080004/170213433-bac110ea-4248-4178-9cee-05f1f3a8da6e.png)  
+    - FixDiscountPolicy와 마찬가지로 기존 DiscountPolicy를 상속받아 생성  
+        ```java
+        public class RateDiscountPolicy implements DiscountPolicy {
+
+          private int discountPercent = 10;
+
+          @Override
+          public int discount(Member member, int price) {
+            // 정률 할인 코드 작성
+          }  
+        }
+        ```  
+    - 반드시 실패, 성공 테스트 코드를 작성하여 테스트 해볼 것! 
+  
+  - 정책 적용 및 문제점
+    - 적용시 클라이언트(OrderServiceImpl) 코드  
+        ```java
+        public class OrderServiceImpl implements OrderService {
+
+          private final MemberRepository memberRepository = new MemoryMemberRepository();
+          // private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+          private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+          
+          ...
+        }
+        ```  
+    
+    - 문제점  
+        - 잘 지켜진 것 같은데 뭔가 이상하다..  
+          1. OrderServiceImpl 클래스에서 추상(인터페이스) 뿐만 아니라 구체화된 클래스에 의존하는 것을 볼 수 있음  
+             ![image](https://user-images.githubusercontent.com/65080004/170219524-df16697d-7f09-43c6-8821-886e91e35c9a.png)  
+             즉, `DIP 위반`    
+             참고, 해당 클래스에 코드로 기재되어 있는 경우 의존이라고 표현한다.  
+          2. 기능을 확장하여 생성한 RateDiscountPolicy를 적용시 OrderServiceImpl에 코드 변경이 일어나게 됨  
+             ![image](https://user-images.githubusercontent.com/65080004/170219612-11afe262-da5d-4316-9546-16bb3dda80db.png)  
+             즉, `OCP 위반`    
+    
+    - 해결 방법
+        - 추상(인터페이스)에만 의존하도록 변경  
+          - OrderServiceImpl의 코드를 아래처럼 수정  
+            ```java
+            // 변경 전  
+            private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+            
+            // 변경 후
+            private final DiscountPolicy discountPolicy;
+            ```
+          - 수정 후 구현체가 존재하지 않아 실행시 NPE(null pointer exception) 가 발생  
+        - OrderServiceImpl에 DiscountPolicy의 구현체를 생성하고 주입해줄 무언가가 필요함  
+</details>  
+  
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
