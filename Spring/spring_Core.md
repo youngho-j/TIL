@@ -22,6 +22,7 @@
 
 3. [스프링 핵심 원리 이해 - 객체지향 원리 적용](#3-스프링-핵심-원리-이해---객체지향-원리-적용)  
 3-1. [새로운 할인 정책 적용](#3-1-새로운-할인-정책-적용)  
+3-2. [OCP, DIP 원칙을 지키기 위한 방법](#3-2-ocp-dip-원칙을-지키기-위한-방법)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -158,19 +159,19 @@
     
     - 예시  
       > 운전자 - 자동차  
-        운전자는 자동차 모델(자동차 구현)이 바뀌어도 운전이 가능함  
-        왜? 자동차의 역할을 충실히 수행하기 때문에  
+      > 운전자는 자동차 모델(자동차 구현)이 바뀌어도 운전이 가능함  
+      > 왜? 자동차의 역할을 충실히 수행하기 때문에  
       
       > 역할과 구현을 분리한 이유?  
-        운전자(클라이언트)를 위해  
+      > 운전자(클라이언트)를 위해  
     
       > 클라이언트는 자동차 내부 구조를 몰라도 자동차 운전이 가능함  
-        즉, 클라이언트에 영향을 주지 않고 새로운 기능을 제공할 수 있다.   
-        이것이 가능한 이유는 역할과 구현이 분리되어 있기 때문이다. 
+      > 즉, 클라이언트에 영향을 주지 않고 새로운 기능을 제공할 수 있다.   
+      > 이것이 가능한 이유는 역할과 구현이 분리되어 있기 때문이다. 
     
       > 공연무대(로미오와 줄리엣)  
-        로미오 역할 - 배우(대체 가능)  
-        줄리엣 역할 - 배우(대체 가능)  
+      > 로미오 역할 - 배우(대체 가능)  
+      > 줄리엣 역할 - 배우(대체 가능)  
 
 #### 역할과 구현을 분리  
 
@@ -559,6 +560,8 @@
       id 'java'
      }
      
+     ```
+
     ...
      
      dependencies {
@@ -570,7 +573,7 @@
       
      ...
      ```
-  
+
   7. Load Gradle change 버튼 클릭하여 Gradle 로딩  
      Problems에 오류가 있을 경우 Reload All Gradle Project를 통해 다시 한번 리로드  
      참고, Gradle 탭은 우측 상단에 위치  
@@ -915,9 +918,10 @@
 ### 3-1. 새로운 할인 정책 적용  
 <details>
   <summary>자세히</summary>  
-  
+
 #### 할인 정책 확장  
   - 기존 사용하던 고정 금액 할인이 아닌 주문금액당 할인하는 정률(%) 할인 정책으로 변경하고 싶다. 
+    
     - 객체 지향 설계 원칙을 준수한다면 유연하게 설계를 변경 가능  
     
   - 정률 할인 정책 클래스 추가  
@@ -934,7 +938,7 @@
             // 정률 할인 코드 작성
           }  
         }
-        ```  
+        ```
     - 반드시 실패, 성공 테스트 코드를 작성하여 테스트 해볼 것! 
   
   - 정책 적용 및 문제점
@@ -948,7 +952,7 @@
           
           ...
         }
-        ```  
+        ```
     
     - 문제점  
         - 잘 지켜진 것 같은데 뭔가 이상하다..  
@@ -973,6 +977,163 @@
           - 수정 후 구현체가 존재하지 않아 실행시 NPE(null pointer exception) 가 발생  
         - OrderServiceImpl에 DiscountPolicy의 구현체를 생성하고 주입해줄 무언가가 필요함  
 </details>  
+
+### 3-2. OCP, DIP 원칙을 지키기 위한 방법  
+<details>
+  <summary>자세히</summary>  
+
+#### 관심사의 분리  
+  - 관심사?  
+      - 클래스의 책임, 역할이라고 생각하면 됨  
+      - 그렇다면, OrderServiceImpl 클래스는 어떤 역할을 하고 있는가?  
+      - 객체의 `실행`과 `객체의 생성과 연결`이라는 두 가지 역할을 동시에 하고 있음  
+      - 두 가지 역할 중 한 가지 역할을 담당할 클래스가 추가적으로 필요  
   
+  - AppConfig의 등장  
+      - `객체의 생성과 연결` 역할을 수행하기 위해 추가 되는 클래스  
+        > AppConfig : Application + Config(구성, 설정)  
+        > 애플리케이션의 전체 동작 방식을 구성, 설정 한다는 의미
+      - 애플리케이션의 전체 동작 방식을 구성(config)하기 위해,  
+        `구현 객체를 생성하고, 연결하는 책임`을 가지는 별도의 설정 클래스  
+      - 코드  
+        ```java
+        public class AppConfig {
+
+          public MemberService memberService() {
+            return new MemberServiceImpl(new MemoryMemberRepository());
+          }
+
+          public OrderService orderService() {
+            return new OrderServiceImpl(new MemoryMemberRepository(), new RateDiscountPolicy());
+          }
+
+        }
+        ```
+        - 애플리케이션의 실제 동작에 필요한 `구현 객체를 생성`  
+          - MemberServiceImpl  
+          - MemoryMemberRepository  
+          - OrderServiceImpl  
+          - FixDiscountPolicy  
+        
+        - 생성한 객체 인스턴스(..Service)의 참조(레퍼런스)를 `생성자를 통해서 주입(연결)`  
+          - MemberServiceImpl → MemoryMemberRepository  
+          - OrderServiceImpl → MemoryMemberRepository , RateDiscountPolicy  
+      
+  - MemberServiceImpl 변경점  
+      ```java
+      public class MemberServiceImpl implements MemberService {
+
+        private final MemberRepository memberRepository;
+
+        public MemberServiceImpl(MemberRepository memberRepository) {
+          this.memberRepository = memberRepository;
+        }
+		    ...
+      }
+      ```
+      - 생성자 주입을 받을 수 있도록 생성자를 통해 MemberRepository 인터페이스를 주입 받을 수 있도록 설정 변경   
+      - MemberServiceImpl은 MemberRepository에 의존하기 때문에 `DIP`를 만족하게 됨  
+      - MemberServiceImpl은 생성자를 통해 어떤 구현 객체가 들어올지(주입 될 지)는 알 수 없음   
+      - 생성자를 통해서 어떤 구현 객체를 주입할지는 오직 외부(AppConfig)에서 결정  
+      - MemberServiceImpl은 `실행` 에만 집중하면 됨  
+      
+      - 클래스 다이어그램  
+        ![image](https://user-images.githubusercontent.com/65080004/170268915-c1d69aed-7745-4296-8467-09181bbfac81.png)  
+        - `객체의 생성과 연결`은 `AppConfig`가 담당  
+        - MemberServiceImpl 은 MemberRepository 인 추상에만 의존하게 되어 `DIP 만족`  
+        - 객체를 생성하고 연결하는 역할과 실행하는 역할이 명확히 분리되어 `관심사의 분리`가 이루어짐  
+        - 클라이언트인 memberServiceImpl 입장에서 의존관계를 마치 외부에서 주입해주는 것으로 보여    
+          `DI(Dependency Injection) - 의존관계 주입 or 의존성 주입`이라고 함  
+  
+  - OrderServiceImpl 변경점  
+      ```java
+      public class OrderServiceImpl implements OrderService {
+
+        private final MemberRepository memberRepository;
+        private final DiscountPolicy discountPolicy;
+
+        public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+          this.memberRepository = memberRepository;
+          this.discountPolicy = discountPolicy;
+        }
+		    ...
+      }
+      ```
+      - 생성자 주입을 받을 수 있도록 생성자를 통해  
+        MemberRepository 인터페이스, DiscountPolicy 인터페이스를 주입 받을 수 있도록 설정 변경  
+      - OrderServiceImpl은 MemberRepository, DiscountPolicy에 의존하기 때문에 `DIP`를 만족하게 됨  
+      - OrderServiceImpl은 생성자를 통해 어떤 구현 객체가 들어올지(주입 될 지)는 알 수 없음   
+      - 생성자를 통해서 어떤 구현 객체를 주입할지는 오직 외부(AppConfig)에서 결정  
+      - OrderServiceImpl은 `실행` 에만 집중하면 됨  
+      
+  - AppConfig 적용 여부 확인을 위한 실행  
+      - MemberApp  
+        ```java
+        public static void main(String[] args) {
+        
+          AppConfig appConfig = new AppConfig();
+          MemberService memberService = appConfig.memberService();
+          ...
+        
+        }
+        ```
+      - OrderApp  
+        ```java
+        public static void main(String[] args) {
+            
+          AppConfig appConfig = new AppConfig();
+          MemberService memberService = appConfig.memberService();
+          OrderService orderService = appConfig.orderService();
+          ...
+        
+        }
+        ```
+  
+  - Junit 테스트 코드 수정  
+      - MemberServiceTest  
+        ```java
+        class MemberServiceTest {
+
+          MemberService memberService;
+
+          @BeforeEach // 각 테스트 실행 전 호출
+          void beforeEach() {
+            AppConfig appConfig = new AppConfig();
+            memberService = appConfig.memberService();
+          }
+          ...
+        }
+        ```
+      
+      - OrderServiceTest  
+        ```java
+        class OrderServiceTest {
+
+          MemberService memberService;
+          OrderService orderService;
+
+          @BeforeEach // 각 테스트 실행 전 호출
+          void beforeEach() {
+            AppConfig appConfig = new AppConfig();
+            memberService = appConfig.memberService();
+            orderService = appConfig.orderService();
+          }
+          ...
+        }
+        ```
+
+  - 정리  
+      - AppConfig를 통해 관심사를 확실히 분리함  
+      - DIP, OCP, SRP 만족  
+        - DIP : MemberService, OrderService 인터페이스에만 의존  
+        - OCP : 코드 변경시 AppConfig을 수정하므로 MeberServiceImpl, OrderServiceImpl를 수정하지 않아도 됨  
+        - SRP : AppConfig에서 객체 생성/연결 역할, MeberServiceImpl, OrderServiceImpl은 실행 역할로 단일 책임만 가짐  
+      - 배역, 배우를 생각 해보기
+      - AppConfig는 구체 클래스를 선택하고 연결하는 역할  
+        즉, 공연 기획자의 역할
+      
+
+</details>  
+
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
