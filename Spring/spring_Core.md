@@ -26,6 +26,7 @@
 3-3. [AppConfig 리팩토링](#3-3-appconfig-리팩토링)  
 3-4. [새로운 할인 정책 적용](#3-4-새로운-할인-정책-적용)  
 3-5. [지금까지의 흐름 정리](#3-5-지금까지의-흐름-정리)  
+3-6. [IoC, DI, 그리고 컨테이너](#3-6-ioc-di-그리고-컨테이너)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1245,5 +1246,73 @@
 
 </details>
 
+### 3-6. IoC, DI, 그리고 컨테이너
+<details>
+  <summary>자세히</summary>  
+
+#### IoC (Inversion of Control) - 제어의 역전  
+  - `프로그램의 제어 흐름`을 직접 제어하는 것이 아니라 `외부에서 관리`하는 것  
+      1. AppConfig 적용 전
+         - `구현 객체`가 `프로그램 제어 흐름`을 `스스로 제어`  
+           클라이언트 구현 객체가 스스로 필요한 서버 구현 객체를 생성, 연결, 실행함  
+      2. AppConfig 적용 후 
+         - `구현 객체`는 `자신의 로직을 실행`하는 역할만 담당, `프로그램의 제어 흐름`은 `AppConfig`가 담당함  
+           OrderServiceImpl은 필요한 인터페이스를 호출하지만 어떤 구현 객체들이 실행될지 모름  
+           왜? 프로그램에 대한 제어 흐름에 대한 권한은 모두 AppConfig가 가지고 있기 때문  
+           OrderServiceImpl도 AppConfig가 생성함 (OrderService 인터페이스의 다른 구현 객체를 생성하고 실행 가능) 
+  
+#### 프레임워크 vs 라이브러리
+  - 구분시 중요한 요소는 `제어의 역전`이다!
+      1. 프레임 워크  
+         - 내가 `제어 흐름을 갖고 있지 않다.`  
+         - 내가 작성한 코드를 제어하고 대신 실행  
+         - Ex) Junit  
+           MemberServiceTest의 @Test join()과 같은 테스트를 실행하고 제어하는 권한은 JUnit 즉, 테스트 프레임워크가 갖고 있음  
+      2. 라이브러리  
+         - 내가 `제어 흐름을 갖고 있다.`
+         - 내가 작성한 코드가 직접 제어의 흐름을 담당  
+  
+#### DI (Dependency InJection) - 의존관계 주입  
+  
+  - 의존관계?  
+    1. 정적인 클래스 의존관계
+    2. 동적인 객체(인스턴스) 의존관계(실행 시점에 결정됨)  
+  
+    로 분리하여 생각해야 함  
+  
+  - 정적인 클래스 의존 관계  
+      ![image](https://user-images.githubusercontent.com/65080004/170662761-d88ed91f-4104-4bf4-9f7a-fadd9d4c72f5.png)  
+      - 클래스가 사용하는 import 코드만 보고 쉽게 판단 가능  
+      - 애플리케이션을 실행하지 않아도 분석이 가능  
+      ```java
+      import hello.core.discount.DiscountPolicy;
+      import hello.core.member.Member;
+      import hello.core.member.MemberRepository;
+
+      public class OrderServiceImpl implements OrderService {
+        ...
+      }
+      ```
+      - 위의 코드에서 OrderServiceImpl 은 MemberRepository , DiscountPolicy 에 의존한다는 것을 알 수 있음  
+        그러나 이러한 정적인 클래스 의존관계 만으로는 실제 어떤 객체가 OrderServiceImpl 에 주입 될지 알 수 없음
+  
+  - 동적인 객체(인스턴스) 의존관계  
+      ![image](https://user-images.githubusercontent.com/65080004/170663752-3440c0fe-0489-40b2-85b4-7fa2c68fbb3a.png)  
+      - 애플리케이션 실행 시점에 실제 생성된 객체 인스턴스의 참조가 연결된 의존 관계  
+  
+  - 의존관계 주입  
+      - 애플리케이션 `실행 시점(런타임)`에 `외부`에서 `실제 구현 객체를 생성`하고  
+        클라이언트에 전달해서 클라이언트와 서버에 `실제의 의존 관계가 연결`되는 것  
+      - 객체 인스턴스를 생성하고, 그 참조값을 전달해서 연결됨  
+      - 클라이언트 코드를 변경하지 않고, 클라이언트가 호출하는 대상의 타입 인스턴스를 변경할 수 있음  
+      - `정적인 클래스 의존관계를 변경하지 않고, 동적인 객체 인스턴스 의존관계를 쉽게 변경할 수 있음`  
+  
+#### `IoC 컨테이너 (DI 컨테이너)`  
+  - AppConfig 처럼 `객체를 생성하고 관리`하면서 `의존관계를 연결`해 주는 것  
+  - 의존관계 주입에 초점을 맞추어 최근에는 주로 DI 컨테이너라 함  
+  - 또는 어샘블러, 오브젝트 팩토리 등으로 불리기도 함  
+  
+</details>  
+  
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
