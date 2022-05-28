@@ -27,6 +27,7 @@
 3-4. [새로운 할인 정책 적용](#3-4-새로운-할인-정책-적용)  
 3-5. [지금까지의 흐름 정리](#3-5-지금까지의-흐름-정리)  
 3-6. [IoC, DI, 그리고 컨테이너](#3-6-ioc-di-그리고-컨테이너)  
+3-7. [스프링으로 전환하기](#3-7-스프링으로-전환하기)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1313,6 +1314,97 @@
   - 또는 어샘블러, 오브젝트 팩토리 등으로 불리기도 함  
   
 </details>  
+  
+### 3-7. 스프링으로 전환하기
+<details>
+  <summary>자세히</summary>  
+
+#### 순수 자바 코드 → 스프링  
+  1. AppConfig 클래스 수정  
+     ```java
+     package hello.core;
+
+       ...
+       import org.springframework.context.annotation.Bean;
+       import org.springframework.context.annotation.Configuration;
+
+       @Configuration
+       public class AppConfig {
+          
+         @Bean
+         public MemberService memberService() {
+           return new MemberServiceImpl(memberRepository());
+         }
+         
+         @Bean
+         public MemberRepository memberRepository() {
+           return new MemoryMemberRepository();
+         }
+
+         @Bean
+         public OrderService orderService() {
+           return new OrderServiceImpl(memberRepository(), discountPolicy());
+         }
+
+         @Bean
+         public DiscountPolicy discountPolicy() {
+           return new RateDiscountPolicy();
+         }
+     }
+     ```  
+     - 기존 private 접근자를 사용하던 메서드 public으로 변경  
+       
+     - @Configuration: 어플리케이션 설정(구성) 정보를 만들기 위한 어노테이션  
+       스프링 컨테이너가 해당 어노테이션이 붙은 클래스를 구성 정보로 사용함   
+       
+     - @Bean: 스프링 빈으로 등록  
+       구성 정보 클래스에서 해당 어노테이션이 붙은 메서드를 모두 호출하여 반환된 객체를 `스프링 컨테이너에 등록함`  
+       등록된 객체를 `스프링 빈` 이라고함  
+  
+  2. MemberApp, OrderApp 수정  
+     - MemberApp & OrderApp  
+         ```java
+         public class MemberApp {
+
+           public static void main(String[] args) {
+             ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+             MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+             ...
+           }
+         }
+         
+         public class OrderApp {
+
+           public static void main(String[] args) {
+             ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+             MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+             OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
+             ...
+           }
+         }
+         ```
+         - ApplicationContext : `스프링 컨테이너`  
+           ApplicaionContext가 AppConfig에 있는 환경설정 정보를 갖고 @Bean으로 등록된 객체들을 관리  
+         - applicationContext.getBean(빈 이름, 객체 타입.class) : 스프링 컨테이너에서 해당 조건의 스프링 빈을 조회  
+           
+  - 스프링 컨테이너  
+    - `ApplicationContext` = 스프링 컨테이너  
+      스프링 빈을 생성하고 관리하는 컨테이너  
+    - `@Configuration` 이 붙은 AppConfig 를 설정(구성) 정보로 사용,  
+      설정 정보에서 `@Bean` 이 적용된 메서드를 모두 호출하여 반환된 객체를 스프링 컨테이너에 등록함  
+      스프링 컨테이너에 등록된 객체를 `스프링 빈`이라고 함  
+    - 스프링 빈은 @Bean 이 붙은 메서드의 명을 스프링 빈의 이름으로 사용(기본값 default)  
+    - 스프링 컨테이너를 통해서 필요한 스프링 빈(객체)를 조회함  
+      `applicationContext.getBean(빈 이름, 객체 타입.class)` 메서드를 사용하면 됨  
+  
+  - 정리  
+    - 기존 : 직접 자바코드로 모든 것(객체 생성, DI 등)을 했음  
+    - 수정 : `스프링 컨테이너`에 `객체를 스프링 빈으로 등록`하고,  
+            스프링 컨테이너에서 `스프링 빈을 찾아서 사용`하도록 변경  
+      
+    - 이렇게 스프링 컨테이너를 사용하면 뭐가 좋은지는 다음 시간에 설명   
+  
+</details>	
   
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
