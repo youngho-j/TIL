@@ -1434,7 +1434,37 @@
          2. 매개변수로 AppConfig class를 넣어줌  
          3. 해당 클래스는 ApplicationContext 인터페이스의 구현체  
          
- #### 스프링 컨테이너 생성 과정 
+#### 스프링 컨테이너 생성 과정 
+  1. 스프링 컨테이너 생성  
+       ![image](https://user-images.githubusercontent.com/65080004/170874573-c113e5a1-c481-45dc-ab17-a11831f56761.png)  
+       - `구성 정보`를 기재하고, 해당 `구현체`를 이용해 `스프링 컨테이너`를 생성  
+         - `new AnnotationConfigApplicationContext(AppConfig.class)`  
+           스프링 컨테이너 생성할 때는 구성 정보를 파라미터 값으로 넘겨주어야 함  
+         - 구성 정보 : 여기서는 `AppConfig.class`  
+         - 구현체 : ApplicationContext 인터페이스의 구현체인 `AnnotationConfigApplicationContext`  
+  2. 스프링 빈 등록  
+       ![image](https://user-images.githubusercontent.com/65080004/170874352-8aa6c2c0-1754-4070-9194-045751437d3d.png)  
+       - 스프링 컨테이너는 파라미터로 넘어온 설정 클래스 정보를 사용해서 스프링 빈을 등록함  
+       - 빈이름  
+         - 기본적으로 메서드 이름을 사용하고, 아래와 같이 어노테이션 옵션을 통해 빈 이름을 직접 부여 가능  
+           `@Bean(name="member")`  
+         - 주의  
+           `빈 이름은 항상 다른 이름을 부여해야 함`  
+           왜? 같은 이름을 부여하게 되면 다른 빈이 무시되거나, 기존 빈을 덮어버리는 등 설정에 따로 오류가 발생할 수 있어서  
+  3. 스프링 빈 의존관계 설정 - 준비  
+       ![image](https://user-images.githubusercontent.com/65080004/170874326-fb9768dd-4e3b-4e90-a7f4-ee230082a03c.png)  
+  4. 스프링 빈 의존관계 설정 - 완료  
+       ![image](https://user-images.githubusercontent.com/65080004/170874260-783f4687-de5e-4667-8376-79030b6f91e1.png)  
+       - 스프링 컨테이너는 설정 정보를 참고해서 의존 관계를 주입(DI)함  
+         단순히 자바 코드를 호출하는 것 같지만 차이가 있음, 이는 추후 설명 예정  
+  - 참고  
+      - 스프링은 `빈을 생성`하고, `의존관계를 주입`하는 `단계가 나누어져 있음`  
+        그런데 예제처럼 `자바코드로 스프링 빈을 등록`하면 `생성자를 호출하면서 의존관계 주입도 한번에 처리`된다  
+        위의 1 ~ 4 과정은 이해하기 쉽게 나누어 설명한 것  
+  - 생성 과정 정리  
+      1. 스프링 컨테이너 생성  
+      2. 구성(설정) 정보(AppConfig)를 참고하여 스프링 빈 등록  
+      3. 의존관계 설정  
   
 </details>
   
