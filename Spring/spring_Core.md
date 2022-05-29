@@ -29,6 +29,9 @@
 3-6. [IoC, DI, 그리고 컨테이너](#3-6-ioc-di-그리고-컨테이너)  
 3-7. [스프링으로 전환하기](#3-7-스프링으로-전환하기)  
 
+4. [스프링 컨테이너와 스프링 빈](#4-스프링-컨테이너와-스프링-빈)  
+4-1. [스프링 컨테이너](#4-1-스프링-컨테이너)  
+
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
 
@@ -1405,6 +1408,35 @@
     - 이렇게 스프링 컨테이너를 사용하면 뭐가 좋은지는 다음 시간에 설명   
   
 </details>	
+
+### 4. 스프링 컨테이너와 스프링 빈  
+### 4-1. 스프링 컨테이너   
+<details>
+  <summary>자세히</summary>  
+
+#### 스프링 컨테이너  
+  ```java
+  ApplicaionContext applicationContext = 
+		new AnnotationConfigApplicaionContext(AppConfig.class);
+  ```  
+  - `ApplicationContext` = `스프링 컨테이너` 라고 함  
+      > 참고  
+      > 더 정확히는 스프링 컨테이너를 부를 때 `BeanFactory` , `ApplicationContext` 로 구분해서 이야기 함  
+      > 하지만 BeanFactory 를 직접 사용하는 경우는 거의 없으므로 일반적으로 ApplicationContext 를 스프링 컨테이너라 함  
+  
+  - `ApplicationContext`는 인터페이스  
+    `AnnotationConfigApplicaionContext`는? ApplicationContext 구현체
+  - 생성 방법  
+    1. XML을 기반으로 생성  
+    2. 어노테이션 기반의 자바 설정 클래스로 생성  
+       - 예시  
+         1. new AnnotationConfigApplicationContext(AppConfig.class);  
+         2. 매개변수로 AppConfig class를 넣어줌  
+         3. 해당 클래스는 ApplicationContext 인터페이스의 구현체  
+         
+ #### 스프링 컨테이너 생성 과정 
+  
+</details>
   
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
