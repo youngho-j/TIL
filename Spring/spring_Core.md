@@ -31,6 +31,7 @@
 
 4. [스프링 컨테이너와 스프링 빈](#4-스프링-컨테이너와-스프링-빈)  
 4-1. [스프링 컨테이너](#4-1-스프링-컨테이너)  
+4-2. [스프링 컨테이너에 등록된 빈 조회](#4-2-스프링-컨테이너에-등록된-빈-조회)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1468,5 +1469,65 @@
   
 </details>
   
+### 4-2. 스프링 컨테이너에 등록된 빈 조회   
+<details>
+  <summary>자세히</summary>  
+
+#### 컨테이너에 등록된 모든 빈 조회 테스트 코드  
+  - 컨테이너에 실제 스프링 빈들이 잘 등록 되었는지 확인하기 위해 ApplicationContextInfoTest 작성  
+      - 컨테이너에 등록된 모든 빈 출력하기  
+        ```java
+        public class ApplicationContextInfoTest {
+
+          AnnotationConfigApplicationContext ac 
+              = new AnnotationConfigApplicationContext(AppConfig.class);
+
+          @Test
+          @DisplayName("컨테이너에 등록된 모든 빈 출력하기")
+          void findAllBean() {
+              String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+              for (String beanDefinitionName : beanDefinitionNames) {
+                  Object bean = ac.getBean(beanDefinitionName);
+                  System.out.println("beanDefinitionName = " + beanDefinitionName + ", object = " + bean);
+              }
+          }
+          ...
+        }
+        ``` 
+        - 테스트 실행시 스프링에 등록된 모든 빈 정보를 출력할 수 있음  
+        - ac.getBeanDefinitionNames() : 스프링에 등록된 모든 빈 이름을 String 배열로 리턴  
+        - ac.getBean(빈 이름) : 빈 이름(String Type)으로 빈 객체(인스턴스)를 조회  
+    
+    - 애플리케이션 빈 출력하기  
+      ```java
+      public class ApplicationContextInfoTest {
+        ...
+        @Test
+        @DisplayName("애플리케이션 빈 출력하기")
+        void findApplicationBean() {
+          
+          String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+            
+          for (String beanDefinitionName : beanDefinitionNames) {
+          
+            BeanDefinition beanDefinition = ac.getBeanDefinition(beanDefinitionName);
+            
+            if (beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION) {
+                Object bean = ac.getBean(beanDefinitionName);
+                System.out.println("beanDefinitionName = " + beanDefinitionName + ", object = " + bean);
+            }
+          }
+        }
+        ...
+      }  
+      ```
+      - 스프링이 내부에서 사용하는 빈을 제외하고, 내가 등록한 빈만 출력  
+      - ac.getBeanDefinition(빈이름) : 해당 빈이름에 해당하는 빈에 대한 meta 정보를 얻음  
+      - `beanDefinition.getRole()` 로 스프링이 내부에서 사용하는 빈 구분  
+        ROLE_APPLICATION : 일반적으로 사용자가 정의한 빈  
+        ROLE_INFRASTRUCTURE : 스프링이 내부에서 사용하는 빈  
+
+</details>
+
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
