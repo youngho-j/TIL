@@ -32,6 +32,7 @@
 4. [스프링 컨테이너와 스프링 빈](#4-스프링-컨테이너와-스프링-빈)  
 4-1. [스프링 컨테이너](#4-1-스프링-컨테이너)  
 4-2. [스프링 컨테이너에 등록된 빈 조회](#4-2-스프링-컨테이너에-등록된-빈-조회)  
+4-3. [스프링 빈 조회 - 기본](#4-3-스프링-빈-조회---기본)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1526,6 +1527,85 @@
       - `beanDefinition.getRole()` 로 스프링이 내부에서 사용하는 빈 구분  
         ROLE_APPLICATION : 일반적으로 사용자가 정의한 빈  
         ROLE_INFRASTRUCTURE : 스프링이 내부에서 사용하는 빈  
+
+</details>
+
+### 4-3. 스프링 빈 조회 - 기본   
+<details>
+  <summary>자세히</summary>  
+
+#### 가장 기본적인 조회 방법  
+  1. ac.getBean(빈 이름, 빈 타입) : `빈 이름 & 빈 타입(인터페이스 또는 수퍼 클래스)`으로 빈 조회  
+  2. ac.getBean(빈 타입) : `빈 타입`으로만 빈 조회  
+  3. ac.getBean(빈 이름) : `빈 이름`으로 빈 조회(리턴시 Object 타입)  
+  - 조회 대상 스프링 빈이 없으면 `NoSuchBeanDefinitionException` 예외 발생  
+
+#### 예제 코드  
+  ```java
+  public class ApplicationContextBasicFindTest {
+
+    AnnotationConfigApplicationContext ac 
+      = new AnnotationConfigApplicationContext(AppConfig.class);
+    ...
+  
+  }    
+  ```
+
+  - findBeanByNameAndType : 빈 이름 & 빈 타입으로 빈 조회
+      ```java
+      @Test
+      @DisplayName("빈 이름과 타입으로 조회하기")
+      void findBeanByNameAndType() {
+          MemberService memberService =
+                  ac.getBean("memberService", MemberService.class);
+
+          assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
+      }
+      ```  
+      - 빈 이름이 `memberService`이고, 빈 타입이 `MemberService.class` 인 빈을 조회  
+      - 조회한 빈의 인스턴스 타입이 MemberServiceImpl이 맞는지 검증  
+
+  - findBeanByType : 빈 타입으로 빈 조회
+      ```java  
+      @Test
+      @DisplayName("빈 타입으로 조회하기")
+      void findBeanByType() {
+          MemberService memberService =
+                  ac.getBean(MemberService.class);
+
+          assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
+      }
+      ```  
+      - 빈 타입이 `MemberService.class` 인 빈을 조회  
+      - 조회한 빈의 인스턴스 타입이 MemberServiceImpl이 맞는지 검증  
+
+  - findBeanByDetailType : 빈 이름 & 빈 구체 타입으로 빈 조회 
+      ```java
+      @Test
+      @DisplayName("빈 구체 타입으로 조회하기")
+      void findBeanByDetailType() {
+          MemberService memberService =
+                  ac.getBean("memberService", MemberServiceImpl.class);
+
+          assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
+      }  
+      ```
+      - 빈 이름이 `memberService`이고, 빈 타입이 `MemberServiceImpl.class` 인 빈을 조회  
+      - 조회한 빈의 인스턴스 타입이 MemberServiceImpl이 맞는지 검증  
+      - 구체 타입으로 조회가 가능하지만, `다형성을 사용하는 추상타입으로 조회하는 것을 권장`  
+  
+  - findBeanFail : 빈 이름과 빈 타입으로 빈 조회시 조회되지 않는 경우  
+      ```java
+      @Test
+      @DisplayName("빈 이름과 타입으로 조회시 실패")
+      void findBeanFail() {
+          assertThrows(NoSuchBeanDefinitionException.class,
+                  () -> ac.getBean("foo", MemberService.class));
+      }
+      ```
+      - 빈 조회가 실패하는 경우도 테스트하는 것이 좋음  
+      - 빈 이름이 `foo`이고, 빈 타입이 `MemberService.class` 인 빈을 조회  
+      - 조회된 빈이 없으므로 `NoSuchBeanDefinitionException` 예외를 발생시키는지 검증  
 
 </details>
 
