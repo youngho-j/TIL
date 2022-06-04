@@ -33,6 +33,7 @@
 4-1. [스프링 컨테이너](#4-1-스프링-컨테이너)  
 4-2. [스프링 컨테이너에 등록된 빈 조회](#4-2-스프링-컨테이너에-등록된-빈-조회)  
 4-3. [스프링 빈 조회 - 기본](#4-3-스프링-빈-조회---기본)  
+4-4. [스프링 빈 조회 - 동일 타입이 둘 이상](#4-4-스프링-빈-조회---동일-타입이-둘-이상)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1606,6 +1607,77 @@
       - 빈 조회가 실패하는 경우도 테스트하는 것이 좋음  
       - 빈 이름이 `foo`이고, 빈 타입이 `MemberService.class` 인 빈을 조회  
       - 조회된 빈이 없으므로 `NoSuchBeanDefinitionException` 예외를 발생시키는지 검증  
+
+</details>
+
+### 4-4. 스프링 빈 조회 - 동일 타입이 둘 이상   
+<details>
+  <summary>자세히</summary>  
+
+#### 동일 타입이 둘 이상인 스프링 빈 조회
+  - ac.getBean(빈 타입)으로 조회시, 같은 타입의 스프링 빈이 둘 이상인 경우 `NoUniqueBeanDefinitionException` 발생  
+  - Exception 해결 방법  
+    1. `ac.getBean(빈 이름, 빈 타입)` 으로 `1개의 빈 조회`  
+    2. `ac.getBeansOfType()` 으로 `해당 타입의 모든 빈을 조회`  
+
+#### 예제 코드  
+  ```java
+  public class ApplicationContextSameBeanFindTest {
+
+    AnnotationConfigApplicationContext ac 
+      = new AnnotationConfigApplicationContext(SameBeanConfig.class);
+    
+    ...
+  
+  }    
+  ```
+  
+  - SameBeanConfig : 설정 정보 클래스  
+      - 테스트 내에서만 사용하기 위해 만들 클래스이므로, static으로 선언  
+      - [static class 참고](https://johngrib.github.io/wiki/java-inner-class-may-be-static/)  
+
+  - findBeanByTypeDuplicate : 빈 타입으로 빈 조회시 같은 타입이 둘 이상 존재할 경우 중복 오류가 발생  
+      ```java
+      @Test
+      @DisplayName("타입으로 빈 조회시 같은 타입이 둘 이상 존재시, 중복 오류 발생")
+      void findBeanByTypeDuplicate() {
+          assertThrows(NoUniqueBeanDefinitionException.class,
+                  () -> ac.getBean(MemberRepository.class));
+      }
+      ```
+      - MemberRepository 타입인 빈을 조회  
+      - MemberRepository 타입인 빈이 2개이므로 NoUniqueBeanDefinitionException 발생  
+
+  - findBeanByTypeAddName : 같은 타입이 2개 이상이어도 타입과 이름을 조건으로 설정하여 검색하면 조회 성공  
+      ```java
+      @Test
+      @DisplayName("타입으로 빈 조회시 같은 타입이 둘 이상 존재시, 빈 이름을 지정하면 오류 발생 안함")
+      void findBeanByTypeAddName() {
+          MemberRepository memberRepository =
+                  ac.getBean("memberRepository1", MemberRepository.class);
+          assertThat(memberRepository).isInstanceOf(MemberRepository.class);
+      }
+      ```  
+      - 빈 이름이 memberRepository1이고, MemberRepository 타입인 빈을 조회  
+      - 조회된 빈의 객체 타입이 memberRepository 인지 검증  
+
+  - findAllBeanByType : 특정 타입을 가진 모든 빈 조회
+      ```java 
+      @Test
+      @DisplayName("특정 타입의 빈 모두 조회하기")
+      void findAllBeanByType() {
+          Map<String, MemberRepository> beansOfType =
+                  ac.getBeansOfType(MemberRepository.class);
+
+          for(String beanName : beansOfType.keySet()) {
+              System.out.println("key = " + beanName + " value = " + beansOfType.get(beanName));
+          }
+
+          assertThat(beansOfType.size()).isEqualTo(2);
+      }
+      ```
+      - `ac.getBeansOfType(타입)`을 사용하여 MemberRepository타입인 모든 빈을 조회  
+      - Map으로 반환된 모든 빈의 개수가 2개가 맞는지 검증  
 
 </details>
 
