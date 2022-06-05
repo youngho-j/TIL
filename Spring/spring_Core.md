@@ -34,6 +34,7 @@
 4-2. [스프링 컨테이너에 등록된 빈 조회](#4-2-스프링-컨테이너에-등록된-빈-조회)  
 4-3. [스프링 빈 조회 - 기본](#4-3-스프링-빈-조회---기본)  
 4-4. [스프링 빈 조회 - 동일 타입이 둘 이상](#4-4-스프링-빈-조회---동일-타입이-둘-이상)  
+4-5. [스프링 빈 조회 - 상속관계](#4-5-스프링-빈-조회---상속관계)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1678,6 +1679,132 @@
       ```
       - `ac.getBeansOfType(타입)`을 사용하여 MemberRepository타입인 모든 빈을 조회  
       - Map으로 반환된 모든 빈의 개수가 2개가 맞는지 검증  
+
+</details>
+
+### 4-5. 스프링 빈 조회 - 상속관계  
+<details>
+  <summary>자세히</summary>  
+
+#### 상속관계인 스프링 빈 조회
+  - `부모 타입을 조회`하면 `자식 타입도 함께 조회`됨!  
+    Ex) Object 타입으로 조회하면?  
+    Object는 모든 자바 객체의 최상위 클래스 이므로 `모든 스프링 빈이 조회`됨  
+
+#### 예제 코드  
+  ```java
+  public class ApplicationContextExtendsFindTest {
+
+    AnnotationConfigApplicationContext ac 
+      = new AnnotationConfigApplicationContext(TestConfig.class);
+    
+    ...
+  
+  }    
+  ```
+
+  - TestConfig : 설정 정보 클래스  
+      - 테스트 내에서만 사용하기 위해 만들 클래스이므로, static으로 선언  
+
+  - findBeanByParentTypeWithTwoChildType : 부모 타입으로 조회시, 자식이 둘 이상인 경우 중복 오류가 발생  
+      ```java
+      @Test
+      @DisplayName("부모 타입으로 조회시, 자식 타입이 둘 이상 존재할 경우 중복 오류 발생 테스트")
+      void findBeanByParentTypeWithTwoChildType() {
+          assertThrows(NoUniqueBeanDefinitionException.class,
+                  () -> ac.getBean(DiscountPolicy.class));
+      }
+      ```    
+      - DiscountPolicy 타입인 빈을 조회  
+      - 부모 타입이 DiscountPolicy 인 빈이 2개이므로 NoUniqueBeanDefinitionException 발생   
+
+  - findBeanByParentTypeAndNameWithTwoChildType : 부모 타입과 빈 이름으로 조회시, 자식이 둘 이상인 경우에도 오류 발생하지 않음  
+      ```java
+      @Test
+      @DisplayName("부모 타입으로 조회시, 자식 타입이 둘 이상 존재할 경우 오류가 발생하지 않도록 빈 이름 지정")
+      void findBeanByParentTypeAndNameWithTwoChildType() {
+          DiscountPolicy rateDiscountPolicy =
+                  ac.getBean("rateDiscountPolicy", DiscountPolicy.class);
+
+          assertThat(rateDiscountPolicy).isInstanceOf(RateDiscountPolicy.class);
+      }
+      ```    
+      - 빈 이름이 rateDiscountPolicy이고, DiscountPolicy 타입인 빈을 조회  
+      - 조회한 빈의 객체 타입이 RateDiscountPolicy 인지 검증  
+
+  - findBeanBySubType : 특정 하위 타입으로 조회
+      ```java
+      @Test
+      @DisplayName("특정 하위 타입으로 조회 - 좋지 않은 방법임")
+      void findBeanBySubType() {
+          RateDiscountPolicy bean = ac.getBean(RateDiscountPolicy.class);
+          assertThat(bean).isInstanceOf(RateDiscountPolicy.class);
+      }
+      ```
+      - RateDiscountPolicy 타입인 빈을 조회  
+      - 조회한 빈의 객체 타입이 RateDiscountPolicy 인지 검증  
+      - `특정 하위 타입으로 조회하는 것은 좋지 않은 방식`  
+
+  - findAllBeanByParentType : 부모 타입으로 `부모타입 + 하위 타입의 빈` 조회 
+      ```java
+      @Test
+      @DisplayName("부모 타입으로 모든 빈 조회")
+      void findAllBeanByParentType() {
+
+          Map<String, DiscountPolicy> beansOfType =
+                  ac.getBeansOfType(DiscountPolicy.class);
+
+          for(String key : beansOfType.keySet()) {
+              System.out.println("key : " + key + " value : " + beansOfType.get(key));
+          }
+
+          assertThat(beansOfType.size()).isEqualTo(2);
+      }
+      ```  
+      - `ac.getBeansOfType(부모타입)`을 사용하여 DiscountPolicy타입인 모든 빈을 조회  
+      - Map으로 반환된 모든 빈의 개수가 2개가 맞는지 검증  
+
+  - findAllObjectBeanByParentType : Object 타입으로 모든 빈 조회
+      ```java
+      @Test
+      @DisplayName("Object(부모) 타입의 모든 빈을 조회")
+      void findAllObjectBeanByParentType() {
+
+          Map<String, Object> beansOfType = ac.getBeansOfType(Object.class);
+
+          for(String key : beansOfType.keySet()) {
+              System.out.println("key : " + key + " value : " + beansOfType.get(key));
+          }
+      }
+      ```
+      - `ac.getBeansOfType(Object)`을 사용하여 모든 빈을 조회  
+      - Object는 최상위 클래스이므로 모든 빈이 조회됨  
+      - Map으로 반환된 모든 빈 정보 출력   
+
+#### 스프링 빈 조회 내용 정리
+  1. 스프링 빈 이름 조회  
+       - getBeanDefinitionNames() : ApplicationContext(스프링 컨테이너)에 등록된 모든 스프링 빈 이름 조회  
+
+  2. 스프링 빈 객체 조회
+       -  `부모 타입으로 조회`하면 `자식 타입까지 조회 됨!`  
+       - 구체 타입으로 조회하는 것은 변경시 유연성이 떨어지므로 좋지 않은 방식  
+       - Object 타입으로 조회하면 모든 스프링 빈이 조회 됨  
+       - getBean(타입) : ApplicationContext(스프링 컨테이너)에 등록된 해당 타입의 스프링 빈 객체 조회  
+         - NoSuchBeanDefinitionException : 조회 대상이 스프링 빈이 없을 경우 발생하는 예외  
+         - NoUniqueBeanDefinitionException : 같은 타입의 스프링 빈이 2개 이상일 경우 발생하는 중복 예외  
+       - getBean(빈 이름, 타입) : ApplicationContext(스프링 컨테이너)에 등록된 (빈 이름, 타입)의 스프링 빈 객체 조회  
+         - NoSuchBeanDefinitionException : 조회 대상이 스프링 빈이 없을 경우 발생하는 예외  
+         - 동일한 타입이 2개 이상이거나 부모 타입의 자식 타입이 2개 이상일 때, 빈 이름으로 조회해야 중복 예외를 막을 수 있음  
+       - getBeansOfType(타입) : ApplicationContext(스프링 컨테이너)에 등록된 해당 타입의 모든 스프링 빈 객체 조회  
+  
+  3. 지금까지 해당 기능을 공부한 이유
+       - 실제 개발할 때는 ApplicationContext에서 스프링 빈을 조회할 일은 거의 없음  
+       - 하지만, 
+       1) 스프링 빈 조회는 `기본기능`
+       2) 순수 자바 어플리케이션에서 스프링 컨테이너를 생성해서 사용해야 하는 경우,  
+       사용할 수 있음  
+       3) `부모 타입으로 조회시 어디까지 조회가 되는 것인지에 대한 이해`가 있어야  
+            `자동 의존 관계 주입`에 대해 문제없이 잘 해결 할 수 있기 때문  
 
 </details>
 
