@@ -35,6 +35,7 @@
 4-3. [스프링 빈 조회 - 기본](#4-3-스프링-빈-조회---기본)  
 4-4. [스프링 빈 조회 - 동일 타입이 둘 이상](#4-4-스프링-빈-조회---동일-타입이-둘-이상)  
 4-5. [스프링 빈 조회 - 상속관계](#4-5-스프링-빈-조회---상속관계)  
+4-6. [Beanfactory와 ApplicationContext](#4-6-beanfactory와-applicationcontext)  
 
 ## Reference  
 [스프링 핵심원리 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
@@ -1807,6 +1808,47 @@
             `자동 의존 관계 주입`에 대해 문제없이 잘 해결 할 수 있기 때문  
 
 </details>
+
+### 4-6. BeanFactory와 ApplicationContext  
+<details>
+  <summary>자세히</summary>  
+
+#### BeanFactory와 ApplicationContext 관계
+   ![image](https://user-images.githubusercontent.com/65080004/172099625-ddf3ca50-2a66-474f-92ba-592b5905a458.png)  
+   - BeanFactory  
+       - 스프링 컨테이너의 최상위 인터페이스
+       - 스프링 빈을 관리하고 조회하는 역할 담당
+       - getBean() 메서드 제공
+       - 앞서 사용했던 대부분의 기능은 해당 인터페이스가 제공하는 기능임
+
+   - ApplicationContext
+       - BeanFactory 기능을 모두 상속받아서 제공함  
+       - 빈을 관리하고 검색하는 기능을 BeanFactory가 제공해주는데,  
+         그렇다면 둘의 차이가 뭘까?  
+       - 애플리케이션을 개발할 때는 빈을 관리하고 조회하는 기능 뿐만 아니라,  
+         수 많은 부가기능이 필요함  
+       - 추가적으로 제공하는 부가 기능은 무엇이 있는가? 
+   
+   - ApplicationContext가 제공하는 부가 기능  
+       - ApplicationContext의 관계  
+         ![image](https://user-images.githubusercontent.com/65080004/172100100-d57ce6da-6ea9-4bcf-9fbe-43b136c6a0d9.png)  
+         - 메세지소스를 활용한 국제화 기능  
+           - Ex) 접속 지역에 따른 언어로 변경, 한국에서 들어올 경우 한국어로 출력
+         - 환경변수  
+           - 로컬, 개발, 운영등을 구분하여 처리  
+         - 애플리케이션 이벤트  
+           - 이벤트를 발행하고 구독하는 모델을 편리하게 지원  
+         - 편리한 리소스 조회  
+           - 파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회 
+
+   - BeanFactory와 ApplicationContext 정리  
+       - ApplicationContext는 BeanFactory의 기능을 상속 받음  
+       - ApplicationContext는 `빈 관리기능 + 편리한 부가 기능을 제공`  
+       - BeanFactory를 직접 사용할 일은 거의 없음  
+         주로 부가기능이 포함된 ApplicationContext를 사용  
+       - BeanFactory나 ApplicationContext를 스프링 컨테이너라고 함   
+
+</details>  
 
 ***
 [목록으로](https://github.com/youngho-j/TIL/blob/main/Spring/README.md)  
